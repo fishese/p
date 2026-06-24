@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shore Planner — Bountiful British Isles</title>
+  <style>
+    :root {
+      --ocean: #1C3D5A;
+      --ocean-dark: #142C42;
+      --parchment: #F0EDE6;
+      --parchment-dark: #E3DDD3;
+      --ink: #1A1A2A;
+      --ink-muted: #555A6A;
+      --ink-faint: #9098A8;
+      --diy-green: #2E6B4A;
+      --diy-bg: #EBF5EF;
+      --credit-blue: #1A5EA0;
+      --credit-bg: #EBF2FB;
+      --credit-border: #C5D9F0;
+      --amber: #B36520;
+      --amber-bg: #FBF3E8;
+      --amber-border: #E8CFA8;
+      --card-bg: #FFFFFF;
+      --border: #D8D3CC;
+      --border-light: #EBE6DF;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--parchment);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── HEADER ── */
+    .page-header {
+      background: var(--ocean);
+      color: white;
+      padding: 2.5rem 2rem 1.75rem;
+    }
+
+    .voyage-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 7px;
+    }
+
+    .voyage-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 30px;
+      font-weight: normal;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+
+    .voyage-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.52);
+    }
+
+    /* ── ROUTE STRIP ── */
+    .route-wrap {
+      background: var(--ocean-dark);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .route-legend {
+      display: flex;
+      gap: 18px;
+      padding: 1rem 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .legend-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .route-scroll {
+      overflow-x: auto;
+      padding: 14px 2rem 1.5rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .route-track {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      min-width: max-content;
+    }
+
+    .route-stop {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .route-node {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+      background: transparent;
+      flex-shrink: 0;
+    }
+
+    .route-node.credit { background: #5BA3E8; border-color: #5BA3E8; }
+    .route-node.diy    { background: #52B37A; border-color: #52B37A; }
+
+    .route-line {
+      flex: 1;
+      height: 1.5px;
+      background: rgba(255,255,255,0.18);
+      min-width: 30px;
+      margin-top: 6px;
+    }
+
+    .route-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.65);
+      text-align: center;
+      white-space: nowrap;
+      line-height: 1.4;
+    }
+
+    .route-label strong {
+      display: block;
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+    }
+
+    .route-label em {
+      font-style: normal;
+      color: #5BA3E8;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 1.75rem 1.5rem 3.5rem;
+    }
+
+    /* ── BUDGET BAR ── */
+    .budget-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.125rem 1.375rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .budget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 11px;
+    }
+
+    .budget-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .budget-nums {
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+
+    .budget-nums strong { color: var(--ink); font-weight: 600; }
+
+    .budget-track {
+      background: var(--parchment-dark);
+      height: 8px;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 11px;
+    }
+
+    .budget-fill {
+      height: 100%;
+      width: 89.4%;
+      background: linear-gradient(90deg, #2E6B4A, #4A9E6E);
+      border-radius: 99px;
+    }
+
+    .budget-legend {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .budget-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+
+    .budget-swatch {
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── PORT CARDS ── */
+    .port-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .card-strip { display: flex; }
+
+    .card-accent { width: 4px; flex-shrink: 0; }
+    .accent-credit { background: var(--credit-blue); }
+    .accent-diy    { background: var(--diy-green); }
+
+    .card-inner { flex: 1; min-width: 0; }
+
+    .card-head {
+      padding: 1rem 1.375rem 0.875rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .head-left { flex: 1; min-width: 0; }
+
+    .port-day {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 4px;
+    }
+
+    .port-name {
+      font-family: Georgia, serif;
+      font-size: 21px;
+      font-weight: normal;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .port-sub {
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-top: 2px;
+    }
+
+    .head-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .mode-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .badge-credit { background: var(--credit-bg); color: var(--credit-blue); }
+    .badge-diy    { background: var(--diy-bg);    color: var(--diy-green); }
+
+    .head-cost {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--credit-blue);
+      margin-top: 4px;
+    }
+
+    .head-hours {
+      font-size: 11px;
+      color: var(--ink-faint);
+      margin-top: 4px;
+    }
+
+    /* ── EXCURSION BOX ── */
+    .exc-box {
+      margin: 0.875rem 1.375rem;
+      background: var(--credit-bg);
+      border: 1px solid var(--credit-border);
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+    }
+
+    .exc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 2px;
+    }
+
+    .exc-code {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--credit-blue);
+      margin-bottom: 3px;
+    }
+
+    .exc-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .exc-price {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--credit-blue);
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .exc-why {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      margin-top: 7px;
+    }
+
+    .exc-upgrade {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--credit-border);
+      line-height: 1.55;
+    }
+
+    .exc-upgrade strong { color: var(--credit-blue); font-weight: 600; }
+
+    /* ── CARD BODY ── */
+    .card-body {
+      padding: 0.875rem 1.375rem 1.125rem;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 8px;
+    }
+
+    .see-list { margin-bottom: 1rem; }
+
+    .see-item {
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.6;
+      padding-left: 14px;
+      position: relative;
+      margin-bottom: 5px;
+    }
+
+    .see-item::before {
+      content: '·';
+      position: absolute;
+      left: 3px;
+      color: var(--ink-faint);
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .food-section { margin-bottom: 1rem; }
+
+    .food-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .food-chip {
+      background: var(--amber-bg);
+      border: 1px solid var(--amber-border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--ink-muted);
+    }
+
+    .food-chip strong {
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    .tip-section {
+      border-top: 1px solid var(--border-light);
+      padding-top: 0.75rem;
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+    }
+
+    .tip-arrow {
+      flex-shrink: 0;
+      font-size: 12px;
+      color: var(--ink-faint);
+      margin-top: 1px;
+      font-weight: 700;
+    }
+
+    .tip-text {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      line-height: 1.65;
+    }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      text-align: center;
+      font-size: 11.5px;
+      color: var(--ink-faint);
+      line-height: 1.75;
+      margin-top: 2rem;
+      padding: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 560px) {
+      .page-header { padding: 1.75rem 1.25rem 1.25rem; }
+      .voyage-title { font-size: 24px; }
+      .route-legend, .route-scroll { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .main { padding: 1.25rem 1rem 2.5rem; }
+      .card-head { flex-wrap: wrap; }
+      .budget-header { flex-direction: column; }
+    }
+
+    @media print {
+      body { background: white; }
+      .route-wrap { background: #1a3550; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-header { background: #1C3D5A; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .port-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <p class="voyage-eyebrow">Oceania Insignia · INS270516 · Shore Excursion Planner</p>
+  <h1 class="voyage-title">Bountiful British Isles</h1>
+  <p class="voyage-sub">May 16–27, 2027 · London (Southampton) to London (Southampton)</p>
+</div>
+
+<!-- ROUTE STRIP -->
+<div class="route-wrap">
+  <div class="route-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#5BA3E8;"></div>Use shore credit</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#52B37A;"></div>DIY</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.35);"></div>Embark / Disembark</div>
+  </div>
+  <div class="route-scroll">
+    <div class="route-track">
+      <div class="route-stop">
+        <div class="route-node"></div>
+        <div class="route-label"><strong>London</strong>Embark</div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node diy"></div>
+        <div class="route-label"><strong>Edinburgh</strong>Day 3 · DIY</div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node diy"></div>
+        <div class="route-label"><strong>Aberdeen</strong>Day 4 · DIY</div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node credit"></div>
+        <div class="route-label"><strong>Kirkwall</strong><em>Day 5 · $149</em></div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node credit"></div>
+        <div class="route-label"><strong>Stornoway</strong><em>Day 6 · $139</em></div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node credit"></div>
+        <div class="route-label"><strong>Killybegs</strong><em>Day 7 · $159</em></div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node diy"></div>
+        <div class="route-label"><strong>Belfast</strong>Day 8 · DIY</div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node diy"></div>
+        <div class="route-label"><strong>Dublin</strong>Day 9 · DIY</div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node diy"></div>
+        <div class="route-label"><strong>Cork</strong>Day 10 · DIY</div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node diy"></div>
+        <div class="route-label"><strong>Dartmouth</strong>Day 11 · DIY</div>
+      </div>
+      <div class="route-line"></div>
+      <div class="route-stop">
+        <div class="route-node"></div>
+        <div class="route-label"><strong>London</strong>Disembark</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- BUDGET BAR -->
+  <div class="budget-card">
+    <div class="budget-header">
+      <span class="budget-label">Shore credit budget</span>
+      <span class="budget-nums"><strong>$447 allocated</strong> of $500 &nbsp;·&nbsp; $53 remaining &nbsp;·&nbsp; 3 excursions booked</span>
+    </div>
+    <div class="budget-track"><div class="budget-fill"></div></div>
+    <div class="budget-legend">
+      <div class="budget-legend-item"><div class="budget-swatch" style="background:var(--diy-green);"></div>DIY ports (6) — no credits used</div>
+      <div class="budget-legend-item"><div class="budget-swatch" style="background:var(--credit-blue);"></div>Shore credit ports (3) — $447 total</div>
+      <div class="budget-legend-item" style="color:var(--ink-faint);">All excursion prices are per person</div>
+    </div>
+  </div>
+
+  <!-- ─── DAY 3: EDINBURGH ─── -->
+  <div class="port-card">
+    <div class="card-strip">
+      <div class="card-accent accent-diy"></div>
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="head-left">
+            <p class="port-day">Day 3 &nbsp;·&nbsp; Tue May 18 &nbsp;·&nbsp; 7 AM – 7 PM</p>
+            <h2 class="port-name">Edinburgh</h2>
+            <p class="port-sub">Newhaven, Scotland</p>
+          </div>
+          <div class="head-right">
+            <span class="mode-badge badge-diy">DIY</span>
+            <p class="head-hours">12 hrs in port</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="see-list">
+            <p class="section-label">What to see</p>
+            <p class="see-item">Arthur's Seat — free volcanic hike with panoramic city views (~30 min up; stunning in May when the gorse is in bloom)</p>
+            <p class="see-item">National Museum of Scotland — Celtic gold treasures, natural history, free entry; easily two hours</p>
+            <p class="see-item">Victoria Street — the winding medieval lane that inspired Diagon Alley; also Grassmarket below it</p>
+            <p class="see-item">Royal Mile — cobblestone history, free to walk; Edinburgh Castle interior costs ~£28pp if you want inside</p>
+          </div>
+          <div class="food-section">
+            <p class="section-label">Local food finds</p>
+            <div class="food-chips">
+              <div class="food-chip"><strong>Cranachan</strong> — raspberries, toasted oats, cream: Scotland's dessert, found at any good pub</div>
+              <div class="food-chip"><strong>Haggis, neeps &amp; tatties</strong> — Scotland's national dish; try it at a Royal Mile pub</div>
+              <div class="food-chip"><strong>Scottish tablet</strong> — grainy sweet fudge, firmer than fudge, sold at every market stall</div>
+            </div>
+          </div>
+          <div class="tip-section">
+            <span class="tip-arrow">→</span>
+            <p class="tip-text">Lothian Bus from Newhaven Harbour to Princes St: £2.50, 25 min. Edinburgh has 12 hours and excellent public transit — it's one of the world's most walkable cities and requires no cruise excursion.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DAY 4: ABERDEEN ─── -->
+  <div class="port-card">
+    <div class="card-strip">
+      <div class="card-accent accent-diy"></div>
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="head-left">
+            <p class="port-day">Day 4 &nbsp;·&nbsp; Wed May 19 &nbsp;·&nbsp; 7 AM – 5 PM</p>
+            <h2 class="port-name">Aberdeen</h2>
+            <p class="port-sub">Scotland</p>
+          </div>
+          <div class="head-right">
+            <span class="mode-badge badge-diy">DIY</span>
+            <p class="head-hours">10 hrs in port</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="see-list">
+            <p class="section-label">What to see</p>
+            <p class="see-item">Dunnottar Castle — a 14th-century ruin on sheer sea cliffs, one of Scotland's most dramatic sights. Hire a local taxi from the pier (~£30 return, 15 miles south)</p>
+            <p class="see-item">Old Aberdeen &amp; King's College — medieval cobblestones and a 15th-century university quad, free to walk</p>
+            <p class="see-item">Aberdeen Harbour — genuine working port with colourful trawlers and the silver granite cityscape behind</p>
+          </div>
+          <div class="food-section">
+            <p class="section-label">Local food finds</p>
+            <div class="food-chips">
+              <div class="food-chip"><strong>Aberdeen Rowie (Buttery)</strong> — a flaky, salty bread roll found ONLY in Aberdeen; get one at any bakery before 10 AM</div>
+              <div class="food-chip"><strong>Aberdeen Angus beef</strong> — the original, from the actual source</div>
+            </div>
+          </div>
+          <div class="tip-section">
+            <span class="tip-arrow">→</span>
+            <p class="tip-text">Port is walkable to the city centre. Dunnottar Castle is spectacular and entirely DIY — negotiate a return trip with a local taxi at the pier. Oceania's ABE-002 "Castle and the Coast" ($119pp) covers the same ground if you prefer a guided option.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DAY 5: KIRKWALL (CREDIT) ─── -->
+  <div class="port-card">
+    <div class="card-strip">
+      <div class="card-accent accent-credit"></div>
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="head-left">
+            <p class="port-day">Day 5 &nbsp;·&nbsp; Thu May 20 &nbsp;·&nbsp; 7 AM – 5 PM</p>
+            <h2 class="port-name">Kirkwall</h2>
+            <p class="port-sub">Orkney Islands, Scotland</p>
+          </div>
+          <div class="head-right">
+            <span class="mode-badge badge-credit">Use credit</span>
+            <p class="head-cost">$149 pp</p>
+            <p class="head-hours">10 hrs in port</p>
+          </div>
+        </div>
+        <div class="exc-box">
+          <div class="exc-row">
+            <div>
+              <p class="exc-code">KOI-001 &nbsp;·&nbsp; 4 hrs &nbsp;·&nbsp; departs 9:00 AM or 12:00 PM</p>
+              <p class="exc-name">Ancient Treasures of Orkney</p>
+            </div>
+            <span class="exc-price">$149</span>
+          </div>
+          <p class="exc-why">This is your top-priority port for shore credits. The UNESCO Neolithic sites — Skara Brae, Ring of Brodgar, Stenness — are 20–25 km from Kirkwall with no convenient public transit. A guide is essential to bring 5,000-year-old sites to life, and the cruise excursion guarantees your return time to the ship.</p>
+        </div>
+        <div class="card-body">
+          <div class="see-list">
+            <p class="section-label">What to see</p>
+            <p class="see-item">Skara Brae — a 5,000-year-old Neolithic village with stone beds and dressers still intact. Older than Stonehenge by 1,500 years; discovered under sand dunes in 1850</p>
+            <p class="see-item">Ring of Brodgar — a vast ceremonial stone circle in wild moorland, set between two lochs; raised around 2500 BCE</p>
+            <p class="see-item">Stones of Stenness — Britain's oldest standing stones (~3100 BCE); four tall angled slabs that predate every other monument on the island</p>
+            <p class="see-item">St Magnus Cathedral (free, founded 1137) — a 5-min walk from the pier; extraordinary Romanesque interior, visit before or after the excursion</p>
+          </div>
+          <div class="food-section">
+            <p class="section-label">Local food finds</p>
+            <div class="food-chips">
+              <div class="food-chip"><strong>Orkney Cheddar</strong> — rich and distinctive; sold along Kirkwall's main street</div>
+              <div class="food-chip"><strong>Smoked Orkney salmon</strong> — from island smokehouses, among Scotland's finest</div>
+              <div class="food-chip"><strong>Orkney ice cream</strong> — made with local cream; find it near the harbour</div>
+            </div>
+          </div>
+          <div class="tip-section">
+            <span class="tip-arrow">→</span>
+            <p class="tip-text">Take the 9:00 AM departure to maximise your day. St Magnus Cathedral (free) is right at the pier — visit on your own before or after. The Earl's and Bishop's Palace ruins are also a short walk and cost only £5pp.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DAY 6: STORNOWAY (CREDIT) ─── -->
+  <div class="port-card">
+    <div class="card-strip">
+      <div class="card-accent accent-credit"></div>
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="head-left">
+            <p class="port-day">Day 6 &nbsp;·&nbsp; Fri May 21 &nbsp;·&nbsp; 7 AM – 2 PM</p>
+            <h2 class="port-name">Stornoway</h2>
+            <p class="port-sub">Isle of Lewis, Outer Hebrides</p>
+          </div>
+          <div class="head-right">
+            <span class="mode-badge badge-credit">Use credit</span>
+            <p class="head-cost">$139 pp</p>
+            <p class="head-hours">7 hrs in port</p>
+          </div>
+        </div>
+        <div class="exc-box">
+          <div class="exc-row">
+            <div>
+              <p class="exc-code">SYY-002 &nbsp;·&nbsp; 3 hrs &nbsp;·&nbsp; departs 7:30 AM</p>
+              <p class="exc-name">Scenic Lewis</p>
+            </div>
+            <span class="exc-price">$139</span>
+          </div>
+          <p class="exc-why">Only 7 hours in port, and the prehistoric sites and blackhouses are 12–20 miles away. Local taxis are scarce when a full ship arrives. SYY-002 departs at 7:30 AM and finishes by ~10:30 AM, leaving time to explore Stornoway town before the 2 PM departure.</p>
+          <p class="exc-upgrade"><strong>Upgrade option:</strong> SYY-001 "Breathtaking Harris" ($259) — takes you to the Isle of Harris for stunning mountain scenery, Luskentyre Beach (one of Europe's most beautiful), and a Harris Tweed factory visit. More scenic, $120 more.</p>
+        </div>
+        <div class="card-body">
+          <div class="see-list">
+            <p class="section-label">What to see</p>
+            <p class="see-item">Calanais Standing Stones — a cruciform megalith arrangement from 2900 BCE, older than Stonehenge (SYY-002 passes by; consider a local taxi post-excursion for a longer stop if time allows)</p>
+            <p class="see-item">Arnol Blackhouse — a preserved traditional Hebridean long-house, inhabited into the 1960s, showing how islanders lived for centuries in these low-walled thatched structures</p>
+            <p class="see-item">Lewis moorland — the largest stretch of blanket peat bog in the UK; an otherworldly, treeless landscape unlike anywhere else in Britain</p>
+          </div>
+          <div class="food-section">
+            <p class="section-label">Local food finds</p>
+            <div class="food-chips">
+              <div class="food-chip"><strong>Stornoway Black Pudding</strong> — Protected Geographical Indication: only black pudding made on Lewis can bear this name. Find it at a local butcher or the Co-op to take back aboard.</div>
+              <div class="food-chip"><strong>Lewis lamb</strong> — salt-marsh flavour from Hebridean sheep; notably different from any mainland lamb</div>
+            </div>
+          </div>
+          <div class="tip-section">
+            <span class="tip-arrow">→</span>
+            <p class="tip-text">After the excursion (~10:30 AM), walk to Lews Castle grounds for harbour views. Finding Stornoway Black Pudding at a local butcher is worth the effort — it is one of the most location-specific food souvenirs on the entire voyage.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DAY 7: KILLYBEGS (CREDIT) ─── -->
+  <div class="port-card">
+    <div class="card-strip">
+      <div class="card-accent accent-credit"></div>
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="head-left">
+            <p class="port-day">Day 7 &nbsp;·&nbsp; Sat May 22 &nbsp;·&nbsp; 8 AM – 4 PM</p>
+            <h2 class="port-name">Killybegs</h2>
+            <p class="port-sub">County Donegal, Ireland</p>
+          </div>
+          <div class="head-right">
+            <span class="mode-badge badge-credit">Use credit</span>
+            <p class="head-cost">$159 pp</p>
+            <p class="head-hours">8 hrs in port</p>
+          </div>
+        </div>
+        <div class="exc-box">
+          <div class="exc-row">
+            <div>
+              <p class="exc-code">K1L-002 &nbsp;·&nbsp; 3.5 hrs &nbsp;·&nbsp; departs 8:45 AM or 10:00 AM</p>
+              <p class="exc-name">The Wild Sliabh Liag Cliffs</p>
+            </div>
+            <span class="exc-price">$159</span>
+          </div>
+          <p class="exc-why">The cliffs are 14 miles from port and local taxis are scarce when the ship arrives. The excursion includes a guide with the site's ancient pilgrimage history, plus café time at the clifftop (scones and beverage included at Tí Linn Café &amp; Craft Shop).</p>
+        </div>
+        <div class="card-body">
+          <div class="see-list">
+            <p class="section-label">What to see</p>
+            <p class="see-item">Sliabh Liag (Slieve League) — among Europe's highest coastal cliffs at 600m, nearly 3× taller than the Cliffs of Moher, and far less crowded</p>
+            <p class="see-item">On a clear May day, views stretch across the Atlantic to Sligo town and the Mayo Mountains to the south</p>
+            <p class="see-item">Killybegs Harbour — Ireland's largest fishing port; walk the pier after the excursion for a genuinely working-town atmosphere</p>
+          </div>
+          <div class="food-section">
+            <p class="section-label">Local food finds</p>
+            <div class="food-chips">
+              <div class="food-chip"><strong>Donegal seafood chowder</strong> — fresh Atlantic catch; try it at a harbour café before or after the cliffs</div>
+              <div class="food-chip"><strong>Irish soda bread</strong> — brown soda bread, baked fresh daily; Donegal versions are particularly good</div>
+            </div>
+          </div>
+          <div class="tip-section">
+            <span class="tip-arrow">→</span>
+            <p class="tip-text">Take the 8:45 AM departure. After returning around noon, walk the harbour and watch the fishing boats — one of the most authentic working-port scenes in Ireland, and completely free.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DAY 8: BELFAST ─── -->
+  <div class="port-card">
+    <div class="card-strip">
+      <div class="card-accent accent-diy"></div>
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="head-left">
+            <p class="port-day">Day 8 &nbsp;·&nbsp; Sun May 23 &nbsp;·&nbsp; 7 AM – 7 PM</p>
+            <h2 class="port-name">Belfast</h2>
+            <p class="port-sub">Northern Ireland</p>
+          </div>
+          <div class="head-right">
+            <span class="mode-badge badge-diy">DIY</span>
+            <p class="head-hours">12 hrs in port</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="see-list">
+            <p class="section-label">What to see</p>
+            <p class="see-item">Titanic Belfast — world's largest Titanic exhibition, built on the actual construction slipways. Pre-book at titanicbelfast.com (~£28pp). Do not miss this.</p>
+            <p class="see-item">Black Taxi Mural Tour — local drivers take you through Falls Road and Shankill Road, explaining both sides of the Troubles from lived experience (~£15–20pp, book direct online). Not offered as a cruise excursion — the independent version is far more personal and honest.</p>
+            <p class="see-item">SS Nomadic — the only surviving White Star Line vessel, moored beside Titanic Belfast</p>
+            <p class="see-item">Cave Hill — free hike above the city; the basalt cliff profile is said to have inspired Swift's Giant Gulliver</p>
+          </div>
+          <div class="food-section">
+            <p class="section-label">Local food finds</p>
+            <div class="food-chips">
+              <div class="food-chip"><strong>Ulster Fry</strong> — Northern Irish full breakfast; soda farl and potato bread make it distinct from any other fry-up</div>
+              <div class="food-chip"><strong>Yellowman</strong> — crumbly honeycomb toffee, traditional to Ulster; find it at St George's Market if open</div>
+              <div class="food-chip"><strong>Belfast bap</strong> — soft floury roll; fill it with whatever is local at a market stall</div>
+            </div>
+          </div>
+          <div class="tip-section">
+            <span class="tip-arrow">→</span>
+            <p class="tip-text">Pre-book both Titanic Belfast and a Black Taxi Tour before you sail. The taxi tour gives a raw, personal account of the Troubles that no cruise bus can replicate. With 12 hours you have time for both, plus the Cathedral Quarter.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DAY 9: DUBLIN ─── -->
+  <div class="port-card">
+    <div class="card-strip">
+      <div class="card-accent accent-diy"></div>
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="head-left">
+            <p class="port-day">Day 9 &nbsp;·&nbsp; Mon May 24 &nbsp;·&nbsp; 7 AM – 7 PM</p>
+            <h2 class="port-name">Dublin</h2>
+            <p class="port-sub">Dún Laoghaire, Ireland</p>
+          </div>
+          <div class="head-right">
+            <span class="mode-badge badge-diy">DIY</span>
+            <p class="head-hours">12 hrs in port</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="see-list">
+            <p class="section-label">What to see</p>
+            <p class="see-item">Book of Kells, Trinity College — an 800 AD illuminated manuscript, one of the greatest medieval artworks surviving. Pre-book at tcd.ie (~€25pp)</p>
+            <p class="see-item">Kilmainham Gaol — where the 1916 Rising leaders were imprisoned and executed; one of the most moving sites in Ireland. Pre-book at heritageireland.ie (~€9pp)</p>
+            <p class="see-item">National Museum of Ireland – Archaeology (FREE) — Celtic gold, Viking Dublin artefacts, and the famous bog bodies; easily 1.5 hours</p>
+            <p class="see-item">Dún Laoghaire East Pier — a beautiful harbour promenade right from the ship, free and local</p>
+          </div>
+          <div class="food-section">
+            <p class="section-label">Local food finds</p>
+            <div class="food-chips">
+              <div class="food-chip"><strong>Dublin Bay Prawns</strong> — sweet and fresh, caught just outside the bay</div>
+              <div class="food-chip"><strong>Brown soda bread with smoked salmon</strong> — the definitive Dublin café lunch</div>
+              <div class="food-chip"><strong>Coddle</strong> — Dublin's own stew of sausages, bacon, and potatoes</div>
+            </div>
+          </div>
+          <div class="tip-section">
+            <span class="tip-arrow">→</span>
+            <p class="tip-text">DART train from Dún Laoghaire Station (2 min walk from the pier) to Pearse Street / city centre: 25 min, ~€4 return. This is the easiest DIY port on the trip — 12 hours and a direct rail link straight into Dublin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DAY 10: CORK ─── -->
+  <div class="port-card">
+    <div class="card-strip">
+      <div class="card-accent accent-diy"></div>
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="head-left">
+            <p class="port-day">Day 10 &nbsp;·&nbsp; Tue May 25 &nbsp;·&nbsp; 9 AM – 5 PM</p>
+            <h2 class="port-name">Cork</h2>
+            <p class="port-sub">Cobh, Ireland</p>
+          </div>
+          <div class="head-right">
+            <span class="mode-badge badge-diy">DIY</span>
+            <p class="head-hours">8 hrs in port</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="see-list">
+            <p class="section-label">What to see</p>
+            <p class="see-item">English Market, Cork City — a Victorian covered food market established in 1788, FREE to enter. One of the finest food markets in Europe; this alone justifies the train ride</p>
+            <p class="see-item">Cobh Heritage Centre — the Queenstown Story: Irish emigration, the Titanic's last port, and Annie Moore (the first emigrant processed at Ellis Island) (~€9pp)</p>
+            <p class="see-item">St Colman's Cathedral, Cobh — magnificent neo-Gothic spire rising above the harbour from every approach; free to enter</p>
+            <p class="see-item">Cork Butter Museum — Cork was the world's centre of butter export for 200 years; a genuinely surprising and entertaining small museum (~€8pp)</p>
+          </div>
+          <div class="food-section">
+            <p class="section-label">Local food finds</p>
+            <div class="food-chips">
+              <div class="food-chip"><strong>Drisheen</strong> — Cork blood sausage found almost nowhere outside Cork city; try it at the English Market (Kay O'Connell's stall is legendary)</div>
+              <div class="food-chip"><strong>Tripe &amp; Drisheen</strong> — Cork's most local traditional dish; a genuine only-found-here experience</div>
+              <div class="food-chip"><strong>Cork farmhouse cheeses</strong> — Ardsallagh, Coolea, and Gubbeen at the English Market stalls</div>
+            </div>
+          </div>
+          <div class="tip-section">
+            <span class="tip-arrow">→</span>
+            <p class="tip-text">Train from Cobh to Cork City: 20 min, runs every 30 min, ~€5 return. Go to Cork first — 2–3 hours at the English Market and city centre — then return to Cobh in the afternoon to explore the colourful harbour town.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DAY 11: DARTMOUTH ─── -->
+  <div class="port-card">
+    <div class="card-strip">
+      <div class="card-accent accent-diy"></div>
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="head-left">
+            <p class="port-day">Day 11 &nbsp;·&nbsp; Wed May 26 &nbsp;·&nbsp; 11 AM – 8 PM</p>
+            <h2 class="port-name">Dartmouth</h2>
+            <p class="port-sub">Devon, England</p>
+          </div>
+          <div class="head-right">
+            <span class="mode-badge badge-diy">DIY</span>
+            <p class="head-hours">9 hrs in port</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="see-list">
+            <p class="section-label">What to see</p>
+            <p class="see-item">Dart River Ferry to Totnes — a 1.5-hour scenic cruise through wooded Devon valleys past Agatha Christie's Greenway Estate (~£15pp; tickets at the Boat Float ferry landing, 2 min walk from the ship)</p>
+            <p class="see-item">Bayard's Cove — a perfectly preserved medieval quayside with original 16th-century houses, free to explore and one of England's most picturesque spots</p>
+            <p class="see-item">Dartmouth town — Foss Street and the Butterwalk arcade are beautifully intact and free to wander</p>
+            <p class="see-item">Dartmouth Castle — 15th-century sea fortress at the estuary mouth with cannon views over the river (~£8pp)</p>
+          </div>
+          <div class="food-section">
+            <p class="section-label">Local food finds</p>
+            <div class="food-chips">
+              <div class="food-chip"><strong>Devon Cream Tea</strong> — scones + Protected Designation of Origin clotted cream + jam + tea. In Devon, cream goes on BEFORE the jam (a matter of fierce regional identity vs Cornwall).</div>
+              <div class="food-chip"><strong>Fresh Devon crab</strong> — local crab sandwiches at a harbour café; Dartmouth is surrounded by working crab boats</div>
+            </div>
+          </div>
+          <div class="tip-section">
+            <span class="tip-arrow">→</span>
+            <p class="tip-text">The ship docks right in town — walk off and you're immediately in one of England's most beautiful harbours. Buy the independent ferry ticket to Totnes at the Boat Float. Credits are all spent by now: this is a day for wandering slowly and eating well in the long May evening light.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    All Oceania Cruises excursion prices are per person and subject to availability. Pre-purchase at OceaniaCruises.com/myaccount up to 7 days before sailing.<br>
+    À la carte excursions are fully refundable up to 48 hours before departure. Shore excursion packages are non-refundable after embarkation.<br>
+    <strong>Package tip:</strong> Booking 5+ excursions as a Your World Collection saves 25% — worth calculating if you add a fourth such as ABE-002 Dunnottar Castle ($119pp) or the Dartmouth River Cruise &amp; Totnes (DTH-003, $149pp).
+  </div>
+
+</div>
+</body>
+</html>
