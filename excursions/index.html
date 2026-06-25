@@ -183,9 +183,25 @@
         ports.forEach(p => { selections[p.id] = p.defaultChoice; });
         const shoreCredit = 300;
 
-        function toggleSelection(portId, choice) {
+        function toggleSelection(event, portId, choice) {
+            // Track the clicked card's position relative to the viewport before rendering
+            const cardElement = event ? event.target.closest('.port-card') : null;
+            let previousTop = 0;
+            if (cardElement) {
+                previousTop = cardElement.getBoundingClientRect().top;
+            }
+
             selections[portId] = choice;
             render();
+
+            // Adjust scroll position so the card stays exactly where it was
+            if (cardElement) {
+                const newCardElement = document.getElementById(`card-${portId}`);
+                if (newCardElement) {
+                    const currentTop = newCardElement.getBoundingClientRect().top;
+                    window.scrollBy(0, currentTop - previousTop);
+                }
+            }
         }
 
         function handleImageError(imgElement, isExcursion) {
@@ -217,11 +233,11 @@
                             <div class="p-3 bg-teal-100 text-teal-700 rounded-xl">
                                 <i data-lucide="ship" class="w-8 h-8"></i>
                             </div>
-                            <h1 class="text-2xl md:text-4xl font-bold text-slate-900">The "Out of Office" Strategy</h1>
+                            <h1 class="text-2xl md:text-4xl font-bold text-slate-900">The "Smooth Sailing" Strategy</h1>
                         </div>
                         <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-3xl">
-                            As two professionals looking to de-stress, the goal is to eliminate logistical headaches. 
-                            We use your coworker's <strong>$300 Shore Credit</strong> to buy convenience in remote, rugged areas, and rely on 
+                            As first-time travelers to the British Isles, the goal is to eliminate logistical headaches. 
+                            We use your <strong>$300 Shore Credit</strong> to buy convenience in remote, rugged areas, and rely on 
                             easy, scenic local transit for cities where you want the freedom to sip coffee and wander at your own pace.
                         </p>
                     </header>
@@ -256,20 +272,20 @@
                                 const activeData = isExcursion ? port.excursion : port.diy;
                                 
                                 return `
-                                <div class="rounded-2xl border transition-all duration-300 overflow-hidden shadow-sm ${isExcursion ? 'border-teal-400 bg-teal-50/20' : 'border-indigo-300 bg-indigo-50/20'}">
+                                <div id="card-${port.id}" class="port-card rounded-2xl border transition-all duration-300 overflow-hidden shadow-sm ${isExcursion ? 'border-teal-400 bg-teal-50/20' : 'border-indigo-300 bg-indigo-50/20'}">
                                     
                                     <!-- Port Header & Toggles -->
                                     <div class="p-4 border-b border-slate-200/50 flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 bg-white/90">
                                         <h3 class="text-lg md:text-xl font-bold text-slate-800 leading-tight">${port.name}</h3>
                                         <div class="flex bg-slate-100 rounded-lg p-1 shadow-inner shrink-0">
                                             <button 
-                                                onclick="toggleSelection('${port.id}', 'diy')"
+                                                onclick="toggleSelection(event, '${port.id}', 'diy')"
                                                 class="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs md:text-sm font-semibold rounded-md transition-all ${!isExcursion ? 'bg-white shadow-sm text-indigo-700' : 'text-slate-500 hover:text-slate-700'}"
                                             >
                                                 <i data-lucide="footprints" class="w-4 h-4"></i> DIY Free
                                             </button>
                                             <button 
-                                                onclick="toggleSelection('${port.id}', 'excursion')"
+                                                onclick="toggleSelection(event, '${port.id}', 'excursion')"
                                                 class="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs md:text-sm font-semibold rounded-md transition-all ${isExcursion ? 'bg-teal-600 shadow-sm text-white' : 'text-slate-500 hover:text-slate-700'}"
                                             >
                                                 <i data-lucide="ship" class="w-4 h-4"></i> Excursion ($${port.excursion.price})
