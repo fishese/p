@@ -10,10 +10,33 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         /* Smooth transitions for interactive elements */
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        .fade-in { animation: fadeIn 0.2s ease-out; }
+        .zoom-in-95 { animation: zoomIn 0.2s ease-out; }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- PRINT FRIENDLY CSS --- */
+        @media print {
+            body { background: white !important; color: black !important; padding-bottom: 0 !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .port-card { 
+                page-break-inside: avoid; 
+                border: 1px solid #ccc !important; 
+                box-shadow: none !important; 
+                margin-bottom: 2rem !important; 
+                background: white !important;
+            }
+            .bg-slate-900, .bg-teal-600, .bg-indigo-600 { background: #f1f5f9 !important; color: black !important; border: 1px solid #cbd5e1 !important; }
+            .text-white { color: black !important; }
+            img { display: none !important; } /* Hide images to save ink */
+            #app { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
         }
     </style>
 </head>
@@ -22,158 +45,295 @@
     <div id="app"></div>
 
     <script>
-        // --- Port Data with Local Image Filenames ---
+        // --- Port Data with Local Image Filenames, DIY Data, Maps & Timetables ---
         const ports = [
             {
                 id: 'aberdeen',
                 name: 'Aberdeen, Scotland',
                 defaultChoice: 'excursion',
+                date: 'Wed, May 19',
+                arrive: '7:00 AM',
+                depart: '5:00 PM',
+                allAboard: '4:00 PM',
+                currency: '💷 GBP (£)',
                 excursion: {
                     code: 'ABE-002',
                     title: 'The Castle and the Coast',
                     price: 119,
                     image: 'aberdeen-excursion.jpg',
                     whyExcursion: 'Dunnottar Castle is a dramatic ruin perched on a sheer cliff—an absolute must-see. Reaching it independently involves navigating sparse bus timetables and a steep hike.',
-                    whyThisOne: 'Focuses entirely on the stunning coastal scenery rather than the city center, matching your desire for "only-found-in-this-place" scenic views.'
+                    whyThisOne: 'Focuses entirely on the stunning coastal scenery rather than the city center, matching your desire for "only-found-in-this-place" scenic views.',
+                    freeTimeNote: 'Your tour returns by noon, giving you the whole afternoon to explore Aberdeen! You\'ll have plenty of time to follow the DIY guide to the Maritime Museum and grab an authentic <strong>Aberdeen Buttery (rowie)</strong>.'
                 },
                 diy: {
                     title: 'Granite City Wander',
                     image: 'aberdeen-diy.jpg',
                     whyDiy: 'While Aberdeen is walkable, the true natural majesty lies outside the city limits. Staying in port means missing the dramatic cliffside landscapes you are looking for.',
-                    highlights: 'Walk to the maritime museum or grab a coffee near the harbor.'
+                    highlights: 'Walk to the maritime museum or grab a coffee near the harbor.',
+                    routeUrl: 'https://www.google.com/maps/dir/?api=1&destination=Footdee,+Aberdeen&waypoints=Aberdeen+Harbour%7CMarischal+College,+Aberdeen%7CDavid+Welch+Winter+Gardens,+Aberdeen&travelmode=walking',
+                    steps: [
+                        { title: 'Aberdeen Harbour & Fish Market', desc: 'Walk the working docks in the morning — Aberdeen is one of Scotland\'s busiest fishing ports. Raw, atmospheric, and free.' },
+                        { title: 'Marischal College', desc: 'The world\'s second-largest granite building, its Gothic façade gleaming with reflective quartz particles in sunlight.' },
+                        { title: 'David Welch Winter Gardens', desc: 'Massive interconnected greenhouses with tropical plants, cacti, and the famous talking cactus "Spike".' },
+                        { title: 'Footdee (Fittie)', desc: 'Walk to the harbour mouth to find this 19th-century fishermen\'s village — cramped, colourful cottages whose residents turn their front doors away from the sea.' }
+                    ],
+                    food: {
+                        items: ['Aberdeen Buttery (rowie)', 'Arbroath smokie', 'Scotch broth', 'Aberdeenshire cheese'],
+                        tip: 'Don\'t leave without trying an Aberdeen Rowie (Buttery) — a uniquely salty, flaky pastry roll found in every local bakery. The Ashvale Fish Restaurant is Aberdeen\'s legendary fish and chip institution.'
+                    }
                 }
             },
             {
                 id: 'kirkwall',
                 name: 'Kirkwall (Orkneys), Scotland',
                 defaultChoice: 'excursion',
+                date: 'Thu, May 20',
+                arrive: '7:00 AM',
+                depart: '5:00 PM',
+                allAboard: '4:00 PM',
+                currency: '💷 GBP (£)',
                 excursion: {
                     code: 'KOI-001',
                     title: 'Ancient Treasures of Orkney',
                     price: 149,
                     image: 'kirkwall-excursion.jpg',
                     whyExcursion: 'The highlights—Skara Brae and the Standing Stones—are spread out across the island. The public bus network is not built for cruise ship schedules.',
-                    whyThisOne: 'This is the quintessential Orkney experience. It bundles all the UNESCO World Heritage sites into one seamless trip without risking missing the ship.'
+                    whyThisOne: 'This is the quintessential Orkney experience. It bundles all the UNESCO World Heritage sites into one seamless trip without risking missing the ship.',
+                    freeTimeNote: 'With 10 hours in port and a 4-hour tour, you have a half-day free. It\'s perfect for following the DIY guide to St. Magnus Cathedral and picking up local <strong>Orkney Cheddar</strong>.'
                 },
                 diy: {
                     title: 'Kirkwall Town Stroll',
                     image: 'kirkwall-diy.jpg',
                     whyDiy: 'Kirkwall is a lovely, tiny town with a beautiful cathedral, but you can walk the entire town in about an hour. You would miss the island\'s world-famous ancient history.',
-                    highlights: 'St. Magnus Cathedral and local craft shops.'
+                    highlights: 'St. Magnus Cathedral and local craft shops.',
+                    routeUrl: 'https://www.google.com/maps/dir/?api=1&destination=Kirkwall+Town+Centre&waypoints=St+Magnus+Cathedral,+Kirkwall%7CEarl%27s+Palace,+Kirkwall%7CTankerness+House+Museum,+Kirkwall&travelmode=walking',
+                    steps: [
+                        { title: 'St Magnus Cathedral', desc: 'Founded 1137, this red-and-yellow sandstone Romanesque cathedral is among the finest in Britain. Climb the tower for panoramic views.' },
+                        { title: 'Bishop\'s & Earl\'s Palace ruins', desc: 'Right next to the cathedral. The Earl\'s Palace is considered one of the finest pieces of Renaissance architecture in Scotland.' },
+                        { title: 'Tankerness House Museum', desc: 'Excellent overview of Orkney\'s 6,000 years of history in a beautifully preserved 16th-century merchant house.' },
+                        { title: 'Kirkwall\'s flagstone lanes', desc: 'Simply wander — independent shops sell Orkney Cheddar, hot-smoked salmon, and local chocolate.' }
+                    ],
+                    food: {
+                        items: ['Orkney Cheddar', 'Hot-smoked salmon', 'Highland Park truffles', 'Bere bannocks'],
+                        tip: 'Judith Glue on Broad Street has a café serving excellent soups and local produce, and a shop full of distinctive Orkney crafts and knitwear.'
+                    }
                 }
             },
             {
                 id: 'stornoway',
                 name: 'Stornoway (Hebrides), Scotland',
                 defaultChoice: 'excursion',
+                date: 'Fri, May 21',
+                arrive: '7:00 AM',
+                depart: '2:00 PM',
+                allAboard: '1:00 PM',
+                currency: '💷 GBP (£)',
                 excursion: {
                     code: 'SYY-002',
                     title: 'Scenic Lewis',
                     price: 139,
                     image: 'stornoway-excursion.jpg',
                     whyExcursion: 'The Outer Hebrides are breathtakingly wild, but infrastructure is minimal. Getting to the mystical Calanais Standing Stones requires booking a private cab months in advance.',
-                    whyThisOne: 'Drives you straight into the stark, stunning moorlands and ancient history of the island, safely returning you to the ship with zero logistical headaches.'
+                    whyThisOne: 'Drives you straight into the stark, stunning moorlands and ancient history of the island, safely returning you to the ship with zero logistical headaches.',
+                    freeTimeNote: 'This tour returns around 10:30 AM. With an early 1:00 PM All Aboard, you will have just enough time to walk the pier and grab a famous <strong>Stornoway Black Pudding roll</strong>.'
                 },
                 diy: {
                     title: 'Lews Castle Walk',
                     image: 'stornoway-diy.jpg',
                     whyDiy: 'Stornoway town is small. You can walk to Lews Castle grounds from the pier for a relaxing hour, but misses the dramatic, rugged scenery the Hebrides are famous for.',
-                    highlights: 'Lews Castle gardens and harbor views.'
+                    highlights: 'Lews Castle gardens and harbor views.',
+                    routeUrl: 'https://www.google.com/maps/dir/?api=1&destination=Harris+Tweed+Hebrides,+Stornoway&waypoints=Lews+Castle,+Stornoway%7CStornoway+Town+Centre&travelmode=walking',
+                    steps: [
+                        { title: 'Lews Castle Grounds', desc: 'A 5-minute walk from the pier across the harbour. The Victorian Gothic castle is private, but the forested grounds and loch-side paths are beautiful.' },
+                        { title: 'Stornoway town centre', desc: 'Walk the pedestrian streets. The local bakeries open early — find a Stornoway Black Pudding roll.' },
+                        { title: 'Harris Tweed Hebrides', desc: 'Stornoway has shops selling genuine Harris Tweed — the only cloth in the world still handwoven by islanders in their own homes.' }
+                    ],
+                    food: {
+                        items: ['Stornoway Black Pudding', 'Lewis hot-smoked salmon', 'Hebridean langoustines'],
+                        tip: 'Stornoway Black Pudding has Protected Designation of Origin status — it can only be made in Lewis by producers holding generations-old recipes.'
+                    }
                 }
             },
             {
                 id: 'killybegs',
                 name: 'Killybegs, Ireland',
                 defaultChoice: 'excursion',
+                date: 'Sat, May 22',
+                arrive: '8:00 AM',
+                depart: '4:00 PM',
+                allAboard: '3:00 PM',
+                currency: '💶 EUR (€)',
                 excursion: {
                     code: 'K1L-002',
                     title: 'The Wild Sliabh Liag Cliffs',
                     price: 159,
                     image: 'killybegs-excursion.jpg',
                     whyExcursion: 'The Sliabh Liag cliffs are among Europe\'s highest, but they are incredibly remote. There is no direct public bus from the port to the cliff edges.',
-                    whyThisOne: 'Takes you to a pristine, isolated landscape offering some of the most dramatic views in Ireland. A perfect "only-found-here" moment without driving narrow roads.'
+                    whyThisOne: 'Takes you to a pristine, isolated landscape offering some of the most dramatic views in Ireland. A perfect "only-found-here" moment without driving narrow roads.',
+                    freeTimeNote: 'Your tour is only 3.5 hours, leaving your afternoon wide open. Follow the DIY guide to the working harbour and treat yourself to the freshest <strong>Donegal fish chowder</strong>.'
                 },
                 diy: {
                     title: 'Killybegs Fishing Village',
                     image: 'killybegs-diy.jpg',
                     whyDiy: 'It is a quaint village, but primarily an industrial fishing hub. It lacks the sweeping landscapes that you sailed to this part of Ireland to see.',
-                    highlights: 'Local seafood shacks near the working harbor.'
+                    highlights: 'Local seafood shacks near the working harbor.',
+                    routeUrl: 'https://www.google.com/maps/dir/?api=1&destination=Kilcar,+Donegal&waypoints=Killybegs+Harbour%7CMellys+Cafe,+Killybegs&travelmode=driving',
+                    steps: [
+                        { title: 'Killybegs Harbour', desc: 'Walk the working fish quays. The sheer volume of deep-sea trawlers here is extraordinary — Ireland\'s premier fishing port.' },
+                        { title: 'Seafood lunch', desc: 'The Sail Inn or Melly\'s on Main Street serve fish chowder made with that morning\'s catch.' },
+                        { title: 'Killybegs town walk', desc: 'The town is renowned for hand-tufted Donegal carpets that have furnished Buckingham Palace. Look for craft shops.' },
+                        { title: 'Kilcar village', desc: 'A 10-minute taxi drive west, this village is the centre of Donegal tweed weaving.' }
+                    ],
+                    food: {
+                        items: ['Donegal fish chowder', 'Fresh haddock & chips', 'Killybegs langoustines', 'Brown soda bread'],
+                        tip: 'The fish chowder at Killybegs — made with that morning\'s catch — is one of the most honest and delicious things you\'ll eat on the entire cruise. Don\'t skip it.'
+                    }
                 }
             },
             {
                 id: 'belfast',
                 name: 'Belfast, Northern Ireland',
                 defaultChoice: 'diy',
+                date: 'Sun, May 23',
+                arrive: '7:00 AM',
+                depart: '7:00 PM',
+                allAboard: '6:00 PM',
+                currency: '💷 GBP (£)',
                 excursion: {
                     code: 'BFS-008',
                     title: 'Spectacular Giants Causeway',
                     price: 279,
                     image: 'belfast-excursion.jpg',
                     whyExcursion: 'The Causeway is iconic, but it is a long 6-hour round trip on a bus. This eats up your entire day in Belfast.',
-                    whyThisOne: 'If you absolutely must see the geometric basalt columns, this is the safest way to do it, but it is a heavy commitment of time and funds.'
+                    whyThisOne: 'If you absolutely must see the geometric basalt columns, this is the safest way to do it, but it is a heavy commitment of time and funds.',
+                    freeTimeNote: 'Returning around 2:00 PM leaves your entire afternoon free. You can easily follow our DIY guide to the Cathedral Quarter and grab a hearty <strong>Belfast Bap</strong>.'
                 },
                 diy: {
                     title: 'Cathedral Quarter & Titanic Slipways',
                     image: 'belfast-diy.jpg',
                     whyDiy: 'Belfast is incredibly flat and walkable. Take a 10-minute cab to City Hall and instantly be in the action. No need to sit on a bus when you can wander historic cobblestone alleys.',
-                    highlights: 'Grab a "Belfast Bap" at St. George\'s Market or explore the independent cafes in the Cathedral Quarter.'
+                    highlights: 'Grab a "Belfast Bap" at St. George\'s Market or explore the independent cafes in the Cathedral Quarter.',
+                    routeUrl: 'https://www.google.com/maps/dir/?api=1&destination=Titanic+Quarter,+Belfast&waypoints=St+George%27s+Market,+Belfast%7CCathedral+Quarter,+Belfast&travelmode=walking',
+                    steps: [
+                        { title: 'St George\'s Market', desc: 'Belfast\'s finest market — try Belfast baps, artisan cheeses, and hot food stalls run by locals in a magnificent 1890s iron and glass building.' },
+                        { title: 'Cathedral Quarter', desc: 'Walk the cobbled lanes around St Anne\'s Cathedral. Fine Victorian architecture, murals, and independent shops.' },
+                        { title: 'Titanic Quarter', desc: 'Walk the slipways, see the famous Harland & Wolff cranes, and the SS Nomadic (White Star Line tender) for free.' },
+                        { title: 'Black taxi tour', desc: 'Self-arrange a ride for a Peace Walls and murals tour in an independently-operated black taxi. Highly flexible.' }
+                    ],
+                    food: {
+                        items: ['Belfast bap', 'Colcannon', 'Boxty (potato pancake)', 'Soda farl'],
+                        tip: 'St George\'s Market on a Sunday is the single best food experience in Belfast — arrive by 10:30 AM for the best selection before the afternoon crowd thins it.'
+                    }
                 }
             },
             {
                 id: 'dublin',
                 name: 'Dublin (Dun Laoghaire), Ireland',
                 defaultChoice: 'diy',
+                date: 'Mon, May 24',
+                arrive: '7:00 AM',
+                depart: '7:00 PM',
+                allAboard: '6:00 PM',
+                currency: '💶 EUR (€)',
                 excursion: {
                     code: 'DLG-006',
                     title: 'Drive Through Countryside',
                     price: 309,
                     image: 'dublin-excursion.jpg',
                     whyExcursion: 'Takes you out of the city into the Wicklow mountains and Glendalough.',
-                    whyThisOne: 'Beautiful, but very expensive and means you miss the vibrant, relaxing café culture of Dublin entirely.'
+                    whyThisOne: 'Beautiful, but very expensive and means you miss the vibrant, relaxing café culture of Dublin entirely.',
+                    freeTimeNote: 'Since this is a longer excursion, your free time will be limited. However, you\'ll still be able to explore the charming pier area of Dun Laoghaire and grab a pint before setting sail.'
                 },
                 diy: {
                     title: 'DART Train to Trinity College',
                     image: 'dublin-diy.jpg',
                     whyDiy: 'You dock in Dun Laoghaire, which has a commuter train (DART) station literally right on the pier. For a few Euros, it drops you directly into central Dublin in 25 minutes.',
-                    highlights: 'Visit Bread 41 for artisan pastries, wander Trinity College, and enjoy the creative quarter at your own leisure.'
+                    highlights: 'Visit Bread 41 for artisan pastries, wander Trinity College, and enjoy the creative quarter at your own leisure.',
+                    routeUrl: 'https://www.google.com/maps/dir/?api=1&destination=Powerscourt+Townhouse+Centre,+Dublin&waypoints=D%C3%BAn+Laoghaire+DART+Station%7CTrinity+College+Dublin%7CNational+Gallery+of+Ireland%7CMerrion+Square,+Dublin&travelmode=walking',
+                    steps: [
+                        { title: 'DART to city centre', desc: 'Dún Laoghaire DART station is a 5-min walk from the pier. 15 min to Pearse or Tara Street stations — right in central Dublin. Simple, cheap, runs all day.' },
+                        { title: 'Trinity College & Book of Kells', desc: 'Free to walk the campus; the exhibit includes the magnificent Long Room library — 200,000 ancient leather-bound books.' },
+                        { title: 'National Gallery of Ireland', desc: 'Caravaggio, Vermeer, and a superb collection of Irish art. One of Europe\'s finest free galleries.' },
+                        { title: 'Merrion Square', desc: 'Walk around the elegantly restored Georgian square. Oscar Wilde\'s statue is in the park.' },
+                        { title: 'Powerscourt Townhouse', desc: 'A Georgian courtyard on South William Street, filled with artisan cafés and design studios. Excellent for a coffee break.' }
+                    ],
+                    food: {
+                        items: ['Full Irish breakfast', 'Brown soda bread', 'Howth smoked salmon', 'Dublin coddle'],
+                        tip: 'Bewley\'s Café on Grafton Street (1927, with Harry Clarke stained glass) for breakfast or coffee. Fallon & Byrne on Exchequer Street for an excellent lunch.'
+                    }
                 }
             },
             {
                 id: 'cork',
                 name: 'Cork (Cobh), Ireland',
                 defaultChoice: 'diy',
+                date: 'Tue, May 25',
+                arrive: '9:00 AM',
+                depart: '5:00 PM',
+                allAboard: '4:00 PM',
+                currency: '💶 EUR (€)',
                 excursion: {
                     code: 'CBH-005',
                     title: 'Cork\'s Countryside & Kinsale',
                     price: 149,
                     image: 'cork-excursion.jpg',
                     whyExcursion: 'Kinsale is a famously colorful, historic sailing town and the food capital of Ireland. Reaching it by public transit from Cobh requires a train and a bus transfer.',
-                    whyThisOne: 'An excellent option if you want to skip the city entirely and see rural West Cork. *Hint: The perfect 5th excursion to trigger your package discount!*'
+                    whyThisOne: 'An excellent option if you want to skip the city entirely and see rural West Cork. *Hint: The perfect 5th excursion to trigger your package discount!*',
+                    freeTimeNote: 'Returning in the early afternoon leaves you plenty of time to explore Cobh on foot. Follow the DIY guide to the Titanic Trail and grab some local <strong>spiced beef</strong>.'
                 },
                 diy: {
                     title: 'Train to Cork & The English Market',
                     image: 'cork-diy.jpg',
                     whyDiy: 'The Cobh train station is practically attached to your cruise pier. A scenic 25-minute train ride drops you in Cork city center. It gives you ultimate freedom.',
-                    highlights: 'The English Market is an absolute must for foodies. Meander through artisan cheese and fresh breads under an 18th-century roof.'
+                    highlights: 'The English Market is an absolute must for foodies. Meander through artisan cheese and fresh breads under an 18th-century roof.',
+                    routeUrl: 'https://www.google.com/maps/dir/?api=1&destination=Cobh+Waterfront&waypoints=St+Colman%27s+Cathedral,+Cobh%7CCobh+Heritage+Centre%7CTitanic+Trail,+Cobh&travelmode=walking',
+                    steps: [
+                        { title: 'St Colman\'s Cathedral', desc: 'Walk up from the pier to this extraordinary neo-Gothic Victorian cathedral. Views over the harbour from the terrace are superb.' },
+                        { title: 'Cobh Heritage Centre', desc: 'Tells the moving story of 2.5 million Irish emigrants who left from this harbour, and the Titanic\'s last port of call.' },
+                        { title: 'Self-guided Titanic Trail', desc: 'A walking route links all Titanic-related buildings in Cobh — the White Star offices still stand exactly as they were in 1912.' },
+                        { title: 'Cobh waterfront walk', desc: 'The colourful Victorian terraced houses rising above the harbour are uniquely photogenic.' }
+                    ],
+                    food: {
+                        items: ['Drisheen (blood pudding)', 'Spiced beef', 'Gubbeen farmhouse cheese', 'Butter cake'],
+                        tip: 'If staying in Cobh, try The Cobh Café on West Beach for authentic local lunches. Otherwise, head into Cork City for the phenomenal English Market.'
+                    }
                 }
             },
             {
                 id: 'dartmouth',
                 name: 'Dartmouth, UK',
-                defaultChoice: 'diy',
+                defaultChoice: 'excursion',
+                date: 'Wed, May 26',
+                arrive: '11:00 AM',
+                depart: '8:00 PM',
+                allAboard: '7:00 PM',
+                currency: '💷 GBP (£)',
                 excursion: {
                     code: 'DTH-003',
                     title: 'River Cruise & Totnes',
                     price: 149,
                     image: 'dartmouth-excursion.jpg',
                     whyExcursion: 'Totnes is an ancient, quirky town famous for its eco-conscious, local-artisan vibe. The river cruise up the Dart is beautiful.',
-                    whyThisOne: 'A relaxing scenic glide past Agatha Christie\'s estate and into one of England\'s most unique historic towns.'
+                    whyThisOne: 'A relaxing scenic glide past Agatha Christie\'s estate and into one of England\'s most unique historic towns.',
+                    freeTimeNote: 'With 9 hours in port and a 3.5-hour tour, you have massive amounts of free time! Follow the DIY guide to explore Dartmouth Castle and grab a <strong>Devon cream tea</strong>.'
                 },
                 diy: {
                     title: 'Historic Embankment & Cream Tea',
                     image: 'dartmouth-diy.jpg',
                     whyDiy: 'You step off the tender directly into the heart of a stunning 17th-century naval town. It is picture-perfect, flat along the river, and designed for slow, relaxing walks.',
-                    highlights: 'Walk to Dartmouth Castle at the mouth of the river, then reward yourselves with a proper Devonshire Cream Tea.'
+                    highlights: 'Walk to Dartmouth Castle at the mouth of the river, then reward yourselves with a proper Devonshire Cream Tea.',
+                    routeUrl: 'https://www.google.com/maps/dir/?api=1&destination=Royal+Avenue+Gardens,+Dartmouth&waypoints=Foss+Street,+Dartmouth%7CBayard%27s+Cove+Fort,+Dartmouth%7CDartmouth+Castle%7CKingswear+Ferry,+Dartmouth&travelmode=walking',
+                    steps: [
+                        { title: 'Dartmouth town walk', desc: 'Foss Street and Duke Street into the medieval town. Painted timber-framed buildings date to the 1600s.' },
+                        { title: 'Bayards Cove Fort', desc: 'A tiny 16th-century gun fort at the water\'s edge, completely preserved. One of England\'s most atmospheric small fortifications.' },
+                        { title: 'Dartmouth Castle', desc: 'Walk 20 minutes along the riverbank path to this 14th-century castle at the harbour mouth. Extraordinary river and sea views.' },
+                        { title: 'Kingswear by ferry', desc: 'Take the passenger ferry across the river mouth for the best view of Dartmouth\'s Georgian waterfront.' },
+                        { title: 'Royal Avenue Gardens', desc: 'Formal gardens overlooking the river — perfectly maintained for sitting and relaxing.' }
+                    ],
+                    food: {
+                        items: ['Devon cream tea', 'Dartmouth crab sandwich', 'River Dart lobster', 'Clotted cream ice cream'],
+                        tip: 'Devon cream teas are serious business: cream goes FIRST, then jam (the opposite of Cornwall). The Dartmouth Tea Company or Alf Resco on the waterfront are perfect for this.'
+                    }
                 }
             }
         ];
@@ -182,9 +342,10 @@
         let selections = {};
         ports.forEach(p => { selections[p.id] = p.defaultChoice; });
         const shoreCredit = 300;
+        let activeModalPort = null;
+        let showPrepModal = false;
 
         function toggleSelection(event, portId, choice) {
-            // Track the clicked card's position relative to the viewport before rendering
             const cardElement = event ? event.target.closest('.port-card') : null;
             let previousTop = 0;
             if (cardElement) {
@@ -194,7 +355,6 @@
             selections[portId] = choice;
             render();
 
-            // Adjust scroll position so the card stays exactly where it was
             if (cardElement) {
                 const newCardElement = document.getElementById(`card-${portId}`);
                 if (newCardElement) {
@@ -204,10 +364,28 @@
             }
         }
 
-        function handleImageError(imgElement, isExcursion) {
+        function openModal(portId) {
+            activeModalPort = portId;
+            document.body.style.overflow = 'hidden';
+            render();
+        }
+
+        function closeModal() {
+            activeModalPort = null;
+            document.body.style.overflow = 'auto';
+            render();
+        }
+
+        function togglePrepModal() {
+            showPrepModal = !showPrepModal;
+            document.body.style.overflow = showPrepModal ? 'hidden' : 'auto';
+            render();
+        }
+
+        function handleImageError(imgElement) {
             imgElement.style.display = 'none';
             const fallback = imgElement.nextElementSibling;
-            fallback.style.display = 'flex';
+            if (fallback) fallback.style.display = 'flex';
         }
 
         // --- Render Function ---
@@ -222,29 +400,129 @@
             const outOfPocket = Math.max(0, finalTotal - shoreCredit);
             const remainingCredit = Math.max(0, shoreCredit - finalTotal);
 
+            // Modal HTML Logic
+            let modalHtml = '';
+            if (showPrepModal) {
+                modalHtml = `
+                <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+                    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden relative zoom-in-95">
+                        <div class="bg-slate-900 text-white p-5 flex justify-between items-center">
+                            <h2 class="text-xl font-bold flex items-center gap-2">
+                                <i data-lucide="check-square" class="text-teal-400"></i> Pre-Trip Checklist
+                            </h2>
+                            <button onclick="togglePrepModal()" class="text-slate-400 hover:text-white transition-colors bg-slate-800 p-2 rounded-lg"><i data-lucide="x" class="w-5 h-5"></i></button>
+                        </div>
+                        <div class="p-6 space-y-5 bg-slate-50">
+                            <div class="flex gap-4">
+                                <i data-lucide="wifi-off" class="w-6 h-6 text-indigo-600 shrink-0"></i>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 mb-1">Offline Google Maps</h4>
+                                    <p class="text-sm text-slate-600">Cell service drops in rural Scotland and Ireland. Download the map areas for all 9 ports in the Google Maps app before you leave home.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <i data-lucide="credit-card" class="w-6 h-6 text-teal-600 shrink-0"></i>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 mb-1">Contactless Payments</h4>
+                                    <p class="text-sm text-slate-600">Set up Apple Pay or Google Pay. 95% of transit, pubs, and shops use contactless tap-to-pay. You barely need physical £ or € cash.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <i data-lucide="cloud-rain" class="w-6 h-6 text-blue-600 shrink-0"></i>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 mb-1">Layering Strategy</h4>
+                                    <p class="text-sm text-slate-600">May weather changes hourly. Always carry a high-quality waterproof shell jacket. Expect bright sun and sudden downpours on the same day.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            } else if (activeModalPort) {
+                const portData = ports.find(p => p.id === activeModalPort);
+                if (portData && portData.diy) {
+                    modalHtml = `
+                    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+                        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden relative zoom-in-95">
+                            <div class="bg-slate-900 text-white p-5 flex justify-between items-center shrink-0">
+                                <h2 class="text-xl font-bold flex items-center gap-2">
+                                    <i data-lucide="map" class="text-indigo-400"></i> DIY Guide: ${portData.name}
+                                </h2>
+                                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors bg-slate-800 p-2 rounded-lg"><i data-lucide="x" class="w-5 h-5"></i></button>
+                            </div>
+                            <div class="p-6 overflow-y-auto space-y-8 bg-slate-50">
+                                <div>
+                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+                                        <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+                                            <i data-lucide="footprints" class="w-5 h-5 text-indigo-600"></i> Step-by-Step Plan
+                                        </h3>
+                                        <a href="${portData.diy.routeUrl}" target="_blank" class="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm">
+                                            <i data-lucide="external-link" class="w-4 h-4"></i> View Full Route Map
+                                        </a>
+                                    </div>
+                                    <ul class="space-y-5">
+                                       ${portData.diy.steps.map((step, i) => `
+                                         <li class="flex gap-4">
+                                           <span class="bg-indigo-100 text-indigo-700 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0 mt-0.5 border border-indigo-200 shadow-sm">${i+1}</span>
+                                           <div class="space-y-1.5">
+                                             <div class="flex flex-wrap items-center gap-2">
+                                                 <strong class="text-slate-900">${step.title}</strong>
+                                                 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(step.title + ', ' + portData.name)}" target="_blank" class="text-indigo-600 hover:text-indigo-800 hover:underline inline-flex items-center gap-1 text-[11px] uppercase tracking-wide font-bold bg-indigo-100/50 border border-indigo-200 px-2 py-0.5 rounded-md transition-colors">
+                                                     <i data-lucide="map-pin" class="w-3 h-3"></i> Location
+                                                 </a>
+                                             </div>
+                                             <p class="text-slate-700 leading-relaxed text-sm">${step.desc}</p>
+                                           </div>
+                                         </li>
+                                       `).join('')}
+                                    </ul>
+                                </div>
+                                <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 shadow-sm">
+                                    <h3 class="font-bold text-amber-900 mb-4 flex items-center gap-2">
+                                        <i data-lucide="utensils" class="w-5 h-5 text-amber-600"></i> Only-Found-Here Specialties
+                                    </h3>
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        ${portData.diy.food.items.map(item => `<span class="bg-white border border-amber-300 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm">${item}</span>`).join('')}
+                                    </div>
+                                    <p class="text-sm text-amber-900 italic leading-relaxed bg-amber-100/50 p-3 rounded-lg">${portData.diy.food.tip}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                }
+            }
+
             const appDiv = document.getElementById('app');
             
             appDiv.innerHTML = `
                 <div class="max-w-6xl mx-auto p-4 md:p-8 space-y-6 md:space-y-8">
                     
                     <!-- Header -->
-                    <header class="bg-white rounded-2xl shadow-sm p-6 md:p-10 border border-slate-100">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="p-3 bg-teal-100 text-teal-700 rounded-xl">
-                                <i data-lucide="ship" class="w-8 h-8"></i>
+                    <header class="bg-white rounded-2xl shadow-sm p-6 md:p-10 border border-slate-100 print-break-inside">
+                        <div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                            <div>
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="p-3 bg-teal-100 text-teal-700 rounded-xl">
+                                        <i data-lucide="ship" class="w-8 h-8"></i>
+                                    </div>
+                                    <h1 class="text-2xl md:text-4xl font-bold text-slate-900">The Relaxing Explorer Strategy</h1>
+                                </div>
+                                <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-3xl">
+                                    As first-time travelers to the British Isles, the goal is to eliminate logistical headaches. 
+                                    We use your <strong>$300 Shore Credit</strong> to buy convenience in remote, rugged areas, and rely on 
+                                    easy, scenic local transit for cities where you want the freedom to sip coffee and wander at your own pace.
+                                </p>
                             </div>
-                            <h1 class="text-2xl md:text-4xl font-bold text-slate-900">The "Out of Office" Strategy</h1>
+                            <button onclick="togglePrepModal()" class="no-print shrink-0 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-5 rounded-xl transition-colors flex items-center gap-2 shadow-md">
+                                <i data-lucide="check-square" class="w-5 h-5"></i> Pre-Trip Checklist
+                            </button>
                         </div>
-                        <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-3xl">
-                            As two professionals looking to de-stress, the goal is to eliminate logistical headaches. 
-                            We use your coworker's <strong>$300 Shore Credit</strong> to buy convenience in remote, rugged areas, and rely on 
-                            easy, scenic local transit for cities where you want the freedom to sip coffee and wander at your own pace.
-                        </p>
                     </header>
 
                     <!-- Strategy Hack Banner -->
                     ${excursionCount === 4 ? `
-                    <div class="bg-gradient-to-r from-amber-100 to-orange-100 border border-amber-300 rounded-xl p-5 shadow-sm fade-in">
+                    <div class="no-print bg-gradient-to-r from-amber-100 to-orange-100 border border-amber-300 rounded-xl p-5 shadow-sm fade-in">
                         <div class="flex items-center gap-3 text-amber-900 font-bold mb-2 text-lg">
                             <i data-lucide="sparkles" class="text-amber-600 w-6 h-6"></i>
                             THE 5-EXCURSION DISCOUNT HACK!
@@ -275,21 +553,31 @@
                                 <div id="card-${port.id}" class="port-card rounded-2xl border transition-all duration-300 overflow-hidden shadow-sm ${isExcursion ? 'border-teal-400 bg-teal-50/20' : 'border-indigo-300 bg-indigo-50/20'}">
                                     
                                     <!-- Port Header & Toggles -->
-                                    <div class="p-4 border-b border-slate-200/50 flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 bg-white/90">
-                                        <h3 class="text-lg md:text-xl font-bold text-slate-800 leading-tight">${port.name}</h3>
-                                        <div class="flex bg-slate-100 rounded-lg p-1 shadow-inner shrink-0">
-                                            <button 
-                                                onclick="toggleSelection(event, '${port.id}', 'diy')"
-                                                class="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs md:text-sm font-semibold rounded-md transition-all ${!isExcursion ? 'bg-white shadow-sm text-indigo-700' : 'text-slate-500 hover:text-slate-700'}"
-                                            >
-                                                <i data-lucide="footprints" class="w-4 h-4"></i> DIY Free
-                                            </button>
-                                            <button 
-                                                onclick="toggleSelection(event, '${port.id}', 'excursion')"
-                                                class="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs md:text-sm font-semibold rounded-md transition-all ${isExcursion ? 'bg-teal-600 shadow-sm text-white' : 'text-slate-500 hover:text-slate-700'}"
-                                            >
-                                                <i data-lucide="ship" class="w-4 h-4"></i> Excursion ($${port.excursion.price})
-                                            </button>
+                                    <div class="p-4 md:p-5 border-b border-slate-200/50 flex flex-col gap-4 bg-white/90">
+                                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                                            <div>
+                                                <h3 class="text-lg md:text-xl font-bold text-slate-800 leading-tight">${port.name}</h3>
+                                                <div class="flex flex-wrap items-center gap-2 mt-2">
+                                                    <span class="bg-slate-100 border border-slate-200 text-slate-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap"><i data-lucide="calendar" class="w-3 h-3 inline mr-1"></i>${port.date}</span>
+                                                    <span class="bg-slate-100 border border-slate-200 text-slate-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap"><i data-lucide="clock" class="w-3 h-3 inline mr-1"></i>${port.arrive} - ${port.depart}</span>
+                                                    <span class="bg-rose-100 border border-rose-200 text-rose-700 px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap"><i data-lucide="alert-octagon" class="w-3 h-3 inline mr-1"></i>All Aboard: ${port.allAboard}</span>
+                                                    <span class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap">${port.currency}</span>
+                                                </div>
+                                            </div>
+                                            <div class="no-print flex bg-slate-100 rounded-lg p-1 shadow-inner shrink-0">
+                                                <button 
+                                                    onclick="toggleSelection(event, '${port.id}', 'diy')"
+                                                    class="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs md:text-sm font-semibold rounded-md transition-all ${!isExcursion ? 'bg-white shadow-sm text-indigo-700' : 'text-slate-500 hover:text-slate-700'}"
+                                                >
+                                                    <i data-lucide="footprints" class="w-4 h-4"></i> DIY Free
+                                                </button>
+                                                <button 
+                                                    onclick="toggleSelection(event, '${port.id}', 'excursion')"
+                                                    class="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs md:text-sm font-semibold rounded-md transition-all ${isExcursion ? 'bg-teal-600 shadow-sm text-white' : 'text-slate-500 hover:text-slate-700'}"
+                                                >
+                                                    <i data-lucide="ship" class="w-4 h-4"></i> Excursion ($${port.excursion.price})
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -300,7 +588,7 @@
                                             <img 
                                                 src="${activeData.image}" 
                                                 alt="${activeData.title}"
-                                                onerror="handleImageError(this, ${isExcursion})"
+                                                onerror="handleImageError(this)"
                                                 class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
                                             />
                                             <div style="display: none;" class="absolute inset-0 flex-col items-center justify-center ${isExcursion ? 'bg-teal-50 text-teal-300' : 'bg-indigo-50 text-indigo-300'}">
@@ -317,7 +605,7 @@
                                         <!-- Text Details -->
                                         <div class="w-full sm:w-3/5 p-4 md:p-5 bg-white/60">
                                             ${isExcursion ? `
-                                            <div class="space-y-3 fade-in">
+                                            <div class="space-y-3 fade-in flex flex-col h-full">
                                                 <div class="flex items-start gap-2.5">
                                                     <i data-lucide="check-circle-2" class="text-teal-600 mt-0.5 shrink-0 w-[18px] h-[18px]"></i>
                                                     <div>
@@ -325,15 +613,24 @@
                                                         <p class="text-slate-700 mt-1.5 text-xs md:text-sm leading-relaxed">${port.excursion.whyThisOne}</p>
                                                     </div>
                                                 </div>
-                                                <div class="bg-white p-3 md:p-4 rounded-xl border border-teal-100 shadow-sm">
+                                                <div class="bg-white p-3 md:p-4 rounded-xl border border-teal-100 shadow-sm mt-auto">
                                                     <h5 class="font-semibold text-slate-800 mb-1 flex items-center gap-1.5 text-xs md:text-sm">
                                                         <i data-lucide="alert-triangle" class="text-amber-500 w-3.5 h-3.5"></i> Defense: Why pay for this?
                                                     </h5>
                                                     <p class="text-xs md:text-sm text-slate-600 leading-relaxed">${port.excursion.whyExcursion}</p>
                                                 </div>
+                                                <div class="bg-indigo-50/70 p-3 md:p-4 rounded-xl border border-indigo-100 shadow-sm mt-3">
+                                                    <h5 class="font-semibold text-indigo-900 mb-1 flex items-center gap-1.5 text-xs md:text-sm">
+                                                        <i data-lucide="clock" class="text-indigo-500 w-3.5 h-3.5"></i> Free Time & Local Food
+                                                    </h5>
+                                                    <p class="text-xs md:text-sm text-slate-700 leading-relaxed mb-3">${port.excursion.freeTimeNote}</p>
+                                                    <button onclick="openModal('${port.id}')" class="no-print w-full bg-white hover:bg-indigo-50 text-indigo-700 border border-indigo-200 font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 text-xs md:text-sm shadow-sm">
+                                                        <i data-lucide="map" class="w-4 h-4"></i> View DIY Guide
+                                                    </button>
+                                                </div>
                                             </div>
                                             ` : `
-                                            <div class="space-y-3 fade-in">
+                                            <div class="space-y-3 fade-in flex flex-col h-full">
                                                 <div class="flex items-start gap-2.5">
                                                     <i data-lucide="coffee" class="text-indigo-600 mt-0.5 shrink-0 w-[18px] h-[18px]"></i>
                                                     <div>
@@ -341,59 +638,34 @@
                                                         <p class="text-slate-700 mt-1.5 text-xs md:text-sm leading-relaxed">${port.diy.highlights}</p>
                                                     </div>
                                                 </div>
-                                                <div class="bg-white p-3 md:p-4 rounded-xl border border-indigo-100 shadow-sm">
+                                                <div class="bg-white p-3 md:p-4 rounded-xl border border-indigo-100 shadow-sm mt-auto">
                                                     <h5 class="font-semibold text-slate-800 mb-1 flex items-center gap-1.5 text-xs md:text-sm">
                                                         <i data-lucide="sparkles" class="text-indigo-400 w-3.5 h-3.5"></i> Defense: Why DIY here?
                                                     </h5>
-                                                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed">${port.diy.whyDiy}</p>
+                                                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed mb-3">${port.diy.whyDiy}</p>
+                                                    <button onclick="openModal('${port.id}')" class="no-print w-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 text-xs md:text-sm shadow-sm">
+                                                        <i data-lucide="map" class="w-4 h-4"></i> View Step-by-Step Guide
+                                                    </button>
                                                 </div>
                                             </div>
                                             `}
                                         </div>
                                     </div>
+                                    <!-- Print Only DIY Content -->
+                                    <div class="print-only hidden p-4 border-t border-slate-200">
+                                       <h4 class="font-bold text-lg mb-2">Step-by-Step Plan:</h4>
+                                       <ul class="list-decimal pl-5 text-sm space-y-2">
+                                         ${port.diy.steps.map(step => `<li><strong>${step.title}:</strong> ${step.desc}</li>`).join('')}
+                                       </ul>
+                                       <p class="text-sm mt-2"><strong>Food:</strong> ${port.diy.food.tip}</p>
+                                    </div>
                                 </div>
                                 `;
                             }).join('')}
-
-                            <!-- Divide & Conquer: The Whiskey Strategy Module -->
-                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mt-8 fade-in">
-                                <div class="bg-slate-900 text-white p-5 md:p-6 flex items-center gap-3">
-                                    <i data-lucide="users" class="w-6 h-6 text-amber-400"></i>
-                                    <h2 class="text-xl md:text-2xl font-bold">Divide & Conquer: The Whiskey Strategy</h2>
-                                </div>
-                                <div class="p-5 md:p-6 grid grid-cols-1 md:flex-row gap-6">
-                                    <p class="text-slate-600 text-sm md:text-base mb-2">If your coworker wants a proper whiskey experience, you can split up for a few hours. Here are the two best options to discuss:</p>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <!-- Option 1 -->
-                                        <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                            <h3 class="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2">Option 1: Dublin (DIY Irish Whiskey)</h3>
-                                            <p class="text-sm text-slate-600"><strong>The Plan:</strong> You take the DART train into Dublin together. You go to Trinity College and get a pastry at Bread 41. She walks to <em>Teeling</em> or <em>Jameson Bow St.</em> (booking a cheap €30 ticket online). You meet back up for lunch!</p>
-                                            <p class="text-sm text-emerald-700 bg-emerald-50 p-2 rounded border border-emerald-100"><strong>Why it works:</strong> She saves ~$120 compared to the ship's tour, gets an authentic experience, and neither of you sacrifice your relaxing Dublin schedule.</p>
-                                        </div>
-                                        
-                                        <!-- Option 2 -->
-                                        <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                            <h3 class="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2">Option 2: Aberdeen (Scotch Excursion)</h3>
-                                            <p class="text-sm text-slate-600"><strong>The Plan:</strong> You split up for the morning in Aberdeen. You take your planned excursion to Dunnottar Castle (ABE-002). She takes the ship's <em>Glen Garioch Whisky Tour (ABE-004, $159)</em>.</p>
-                                            <p class="text-sm text-emerald-700 bg-emerald-50 p-2 rounded border border-emerald-100"><strong>Why it works:</strong> Aberdeen transit is weak, so it makes sense to use the ship's buses here. Plus, by both booking a tour, you both maintain your count toward the 25% off discount hack!</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Warnings -->
-                                <div class="bg-rose-50 p-5 md:p-6 border-t border-rose-100">
-                                    <h4 class="font-bold text-rose-800 flex items-center gap-2 mb-3"><i data-lucide="alert-circle" class="w-5 h-5"></i> Where to AVOID splitting up:</h4>
-                                    <ul class="text-sm text-rose-700 space-y-2 list-disc list-inside">
-                                        <li><strong>Cork (Jameson CBH-003):</strong> Do not split up here. Cork is your ultimate foodie day! You want her with you to experience the English Market and Farmgate Café.</li>
-                                        <li><strong>Stornoway (Harris SYY-006):</strong> Avoid this one. At <strong>$329</strong>, it is massively overpriced and will destroy her entire $300 shore credit limit in a single swoop.</li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- Right Column: Detailed Calculator (Hidden on Mobile) -->
-                        <div class="hidden lg:block lg:col-span-1">
+                        <div class="hidden lg:block lg:col-span-1 no-print">
                             <div class="sticky top-8 space-y-6">
                                 
                                 <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
@@ -476,6 +748,10 @@
                                     <i data-lucide="info" class="shrink-0 text-slate-400 w-5 h-5"></i>
                                     <p>DIY options assume minor costs for local transit (like DART or local trains) which are usually $5-$15 per person and paid directly at the station via tap-to-pay.</p>
                                 </div>
+                                <div class="bg-slate-100 rounded-xl p-4 text-xs text-slate-500 flex items-start gap-2 shadow-inner">
+                                    <i data-lucide="printer" class="shrink-0 text-slate-400 w-5 h-5"></i>
+                                    <p>Hit Ctrl+P (or Cmd+P) to print a clean, ink-saving copy of this itinerary and the step-by-step guides.</p>
+                                </div>
 
                             </div>
                         </div>
@@ -484,7 +760,7 @@
                 </div>
 
                 <!-- EXTREMELY COMPACT STICKY BOTTOM BAR -->
-                <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] z-50">
+                <div class="no-print fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-[0_-5px_15px_rgba(0,0,0,0.05)] z-50">
                     
                     <!-- Desktop View -->
                     <div class="hidden md:flex max-w-6xl mx-auto px-6 py-3 items-center justify-between">
@@ -537,6 +813,7 @@
                     </div>
 
                 </div>
+                ${modalHtml}
             `;
 
             // Initialize Lucide icons on newly rendered HTML
