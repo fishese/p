@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bountiful British Isles · Shore Excursion Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1A3351;
+  --navy-light: #2A4A6B;
+  --parchment: #F0EDE6;
+  --parchment-dark: #DDD9CE;
+  --teal: #3D7A6E;
+  --teal-light: #5A9D8E;
+  --gold: #C49A2A;
+  --gold-light: #D4AE48;
+  --coral: #C85A3C;
+  --slate: #4A5568;
+  --slate-light: #718096;
+  --white: #FFFFFF;
+  --card-shadow: 0 4px 24px rgba(26,51,81,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--parchment);color:var(--navy);padding-bottom:150px}
+a{text-decoration:none;color:inherit}
+
+/* ── HEADER ── */
+.cruise-header{background:var(--navy);color:var(--white);padding:32px 24px 28px;text-align:center;position:relative;overflow:hidden}
+.cruise-header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='24' viewBox='0 0 120 24'%3E%3Cpath d='M0 12 Q30 0 60 12 Q90 24 120 12 V24 H0Z' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E") repeat-x bottom;background-size:120px 24px}
+.cruise-sub{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-light);margin-bottom:8px}
+.cruise-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;margin-bottom:6px}
+.cruise-italic{font-family:'Playfair Display',serif;font-style:italic;color:rgba(255,255,255,0.55);font-size:15px;margin-bottom:12px}
+.cruise-meta{font-size:13px;color:rgba(255,255,255,0.65);display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+.cruise-meta span{display:flex;align-items:center;gap:6px}
+
+/* ── CREDIT BANNER ── */
+.credit-banner{background:linear-gradient(135deg,#2D5A4E,#3D7A6E);color:white;padding:13px 24px;text-align:center;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.credit-banner strong{color:#A8D8C8}
+
+/* ── PACKAGE INFO ── */
+.package-info{max-width:920px;margin:24px auto 0;padding:0 20px}
+.package-card{background:var(--navy);color:white;border-radius:14px;padding:20px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.package-icon{font-size:34px;flex-shrink:0}
+.package-text{flex:1;min-width:200px}
+.package-card h3{font-size:13px;color:var(--gold-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.package-card p{font-size:13px;color:rgba(255,255,255,0.72);line-height:1.6}
+.discount-progress{min-width:180px}
+.discount-label{font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:7px;display:flex;justify-content:space-between}
+.progress-track{background:rgba(255,255,255,0.14);border-radius:100px;height:6px}
+.progress-fill{background:var(--gold);border-radius:100px;height:6px;width:0%;transition:width 0.4s ease}
+
+/* ── PORT NAVIGATION ── */
+.port-nav{display:flex;gap:8px;padding:24px 20px 0;max-width:920px;margin:0 auto;flex-wrap:wrap}
+.port-nav-btn{padding:8px 15px;font-size:12px;font-weight:500;border:1.5px solid var(--parchment-dark);border-radius:100px;background:var(--white);color:var(--slate);cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.port-nav-btn:hover{background:var(--navy);color:white;border-color:var(--navy)}
+
+/* ── MAIN CONTENT ── */
+.ports-section{max-width:920px;margin:0 auto;padding:28px 20px}
+.section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--slate-light);margin-bottom:24px}
+
+/* ── PORT CARD ── */
+.port-card{background:var(--white);border-radius:18px;box-shadow:var(--card-shadow);margin-bottom:32px;overflow:hidden;border:1px solid rgba(26,51,81,0.06)}
+.port-header{height:165px;position:relative;display:flex;align-items:flex-end;padding:20px 24px;overflow:hidden}
+.port-header svg{position:absolute;inset:0;width:100%;height:100%}
+.port-header-content{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;width:100%}
+.port-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:white;text-shadow:0 2px 10px rgba(0,0,0,0.45)}
+.port-country{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.78);margin-bottom:3px}
+.port-date-badge{background:rgba(0,0,0,0.28);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.22);border-radius:10px;padding:9px 15px;text-align:right;color:white;flex-shrink:0}
+.port-date-badge .pdate{font-size:14px;font-weight:600}
+.port-date-badge .ptime{font-size:11px;opacity:0.8;margin-top:2px}
+
+/* ── BADGE ── */
+.rec-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin:16px 24px 0}
+.rec-badge.hybrid{background:#EBF4FF;color:#2B6CB0}
+.rec-badge.tour-rec{background:#FFFBEB;color:#92400E}
+.rec-badge.diy-rec{background:#F0FDF4;color:#166534}
+
+/* ── PORT BODY ── */
+.port-body{padding:0 24px 26px}
+
+/* ── TABS ── */
+.tab-nav{display:flex;gap:2px;margin:16px 0 0;border-bottom:2px solid var(--parchment-dark)}
+.tab-btn{padding:10px 20px;font-size:13px;font-weight:500;color:var(--slate-light);background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.2s;border-radius:4px 4px 0 0}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--teal);font-weight:600}
+.tab-btn:hover:not(.active){color:var(--navy);background:var(--parchment)}
+.tab-content{display:none;padding-top:22px}
+.tab-content.active{display:block}
+
+/* ── DIY CONTENT ── */
+.diy-intro{font-size:14px;color:var(--slate);line-height:1.75;margin-bottom:18px}
+.diy-steps{list-style:none;margin-bottom:20px}
+.diy-step{display:flex;gap:14px;margin-bottom:13px;align-items:flex-start}
+.step-num{background:var(--navy);color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:2px}
+.step-text{font-size:14px;color:var(--slate);line-height:1.65}
+.step-text strong{color:var(--navy)}
+.food-box{background:linear-gradient(135deg,#FFF8E7,#FFFCF0);border:1px solid #F0D88C;border-radius:11px;padding:15px 18px}
+.food-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#92400E;margin-bottom:11px;font-weight:600}
+.food-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.food-tag{background:white;border:1px solid #F0D070;border-radius:100px;padding:5px 12px;font-size:12px;color:#78350F}
+.food-tip{font-size:12px;color:#78350F;line-height:1.6;font-style:italic}
+
+/* ── TOUR OPTION ── */
+.tour-intro{font-size:14px;color:var(--slate);line-height:1.75;margin-bottom:18px}
+.tour-label{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:9px}
+.tour-label.primary{background:var(--gold);color:var(--navy)}
+.tour-label.alt{background:var(--parchment-dark);color:var(--slate)}
+.tour-option{border:2px solid var(--parchment-dark);border-radius:13px;overflow:hidden;margin-bottom:18px;transition:border-color 0.2s,box-shadow 0.2s}
+.tour-option.selected{border-color:var(--teal);box-shadow:0 0 0 3px rgba(61,122,110,0.12)}
+.tour-top{padding:15px 18px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.tour-option.primary-style .tour-top{background:linear-gradient(135deg,#1A3351,#2A4A6B)}
+.tour-option:not(.primary-style) .tour-top{background:linear-gradient(135deg,#2A4A6B,#3A5A7B)}
+.tour-code-name{color:white;min-width:0}
+.tour-code{font-size:10px;letter-spacing:2px;opacity:0.65;text-transform:uppercase}
+.tour-name{font-size:15px;font-weight:600;margin-top:3px;line-height:1.3}
+.tour-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.tbadge{background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.88);font-size:10px;padding:3px 9px;border-radius:100px;border:1px solid rgba(255,255,255,0.18);white-space:nowrap}
+.tbadge.gold{background:rgba(196,154,42,0.28);border-color:rgba(196,154,42,0.45);color:#F0D070}
+.tour-price-block{text-align:right;color:white;flex-shrink:0}
+.tour-price-label{font-size:10px;opacity:0.65;margin-bottom:2px}
+.tour-price-big{font-size:24px;font-weight:700;line-height:1}
+.tour-price-disc{font-size:12px;color:var(--gold-light);margin-top:3px;display:none}
+.discount-active .tour-price-disc{display:block}
+.tour-body{padding:15px 18px 17px}
+.tour-why{font-size:13px;color:var(--slate);line-height:1.68;margin-bottom:13px}
+.tour-why strong{color:var(--navy)}
+.highlights-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:15px}
+.hl-item{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;color:var(--slate);line-height:1.45}
+.hl-item::before{content:'✦';color:var(--teal);font-size:9px;margin-top:3px;flex-shrink:0}
+.tour-footer{display:flex;align-items:center;justify-content:space-between;padding-top:13px;border-top:1px solid var(--parchment-dark);gap:10px}
+.tour-time-info{font-size:12px;color:var(--slate-light);line-height:1.5}
+.select-btn{padding:9px 22px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid var(--teal);color:var(--teal);background:white;transition:all 0.2s;display:flex;align-items:center;gap:8px;white-space:nowrap;flex-shrink:0}
+.select-btn:hover{background:var(--teal);color:white}
+.select-btn.selected{background:var(--teal);color:white}
+.chk-box{width:16px;height:16px;border:2px solid currentColor;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+
+/* ── SKIP NOTE ── */
+.skip-note{background:#FFF5F5;border:1px solid #FED7D7;border-radius:9px;padding:11px 15px;font-size:12.5px;color:#C53030;display:flex;align-items:flex-start;gap:9px;line-height:1.55}
+
+/* ── STICKY BAR ── */
+.sticky-bar{position:fixed;bottom:0;left:0;right:0;background:var(--navy);box-shadow:0 -8px 32px rgba(0,0,0,0.28);z-index:100}
+.tours-list-row{display:none;max-width:920px;margin:0 auto;padding:12px 20px 4px;flex-wrap:wrap;gap:7px}
+.tours-list-row.open{display:flex}
+.sel-tag{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:100px;padding:5px 13px;font-size:12px;color:white;display:flex;align-items:center;gap:9px}
+.sel-tag .port-label{opacity:0.6;font-size:11px}
+.sel-tag .remove-x{cursor:pointer;color:rgba(255,255,255,0.45);font-size:16px;line-height:1;transition:color 0.15s}
+.sel-tag .remove-x:hover{color:#FC8181}
+.list-toggle{display:flex;align-items:center;justify-content:center;padding:7px 0;background:rgba(255,255,255,0.04);cursor:pointer;font-size:12px;color:rgba(255,255,255,0.45);gap:6px;border-top:1px solid rgba(255,255,255,0.07);user-select:none;transition:background 0.15s}
+.list-toggle:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75)}
+.bar-main{max-width:920px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bar-count-box{background:rgba(255,255,255,0.09);color:white;border-radius:10px;padding:9px 16px;text-align:center;min-width:100px;flex-shrink:0}
+.count-num{font-size:24px;font-weight:700;color:var(--gold-light);display:block;line-height:1}
+.count-lbl{font-size:10px;opacity:0.6;text-transform:uppercase;letter-spacing:1px}
+.bar-discount-col{flex:1;min-width:150px}
+.disc-msg{font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:5px;line-height:1.4}
+.disc-msg.unlocked{color:var(--gold-light);font-weight:600}
+.bar-prog-track{background:rgba(255,255,255,0.14);border-radius:100px;height:5px}
+.bar-prog-fill{background:var(--gold);border-radius:100px;height:5px;transition:width 0.4s}
+.bar-price-col{text-align:right;flex-shrink:0;min-width:150px}
+.orig-price-line{font-size:13px;color:rgba(255,255,255,0.4);text-decoration:line-through;min-height:18px}
+.final-price-line{font-size:28px;font-weight:700;color:white;line-height:1}
+.price-note-line{font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px}
+.credit-line{font-size:11px;color:var(--teal-light);margin-top:3px}
+
+@media(max-width:600px){
+  .highlights-grid{grid-template-columns:1fr}
+  .bar-main{padding:10px 14px;gap:10px}
+  .final-price-line{font-size:22px}
+  .port-name{font-size:22px}
+  .cruise-title{font-size:24px}
+  .tour-top{flex-direction:column;gap:10px}
+  .tour-price-block{text-align:left}
+  .tour-footer{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+<div class="cruise-header">
+  <div class="cruise-sub">Oceania Insignia &nbsp;·&nbsp; May 2027</div>
+  <div class="cruise-title">Bountiful British Isles</div>
+  <div class="cruise-italic">Shore Excursion Planner</div>
+  <div class="cruise-meta">
+    <span>📅 May 16 – 27, 2027</span>
+    <span>🚢 London → London</span>
+    <span>⚓ 9 Port Days</span>
+    <span>🧭 Scotland · Ireland · England</span>
+  </div>
+</div>
+
+<div class="credit-banner">
+  💡 <strong>Your World Included™ tip:</strong> Since you don't drink, choose the <strong>$600 Shore Excursion Credit</strong> over the wine &amp; beer package — it's a straight discount on what you book below. Credit shown at bottom.
+</div>
+
+<!-- ═══════════════════════════ PACKAGE INFO ═══════════════════════════ -->
+<div class="package-info">
+  <div class="package-card">
+    <div class="package-icon">🎫</div>
+    <div class="package-text">
+      <h3>Your World Collection Package</h3>
+      <p>Book <strong style="color:var(--gold-light)">5 or more tours</strong> to unlock a <strong style="color:var(--gold-light)">25% discount</strong> across all excursions. Prices update automatically below. Package is fully refundable until sail date.</p>
+    </div>
+    <div class="discount-progress">
+      <div class="discount-label"><span id="prog-label">0 of 5 tours selected</span><span id="prog-pct">0%</span></div>
+      <div class="progress-track"><div class="progress-fill" id="main-progress"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ PORT NAV ═══════════════════════════ -->
+<div class="port-nav">
+  <a href="#edinburgh" class="port-nav-btn">🏰 Edinburgh</a>
+  <a href="#aberdeen" class="port-nav-btn">🏯 Aberdeen</a>
+  <a href="#orkney" class="port-nav-btn">🗿 Orkney</a>
+  <a href="#stornoway" class="port-nav-btn">🏖 Stornoway</a>
+  <a href="#killybegs" class="port-nav-btn">⛰ Killybegs</a>
+  <a href="#belfast" class="port-nav-btn">🪨 Belfast</a>
+  <a href="#dublin" class="port-nav-btn">🍀 Dublin</a>
+  <a href="#cork" class="port-nav-btn">⛪ Cork</a>
+  <a href="#dartmouth" class="port-nav-btn">🚂 Dartmouth</a>
+</div>
+
+<!-- ═══════════════════════════ PORTS ═══════════════════════════ -->
+<div class="ports-section">
+<div class="section-label">PORT-BY-PORT RECOMMENDATIONS — 9 PORTS</div>
+
+<!-- ══════════════ PORT 1: EDINBURGH ══════════════ -->
+<div class="port-card" id="edinburgh">
+  <div class="port-header">
+    <svg viewBox="0 0 900 165" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-edin" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1E1248"/>
+          <stop offset="100%" stop-color="#2E2260"/>
+        </linearGradient>
+      </defs>
+      <rect width="900" height="165" fill="url(#g-edin)"/>
+      <!-- Stars -->
+      <circle cx="80" cy="18" r="1.2" fill="rgba(255,255,255,0.55)"/>
+      <circle cx="220" cy="30" r="1" fill="rgba(255,255,255,0.4)"/>
+      <circle cx="380" cy="12" r="1.5" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="600" cy="22" r="1" fill="rgba(255,255,255,0.45)"/>
+      <circle cx="760" cy="8" r="1.3" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="850" cy="28" r="1" fill="rgba(255,255,255,0.4)"/>
+      <circle cx="140" cy="45" r="0.8" fill="rgba(255,255,255,0.35)"/>
+      <circle cx="690" cy="38" r="1" fill="rgba(255,255,255,0.4)"/>
+      <!-- Arthur's Seat hill mass -->
+      <path d="M580 165 L580 90 Q630 75 680 70 Q720 65 760 72 Q810 80 900 88 L900 165Z" fill="#1A1038" opacity="0.75"/>
+      <!-- Edinburgh Old Town ridge -->
+      <path d="M0 165 L0 95 Q80 90 180 85 Q280 78 360 72 Q400 68 430 62 L445 58 L460 62 Q500 70 560 78 Q580 80 580 90 Z" fill="#160E30" opacity="0.9"/>
+      <!-- Castle silhouette on rocky crag -->
+      <path d="M430 62 L430 28 L435 28 L435 20 L437 20 L437 28 L442 28 L442 20 L444 20 L444 28 L449 28 L449 20 L451 20 L451 28 L456 28 L456 20 L458 20 L458 28 L463 28 L463 20 L465 20 L465 28 L470 28 L470 20 L472 20 L472 28 L477 28 L477 22 L479 22 L479 28 L484 28 L484 22 L486 22 L486 28 L491 28 L491 18 L493 18 L493 28 L498 28 L498 22 L500 22 L500 28 L505 28 L505 32 L520 32 L520 62" fill="#0E0820" opacity="0.95"/>
+      <!-- Warm city glow on horizon -->
+      <ellipse cx="450" cy="155" rx="240" ry="45" fill="rgba(200,170,80,0.13)"/>
+      <!-- Royal Mile lights ribbon -->
+      <path d="M200 130 Q450 118 700 130" stroke="rgba(240,210,100,0.25)" stroke-width="2.5" fill="none"/>
+      <!-- Fog at base -->
+      <path d="M0 148 Q225 136 450 148 Q675 160 900 148 V165 H0Z" fill="rgba(50,35,90,0.45)"/>
+    </svg>
+    <div class="port-header-content">
+      <div>
+        <div class="port-country">Scotland</div>
+        <div class="port-name">Edinburgh</div>
+      </div>
+      <div class="port-date-badge">
+        <div class="pdate">Tue, 18 May</div>
+        <div class="ptime">7:00 AM – 7:00 PM &nbsp;(12 hrs)</div>
+      </div>
+    </div>
+  </div>
+  <div class="port-body">
+    <span class="rec-badge hybrid">⟐ Hybrid — Great DIY city · One tour for the unmissable</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('edinburgh','diy',this)">🗺 DIY Guide</button>
+      <button class="tab-btn" onclick="switchTab('edinburgh','tour',this)">🎫 Cruise Tours</button>
+    </div>
+    <div class="tab-content active" id="edinburgh-diy">
+      <p class="diy-intro">Edinburgh's Old Town is one of Europe's most walkable historic capitals. With 12 hours in port you can explore deeply on your own — the Royal Mile, St Giles' Cathedral, and the National Museum of Scotland are all free or very cheap. The tram from Newhaven pier reaches Princes Street in 15 minutes.</p>
+      <ul class="diy-steps">
+        <li class="diy-step"><span class="step-num">1</span><span class="step-text"><strong>Get to the city:</strong> Lothian Trams run from Newhaven every 8 min to Princes Street (~15 min, ~£2.50). Bus No. 11 or 16 also serve the route. No need for a taxi.</span></li>
+        <li class="diy-step"><span class="step-num">2</span><span class="step-text"><strong>Royal Mile walk:</strong> Start at Castlehill at the top and descend 1 mile to the Palace of Holyroodhouse. Every close and wynd hides something: Gladstone's Land (17th-century merchant house, free to peek), Lady Stair's Close, Canongate Kirk.</span></li>
+        <li class="diy-step"><span class="step-num">3</span><span class="step-text"><strong>St Giles' Cathedral (free):</strong> Enter the heart of Scottish history — the Thistle Chapel inside is among the most ornate Gothic spaces in Scotland, far more impressive than it looks from outside.</span></li>
+        <li class="diy-step"><span class="step-num">4</span><span class="step-text"><strong>National Museum of Scotland (FREE):</strong> On Chambers Street, just off the Royal Mile. Covers Pictish stones, Viking jewellery, Scottish inventions, and Dolly the Sheep. Easily 2 hours.</span></li>
+        <li class="diy-step"><span class="step-num">5</span><span class="step-text"><strong>Greyfriars Kirkyard (free):</strong> The famous churchyard with Greyfriars Bobby's grave, and the inspiration for Hogwarts character names. Atmospheric in any weather.</span></li>
+        <li class="diy-step"><span class="step-num">6</span><span class="step-text"><strong>Grassmarket area:</strong> Below the castle — independent shops, artisan food stalls, and Scottish wool goods. Great for authentic Scottish tablet (fudge) and Dundee marmalade.</span></li>
+      </ul>
+      <div class="food-box">
+        <div class="food-title">🍽 Only-Found-Here Bites</div>
+        <div class="food-tags">
+          <span class="food-tag">🫶 Haggis, neeps &amp; tatties</span>
+          <span class="food-tag">🥐 Scotch pie (local bakeries)</span>
+          <span class="food-tag">🍵 Cullen skink (smoked haddock soup)</span>
+          <span class="food-tag">🍬 Edinburgh tablet (sweet fudge)</span>
+          <span class="food-tag">🧀 Oatcakes with Scottish cheddar</span>
+        </div>
+        <p class="food-tip">Try <em>The Grain Store</em> near the Grassmarket for excellent Scottish produce, or <em>Deacon Brodie's Tavern</em> on the Royal Mile for traditional Scottish food at honest prices.</p>
+      </div>
+    </div>
+    <div class="tab-content" id="edinburgh-tour">
+      <p class="tour-intro">Edinburgh city is DIY-friendly — but <strong>Hopetoun House</strong> is not. This private Georgian estate (sometimes called Scotland's Versailles) has no public transport connection and requires advance private arrangement. It's the one genuine highlight near Edinburgh that you can't replicate solo. The tour pairs it perfectly with Edinburgh Castle.</p>
+      <div class="tour-label primary">⭐ Our Top Pick</div>
+      <div class="tour-option primary-style" id="to-NWH016">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">NWH-016</div>
+            <div class="tour-name">The House &amp; The Castle</div>
+            <div class="tour-badges"><span class="tbadge gold">Oceania Select</span><span class="tbadge">8 hrs</span><span class="tbadge">Moderate</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-NWH016">$299</div>
+            <div class="tour-price-disc" id="disc-NWH016">→ $224 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why"><strong>Why this beats DIY:</strong> Hopetoun House — a magnificent private estate still lived in by the Hope family since the late 1600s — is completely inaccessible without a car and advance arrangement. Inside, rooms are unchanged since the 18th century: silk-draped walls, Baroque ceilings, chandeliers, and extraordinary family portraits. The tour then gives you free time on the Royal Mile for lunch, followed by Edinburgh Castle with a guide who brings the Honours of Scotland (Britain's oldest Crown Jewels) and Mary Queen of Scots' royal chambers to life. You'd need a hire car plus separate castle tickets to replicate even half of this.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Hopetoun House — private Georgian estate (no DIY access)</div>
+            <div class="hl-item">Rooms unchanged since the 1700s — silk walls, Baroque ceilings</div>
+            <div class="hl-item">Edinburgh Castle with guided interpretation</div>
+            <div class="hl-item">Honours of Scotland — Britain's oldest Crown Jewels</div>
+            <div class="hl-item">Mary Queen of Scots' royal bedchamber</div>
+            <div class="hl-item">Free lunch time on the Royal Mile included</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">9:00 AM departure · returns ~5:30 PM</div>
+            <button class="select-btn" id="btn-NWH016" onclick="toggleTour('NWH016',299,'The House &amp; The Castle','Edinburgh')">
+              <span class="chk-box" id="chk-NWH016"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tour-label alt">Alternative — Edinburgh Castle focus</div>
+      <div class="tour-option" id="to-NWH001">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">NWH-001</div>
+            <div class="tour-name">City of Edinburgh &amp; Castle</div>
+            <div class="tour-badges"><span class="tbadge">4 hrs</span><span class="tbadge">Moderate</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-NWH001">$169</div>
+            <div class="tour-price-disc" id="disc-NWH001">→ $127 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why">A tighter 4-hour loop covering Edinburgh Castle interior with a guide, plus a panoramic coach pass of the Royal Mile and Holyroodhouse. A sensible choice if you want the castle commentary but prefer to spend most of the day exploring independently on your own.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Edinburgh Castle interior (Crown Jewels)</div>
+            <div class="hl-item">Royal bedchamber where James VI was born</div>
+            <div class="hl-item">Panoramic drive along the Royal Mile</div>
+            <div class="hl-item">Palace of Holyroodhouse exterior views</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">8:00 AM or 12:45 PM departure · 4 hrs</div>
+            <button class="select-btn" id="btn-NWH001" onclick="toggleTour('NWH001',169,'City of Edinburgh &amp; Castle','Edinburgh')">
+              <span class="chk-box" id="chk-NWH001"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PORT 2: ABERDEEN ══════════════ -->
+<div class="port-card" id="aberdeen">
+  <div class="port-header">
+    <svg viewBox="0 0 900 165" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-abe-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4A6480"/><stop offset="100%" stop-color="#5E7A98"/></linearGradient>
+        <linearGradient id="g-abe-cliff" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3A5030"/><stop offset="100%" stop-color="#24381E"/></linearGradient>
+      </defs>
+      <rect width="900" height="165" fill="url(#g-abe-sky)"/>
+      <ellipse cx="200" cy="35" rx="130" ry="28" fill="rgba(255,255,255,0.07)"/>
+      <ellipse cx="680" cy="25" rx="170" ry="22" fill="rgba(255,255,255,0.05)"/>
+      <!-- Sea -->
+      <rect x="0" y="115" width="900" height="50" fill="#1A3A5C" opacity="0.7"/>
+      <path d="M0 120 Q225 112 450 120 Q675 128 900 120" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" fill="none"/>
+      <!-- Cliff mass -->
+      <path d="M270 115 L270 80 Q295 72 320 66 L355 62 L355 44 L375 38 L375 32 L390 32 L390 24 L396 24 L396 18 L412 18 L412 21 L422 17 L432 21 L432 12 L442 12 L442 20 L452 20 L452 28 L462 28 L462 36 L478 36 L478 42 L498 47 L498 52 Q516 55 538 64 L580 74 L610 86 L640 100 L640 115Z" fill="url(#g-abe-cliff)" opacity="0.9"/>
+      <!-- Castle ruins -->
+      <path d="M390 32 L390 8 L395 8 L395 2 L397 2 L397 8 L403 8 L403 2 L405 2 L405 8 L411 8 L411 2 L413 2 L413 8 L419 8 L419 2 L421 2 L421 8 L427 8 L427 2 L429 2 L429 8 L435 8 L435 2 L437 2 L437 8 L443 8 L443 2 L445 2 L445 8 L451 8 L451 14 L462 14 L462 32" fill="#0E1C0A" opacity="0.95"/>
+      <rect x="400" y="14" width="5" height="6" fill="#4A8C7F" opacity="0.5"/>
+      <rect x="413" y="14" width="5" height="6" fill="#4A8C7F" opacity="0.5"/>
+      <!-- Ruined section -->
+      <path d="M432 8 L448 4 L458 8" stroke="#0E1C0A" stroke-width="3" fill="none" opacity="0.9"/>
+      <path d="M0 148 Q225 138 450 148 Q675 158 900 148 V165 H0Z" fill="rgba(80,110,140,0.3)"/>
+    </svg>
+    <div class="port-header-content">
+      <div><div class="port-country">Scotland</div><div class="port-name">Aberdeen</div></div>
+      <div class="port-date-badge"><div class="pdate">Wed, 19 May</div><div class="ptime">7:00 AM – 5:00 PM &nbsp;(10 hrs)</div></div>
+    </div>
+  </div>
+  <div class="port-body">
+    <span class="rec-badge tour-rec">🏰 Tour Recommended — Best sight needs transport</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('aberdeen','diy',this)">🗺 DIY Option</button>
+      <button class="tab-btn" onclick="switchTab('aberdeen','tour',this)">🎫 Cruise Tours</button>
+    </div>
+    <div class="tab-content active" id="aberdeen-diy">
+      <p class="diy-intro">Aberdeen city is walkable from the port — the glittering granite buildings of Union Street, the David Welch Winter Gardens (Europe's largest indoor garden, free), and the quirky fishing village of Footdee are all accessible on foot. However, the undisputed highlight — Dunnottar Castle on its dramatic sea cliff — is 15 miles south and unreachable by bus in any practical timeframe. The city itself is worth a morning stroll, but plan your tour first.</p>
+      <ul class="diy-steps">
+        <li class="diy-step"><span class="step-num">1</span><span class="step-text"><strong>Aberdeen Harbour &amp; Fish Market:</strong> Walk the working docks in the morning — Aberdeen is one of Scotland's busiest fishing ports. Raw, atmospheric, and free.</span></li>
+        <li class="diy-step"><span class="step-num">2</span><span class="step-text"><strong>Marischal College (free to view):</strong> The world's second-largest granite building, its Gothic façade gleaming with reflective quartz particles in sunlight. Extraordinary.</span></li>
+        <li class="diy-step"><span class="step-num">3</span><span class="step-text"><strong>David Welch Winter Gardens (FREE):</strong> Massive interconnected greenhouses with tropical plants, cacti, and the famous talking cactus "Spike." Genuinely one of Aberdeen's best free attractions.</span></li>
+        <li class="diy-step"><span class="step-num">4</span><span class="step-text"><strong>Footdee (Fittie):</strong> Walk to the harbour mouth to find this 19th-century fishermen's village — cramped, colourful cottages whose residents turn their front doors away from the sea. Completely unchanged.</span></li>
+      </ul>
+      <div class="food-box">
+        <div class="food-title">🍽 Only-Found-Here Bites</div>
+        <div class="food-tags">
+          <span class="food-tag">🥧 Aberdeen Buttery (rowie) — salty, flaky roll, unique to this city</span>
+          <span class="food-tag">🐟 Arbroath smokie (hot-smoked haddock)</span>
+          <span class="food-tag">🍵 Scotch broth in a local café</span>
+          <span class="food-tag">🧀 Aberdeenshire farmhouse cheese</span>
+        </div>
+        <p class="food-tip"><em>Don't leave without trying an Aberdeen Rowie (Buttery)</em> — a uniquely salty, flaky pastry roll found in every local bakery and nowhere else in the world. The <em>Ashvale Fish Restaurant</em> is Aberdeen's legendary fish and chip institution.</p>
+      </div>
+    </div>
+    <div class="tab-content" id="aberdeen-tour">
+      <p class="tour-intro">Dunnottar Castle — medieval ruins clinging to a sheer 160-foot sea cliff with the North Sea on three sides — is the kind of sight that stops people mid-sentence. It sheltered the Scottish Crown Jewels from Cromwell's army. It's completely unreachable without a car, 15 miles south of Aberdeen.</p>
+      <div class="tour-label primary">⭐ Our Top Pick</div>
+      <div class="tour-option primary-style" id="to-ABE002">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">ABE-002</div>
+            <div class="tour-name">The Castle and the Coast</div>
+            <div class="tour-badges"><span class="tbadge">4 hrs</span><span class="tbadge">Moderate walking</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-ABE002">$119</div>
+            <div class="tour-price-disc" id="disc-ABE002">→ $89 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why"><strong>Why this beats DIY:</strong> Dunnottar is inaccessible by bus. A taxi costs ~£40 return and leaves you without a guide. The Crown Jewels were smuggled out disguised as a minister's wife's washing in 1651 — the kind of story that needs telling. The included free time in Stonehaven harbour is a genuine bonus: a pretty coastal town where you can find excellent local fish and chips from boats that came in that morning.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Dunnottar Castle — dramatic ruins on a 160-ft sea cliff</div>
+            <div class="hl-item">Story of the Scottish Crown Jewels hidden here from Cromwell</div>
+            <div class="hl-item">Three sides of sheer cliff, North Sea panorama</div>
+            <div class="hl-item">Stonehaven harbour free time</div>
+            <div class="hl-item">Countryside drive south of Aberdeen</div>
+            <div class="hl-item">Returns by ~12 PM — afternoon free in Aberdeen</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">8:00 AM departure · 4 hrs · returns ~12 PM</div>
+            <button class="select-btn" id="btn-ABE002" onclick="toggleTour('ABE002',119,'The Castle and the Coast','Aberdeen')">
+              <span class="chk-box" id="chk-ABE002"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tour-label alt">Alternative — Intact Castle &amp; Walled Gardens</div>
+      <div class="tour-option" id="to-ABE003">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">ABE-003</div>
+            <div class="tour-name">Crathes Castle and Gardens</div>
+            <div class="tour-badges"><span class="tbadge">3.5 hrs</span><span class="tbadge">Moderate walking</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-ABE003">$129</div>
+            <div class="tour-price-disc" id="disc-ABE003">→ $97 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why">A gorgeous intact turreted 16th-century castle on a Royal Deeside estate given to the Burnett family by Robert the Bruce in 1323. Remarkable painted ceilings inside, a jewel-encrusted ivory horn (Robert the Bruce's gift) in the Great Hall, and a spectacular walled garden with topiary hedges planted centuries ago.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">16th-century turreted castle interior</div>
+            <div class="hl-item">Extraordinary painted ceilings</div>
+            <div class="hl-item">Robert the Bruce's jewelled ivory Horn of Leys</div>
+            <div class="hl-item">Walled garden with centuries-old topiary</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">9:15 AM departure · 3.5 hrs</div>
+            <button class="select-btn" id="btn-ABE003" onclick="toggleTour('ABE003',129,'Crathes Castle and Gardens','Aberdeen')">
+              <span class="chk-box" id="chk-ABE003"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PORT 3: ORKNEY ══════════════ -->
+<div class="port-card" id="orkney">
+  <div class="port-header">
+    <svg viewBox="0 0 900 165" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-ork-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C4845A"/><stop offset="60%" stop-color="#E09068"/><stop offset="100%" stop-color="#C87858"/></linearGradient>
+        <linearGradient id="g-ork-land" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4A5C38"/><stop offset="100%" stop-color="#283820"/></linearGradient>
+      </defs>
+      <rect width="900" height="165" fill="url(#g-ork-sky)"/>
+      <path d="M0 55 Q200 42 400 55 Q600 68 900 50" stroke="rgba(255,200,130,0.28)" stroke-width="8" fill="none"/>
+      <path d="M0 70 Q300 58 600 70 Q780 78 900 68" stroke="rgba(255,180,100,0.18)" stroke-width="5" fill="none"/>
+      <path d="M0 165 L0 108 Q200 100 450 104 Q700 108 900 102 L900 165Z" fill="url(#g-ork-land)"/>
+      <path d="M140 128 Q240 122 295 128 Q350 134 140 128Z" fill="rgba(200,150,80,0.18)"/>
+      <!-- Standing stones: Ring of Brodgar style -->
+      <rect x="355" y="82" width="6" height="26" rx="2" fill="#1E1608" opacity="0.88"/>
+      <rect x="371" y="86" width="5" height="22" rx="2" fill="#1E1608" opacity="0.85"/>
+      <rect x="386" y="80" width="6" height="28" rx="2" fill="#1E1608" opacity="0.88"/>
+      <rect x="401" y="84" width="5" height="24" rx="2" fill="#1E1608" opacity="0.85"/>
+      <rect x="416" y="78" width="6" height="30" rx="2" fill="#1E1608" opacity="0.90"/>
+      <rect x="431" y="83" width="5" height="25" rx="2" fill="#1E1608" opacity="0.85"/>
+      <rect x="446" y="81" width="6" height="27" rx="2" fill="#1E1608" opacity="0.88"/>
+      <rect x="461" y="85" width="5" height="23" rx="2" fill="#1E1608" opacity="0.85"/>
+      <rect x="476" y="79" width="6" height="29" rx="2" fill="#1E1608" opacity="0.88"/>
+      <rect x="491" y="84" width="5" height="24" rx="2" fill="#1E1608" opacity="0.85"/>
+      <rect x="506" y="82" width="6" height="26" rx="2" fill="#1E1608" opacity="0.88"/>
+      <rect x="521" y="86" width="5" height="22" rx="2" fill="#1E1608" opacity="0.85"/>
+      <!-- Dawn glow behind stones -->
+      <ellipse cx="438" cy="108" rx="100" ry="18" fill="rgba(220,160,60,0.18)"/>
+    </svg>
+    <div class="port-header-content">
+      <div><div class="port-country">Orkney Islands, Scotland</div><div class="port-name">Kirkwall</div></div>
+      <div class="port-date-badge"><div class="pdate">Thu, 20 May</div><div class="ptime">7:00 AM – 5:00 PM &nbsp;(10 hrs)</div></div>
+    </div>
+  </div>
+  <div class="port-body">
+    <span class="rec-badge hybrid">⟐ Hybrid — DIY the town · Tour the UNESCO Neolithic sites</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('orkney','diy',this)">🗺 DIY Guide</button>
+      <button class="tab-btn" onclick="switchTab('orkney','tour',this)">🎫 Cruise Tours</button>
+    </div>
+    <div class="tab-content active" id="orkney-diy">
+      <p class="diy-intro">Kirkwall town is an exceptional DIY option — the cruise pier is practically in the town centre, just 5–10 minutes' walk from St Magnus Cathedral. The Romanesque cathedral (free), Bishop's Palace ruins, and Earl's Palace are all within 10 minutes. Save your morning for the town; afternoon for the Neolithic tour.</p>
+      <ul class="diy-steps">
+        <li class="diy-step"><span class="step-num">1</span><span class="step-text"><strong>St Magnus Cathedral (free):</strong> Founded 1137, this red-and-yellow sandstone Romanesque cathedral is among the finest in Britain. Climb the tower for panoramic Kirkwall views.</span></li>
+        <li class="diy-step"><span class="step-num">2</span><span class="step-text"><strong>Bishop's &amp; Earl's Palace ruins (£6 each):</strong> Right next to the cathedral. The Earl's Palace (1607) is considered one of the finest pieces of Renaissance architecture in Scotland — hauntingly intact in its ruined state.</span></li>
+        <li class="diy-step"><span class="step-num">3</span><span class="step-text"><strong>Tankerness House Museum (free):</strong> Excellent overview of Orkney's 6,000 years of history — Vikings, Neolithic people, WWII — in a beautifully preserved 16th-century merchant house.</span></li>
+        <li class="diy-step"><span class="step-num">4</span><span class="step-text"><strong>Kirkwall's flagstone lanes:</strong> Simply wander — independent shops sell Orkney Cheddar, hot-smoked salmon, and Highland Park chocolate truffles (the distillery's confectionery range).</span></li>
+      </ul>
+      <div class="food-box">
+        <div class="food-title">🍽 Only-Found-Here Bites</div>
+        <div class="food-tags">
+          <span class="food-tag">🧀 Orkney Cheddar (rich, grassy flavour)</span>
+          <span class="food-tag">🐟 Orkney hot-smoked salmon</span>
+          <span class="food-tag">🍫 Highland Park chocolate truffles</span>
+          <span class="food-tag">🥧 Bere bannocks (ancient barley flatbread)</span>
+        </div>
+        <p class="food-tip"><em>Judith Glue</em> on Broad Street has a café serving excellent soups and local produce and a shop full of distinctive Orkney crafts and knitwear.</p>
+      </div>
+    </div>
+    <div class="tab-content" id="orkney-tour">
+      <p class="tour-intro">The Heart of Neolithic Orkney — Ring of Brodgar, Skara Brae, Maeshowe — is a UNESCO World Heritage Site of global significance. These 5,000-year-old monuments predate the Egyptian pyramids. They are spread across Mainland island and effectively unreachable without a tour or hire car.</p>
+      <div class="tour-label primary">⭐ Our Top Pick</div>
+      <div class="tour-option primary-style" id="to-KOI001">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">KOI-001</div>
+            <div class="tour-name">Ancient Treasures of Orkney</div>
+            <div class="tour-badges"><span class="tbadge">4 hrs</span><span class="tbadge">Moderate walking</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-KOI001">$149</div>
+            <div class="tour-price-disc" id="disc-KOI001">→ $112 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why"><strong>Why this beats DIY:</strong> The Ring of Brodgar is 5 miles from Kirkwall; Skara Brae is another 3 miles beyond that. Buses serve the route infrequently and would take half your day in transit alone. Skara Brae (a complete stone village buried under sand dunes for millennia, uncovered by a storm in 1850) is jaw-dropping with context a guide provides. Skaill House — a 1620 manor built directly on top of a pre-Norse burial ground — adds a human contrast to the archaeology.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Ring of Brodgar — massive stone circle, 5,000 years old</div>
+            <div class="hl-item">Standing Stones of Stenness (UNESCO)</div>
+            <div class="hl-item">Skara Brae — complete Neolithic village under the dunes</div>
+            <div class="hl-item">Skaill House — 1620 manor on prehistoric burial ground</div>
+            <div class="hl-item">Scapa Flow coast — WWII German fleet scuttling stories</div>
+            <div class="hl-item">Rolling Orkney landscape throughout</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">9:00 AM or 12:00 PM departure · 4 hrs</div>
+            <button class="select-btn" id="btn-KOI001" onclick="toggleTour('KOI001',149,'Ancient Treasures of Orkney','Kirkwall')">
+              <span class="chk-box" id="chk-KOI001"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tour-label alt">Also Consider — Pair with morning DIY</div>
+      <div class="tour-option" id="to-KOI006">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">KOI-006</div>
+            <div class="tour-name">South Island Panoramic (Italian Chapel)</div>
+            <div class="tour-badges"><span class="tbadge">2.5 hrs</span><span class="tbadge">Easy</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-KOI006">$109</div>
+            <div class="tour-price-disc" id="disc-KOI006">→ $82 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why">The Italian Chapel — a corrugated iron hut transformed into a breathtakingly beautiful hand-painted chapel by Italian POWs during WWII — is one of Orkney's most moving sites. Paired with morning DIY in Kirkwall, this short afternoon tour fills the day beautifully without overlap.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Italian Chapel — WWII POW artistry of astonishing beauty</div>
+            <div class="hl-item">Churchill Barriers — WWII rock causeways</div>
+            <div class="hl-item">St. Margaret's Hope village — free time &amp; craft shops</div>
+            <div class="hl-item">Scapa Flow coastal views throughout</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">8:30 AM or 2:00 PM departure · 2.5 hrs</div>
+            <button class="select-btn" id="btn-KOI006" onclick="toggleTour('KOI006',109,'South Island Panoramic (Italian Chapel)','Kirkwall')">
+              <span class="chk-box" id="chk-KOI006"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PORT 4: STORNOWAY ══════════════ -->
+<div class="port-card" id="stornoway">
+  <div class="port-header">
+    <svg viewBox="0 0 900 165" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-stor-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1A6C8C"/><stop offset="100%" stop-color="#2A8EAE"/></linearGradient>
+        <linearGradient id="g-stor-sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4EC0DE"/><stop offset="100%" stop-color="#2A9EC4"/></linearGradient>
+      </defs>
+      <rect width="900" height="165" fill="url(#g-stor-sky)"/>
+      <!-- Mountains Harris -->
+      <path d="M0 165 L0 92 Q80 70 160 78 Q240 86 320 68 Q380 54 440 62 Q500 70 580 76 Q660 82 740 72 Q820 62 900 70 L900 165Z" fill="#1A4A38" opacity="0.72"/>
+      <!-- Turquoise sea -->
+      <path d="M0 165 L0 128 Q225 116 450 128 Q675 140 900 126 L900 165Z" fill="url(#g-stor-sea)" opacity="0.88"/>
+      <!-- White sand beach -->
+      <path d="M140 165 L140 138 Q290 128 450 136 Q560 141 620 136 L620 165Z" fill="#F5F0E0" opacity="0.75"/>
+      <!-- Wave sparkles -->
+      <path d="M60 132 Q225 122 420 132" stroke="rgba(255,255,255,0.38)" stroke-width="1.5" fill="none"/>
+      <path d="M300 138 Q500 128 720 138" stroke="rgba(255,255,255,0.28)" stroke-width="1" fill="none"/>
+      <!-- Seabirds -->
+      <path d="M680 48 Q690 43 700 48 M714 36 Q724 31 734 36 M748 52 Q758 47 768 52" stroke="white" stroke-width="1.5" fill="none" opacity="0.55"/>
+      <!-- Taransay island silhouette -->
+      <path d="M700 100 Q750 88 790 94 Q820 98 840 105 L840 165 L700 165Z" fill="#1A4028" opacity="0.5"/>
+    </svg>
+    <div class="port-header-content">
+      <div><div class="port-country">Outer Hebrides, Scotland</div><div class="port-name">Stornoway</div></div>
+      <div class="port-date-badge"><div class="pdate">Fri, 21 May</div><div class="ptime">7:00 AM – 2:00 PM &nbsp;⚠️ 7 hrs</div></div>
+    </div>
+  </div>
+  <div class="port-body">
+    <span class="rec-badge tour-rec">⚠️ Short Day — Book early tour, explore town after</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('stornoway','diy',this)">🗺 DIY Guide</button>
+      <button class="tab-btn" onclick="switchTab('stornoway','tour',this)">🎫 Cruise Tours</button>
+    </div>
+    <div class="tab-content active" id="stornoway-diy">
+      <p class="diy-intro"><strong>Important:</strong> Ship departs at 2:00 PM — you need to be aboard by ~1:00–1:15 PM at the latest. The spectacular Harris beaches and Callanish Stones are both 45–60 minutes by car from Stornoway: DIY is not practical on this short day unless you stay in town. Stornoway town itself, though, is wonderful and perfectly walkable from the pier.</p>
+      <ul class="diy-steps">
+        <li class="diy-step"><span class="step-num">1</span><span class="step-text"><strong>Lews Castle Grounds (free):</strong> A 5-minute walk from the pier across the harbour. The Victorian Gothic castle (now a hotel) is private, but the forested grounds and loch-side paths are beautiful in spring morning light.</span></li>
+        <li class="diy-step"><span class="step-num">2</span><span class="step-text"><strong>Stornoway town centre:</strong> Walk the pedestrian streets. The local bakeries open early — find a Stornoway Black Pudding roll, which is the most famous food product of the entire Hebrides, protected by EU origin status.</span></li>
+        <li class="diy-step"><span class="step-num">3</span><span class="step-text"><strong>Harris Tweed Hebrides (if open):</strong> Stornoway has shops selling genuine Harris Tweed — the only cloth in the world still handwoven by islanders in their own homes under a protected designation.</span></li>
+      </ul>
+      <div class="food-box">
+        <div class="food-title">🍽 Only-Found-Here Bites (Stornoway's own)</div>
+        <div class="food-tags">
+          <span class="food-tag">🖤 Stornoway Black Pudding (PDO-protected)</span>
+          <span class="food-tag">🐟 Lewis hot-smoked salmon</span>
+          <span class="food-tag">🦞 Hebridean langoustines</span>
+          <span class="food-tag">🧶 Harris Tweed (unique craft, buy direct)</span>
+        </div>
+        <p class="food-tip"><em>Stornoway Black Pudding</em> has Protected Designation of Origin status — it can only be made in Lewis by producers holding generations-old recipes. Available in every local butcher and bakery.</p>
+      </div>
+    </div>
+    <div class="tab-content" id="stornoway-tour">
+      <p class="tour-intro">Luskentyre Beach on Harris looks more like the Maldives than Scotland: white sand, turquoise water, mountains behind. It is 45 minutes by car south of Stornoway with no bus. The <strong>Breathtaking Harris</strong> tour departs at 7:30 AM and returns at ~12:30 PM — perfectly timed for your 2 PM departure.</p>
+      <div class="tour-label primary">⭐ Our Top Pick</div>
+      <div class="tour-option primary-style" id="to-SYY001">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">SYY-001</div>
+            <div class="tour-name">Breathtaking Harris</div>
+            <div class="tour-badges"><span class="tbadge gold">Oceania Select</span><span class="tbadge">5 hrs</span><span class="tbadge">Minimal walking</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-SYY001">$259</div>
+            <div class="tour-price-disc" id="disc-SYY001">→ $194 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why"><strong>Why this beats DIY:</strong> Horgabost Beach on Luskentyre Bay requires a 45-minute drive on single-track road — there is no bus service to Harris. The coastal scenery (fjord-like sea lochs, sheer mountains, ancient rocks) is the most dramatic on the entire cruise. The Harris Tweed Hebrides shop stop in Tarbert lets you see the famous cloth woven and buy direct from the source. Departs 7:30 AM, back by ~12:30 PM: a perfect fit for your 2 PM departure.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Horgabost Beach — Caribbean-turquoise water, no DIY access</div>
+            <div class="hl-item">Taransay island view — Scotland's most beautiful uninhabited island</div>
+            <div class="hl-item">Harris Tweed shop in Tarbert (buy authentic cloth direct)</div>
+            <div class="hl-item">Mountain road panoramas across Harris</div>
+            <div class="hl-item">Sea loch fjord views throughout the drive</div>
+            <div class="hl-item">Wildlife: otters and eagles possible</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">7:30 AM departure · returns ~12:30 PM ✓ (ship departs 2:00 PM)</div>
+            <button class="select-btn" id="btn-SYY001" onclick="toggleTour('SYY001',259,'Breathtaking Harris','Stornoway')">
+              <span class="chk-box" id="chk-SYY001"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tour-label alt">Alternative — Callanish Stones focus (shorter)</div>
+      <div class="tour-option" id="to-SYY002">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">SYY-002</div>
+            <div class="tour-name">Scenic Lewis — Callanish Stones &amp; Arnol Blackhouse</div>
+            <div class="tour-badges"><span class="tbadge">3 hrs</span><span class="tbadge">Limited walking</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-SYY002">$139</div>
+            <div class="tour-price-disc" id="disc-SYY002">→ $104 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why">The Calanais Standing Stones on Lewis are believed to be older than Stonehenge and are arguably more architecturally complex. The Arnol Blackhouse shows how Hebridean crofting families lived in thatched long-houses shared with livestock. Returns by ~10:30 AM, leaving time to explore Stornoway town before the ship departs.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Calanais Stones — potentially older and more complex than Stonehenge</div>
+            <div class="hl-item">Arnol Blackhouse — traditional thatched crofting dwelling</div>
+            <div class="hl-item">Cross-island drive: tiny lochs and wild moorland</div>
+            <div class="hl-item">Returns by 10:30 AM for Stornoway exploration</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">7:30 AM departure · 3 hrs · returns ~10:30 AM</div>
+            <button class="select-btn" id="btn-SYY002" onclick="toggleTour('SYY002',139,'Scenic Lewis — Callanish Stones','Stornoway')">
+              <span class="chk-box" id="chk-SYY002"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PORT 5: KILLYBEGS ══════════════ -->
+<div class="port-card" id="killybegs">
+  <div class="port-header">
+    <svg viewBox="0 0 900 165" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-kill-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#A8C4E0"/><stop offset="100%" stop-color="#7EA8C8"/></linearGradient>
+        <linearGradient id="g-kill-cliff" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3A5C30"/><stop offset="100%" stop-color="#24401C"/></linearGradient>
+      </defs>
+      <rect width="900" height="165" fill="url(#g-kill-sky)"/>
+      <!-- Massive cliff face -->
+      <path d="M180 165 L180 32 L210 18 L230 24 L252 8 L272 15 L298 3 L318 12 L342 6 L365 18 L388 12 L412 24 L435 16 L458 30 L480 22 L504 36 L528 28 L556 44 L585 38 L620 55 L662 68 L710 84 L900 105 L900 165Z" fill="url(#g-kill-cliff)" opacity="0.93"/>
+      <!-- Cliff face vertical striations -->
+      <path d="M260 8 L260 90 M310 3 L310 70 M360 6 L360 80 M410 12 L410 90 M460 16 L460 100" stroke="rgba(0,0,0,0.08)" stroke-width="2" fill="none"/>
+      <!-- Sea at base -->
+      <rect x="0" y="122" width="900" height="43" fill="#1A5A80" opacity="0.62"/>
+      <path d="M0 128 Q225 120 450 128 Q675 136 900 126" stroke="rgba(255,255,255,0.22)" stroke-width="2" fill="none"/>
+      <!-- Waves crashing on cliff -->
+      <ellipse cx="200" cy="122" rx="22" ry="6" fill="white" opacity="0.28"/>
+      <ellipse cx="320" cy="125" rx="16" ry="5" fill="white" opacity="0.20"/>
+      <ellipse cx="180" cy="128" rx="12" ry="4" fill="white" opacity="0.18"/>
+      <!-- Birds -->
+      <path d="M80 30 Q90 25 100 30 M108 18 Q118 13 128 18" stroke="rgba(30,60,90,0.52)" stroke-width="1.5" fill="none"/>
+      <!-- Distant cliffs on right suggesting scale -->
+      <path d="M820 80 Q860 65 900 72 L900 105Z" fill="#2A4820" opacity="0.6"/>
+    </svg>
+    <div class="port-header-content">
+      <div><div class="port-country">County Donegal, Ireland</div><div class="port-name">Killybegs</div></div>
+      <div class="port-date-badge"><div class="pdate">Sat, 22 May</div><div class="ptime">8:00 AM – 4:00 PM &nbsp;(8 hrs)</div></div>
+    </div>
+  </div>
+  <div class="port-body">
+    <span class="rec-badge hybrid">⟐ Hybrid — Tour the Cliffs · DIY the harbour for food</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('killybegs','diy',this)">🗺 DIY Guide</button>
+      <button class="tab-btn" onclick="switchTab('killybegs','tour',this)">🎫 Cruise Tours</button>
+    </div>
+    <div class="tab-content active" id="killybegs-diy">
+      <p class="diy-intro">Killybegs is Ireland's largest fishing port — and that means extraordinary fresh seafood right off the boats. The town itself is charming in an unassuming way. Perfect for a DIY lunch after a morning excursion to the cliffs. Walk the harbour, watch the trawlers unload, and eat very well for very little.</p>
+      <ul class="diy-steps">
+        <li class="diy-step"><span class="step-num">1</span><span class="step-text"><strong>Killybegs Harbour:</strong> Walk the working fish quays. The sheer volume of deep-sea trawlers here is extraordinary — Ireland's premier fishing port in full working operation.</span></li>
+        <li class="diy-step"><span class="step-num">2</span><span class="step-text"><strong>Seafood lunch:</strong> <em>The Sail Inn</em> or <em>Melly's</em> on Main Street serve fish chowder made with that morning's catch — some of the freshest seafood in Ireland.</span></li>
+        <li class="diy-step"><span class="step-num">3</span><span class="step-text"><strong>Killybegs town walk:</strong> The town is also renowned for hand-tufted Donegal carpets that have furnished Buckingham Palace and the White House. Look for craft shops on the main street.</span></li>
+        <li class="diy-step"><span class="step-num">4</span><span class="step-text"><strong>Kilcar village (taxi, ~€15):</strong> A 10-minute drive west, this village is the centre of Donegal tweed weaving — independent studios sell cloth and knitwear directly.</span></li>
+      </ul>
+      <div class="food-box">
+        <div class="food-title">🍽 Only-Found-Here Bites (Killybegs)</div>
+        <div class="food-tags">
+          <span class="food-tag">🍲 Donegal fish chowder (brown soda bread essential)</span>
+          <span class="food-tag">🐟 Fresh haddock &amp; chips from the harbour</span>
+          <span class="food-tag">🦞 Killybegs langoustines (Dublin Bay prawns)</span>
+          <span class="food-tag">🍞 Brown soda bread (baked fresh daily)</span>
+        </div>
+        <p class="food-tip">The fish chowder at Killybegs — made with that morning's catch — is one of the most honest and delicious things you'll eat on the entire cruise. Don't skip it.</p>
+      </div>
+    </div>
+    <div class="tab-content" id="killybegs-tour">
+      <p class="tour-intro">The <strong>Sliabh Liag Cliffs</strong> rise 601 metres from the Atlantic — nearly <em>three times</em> the height of the Cliffs of Moher — with a fraction of the crowds. Standing at the top is like standing at the edge of the world. They are completely unreachable without a car, 30 km from Killybegs.</p>
+      <div class="tour-label primary">⭐ Our Top Pick</div>
+      <div class="tour-option primary-style" id="to-K1L002">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">K1L-002</div>
+            <div class="tour-name">The Wild Sliabh Liag Cliffs</div>
+            <div class="tour-badges"><span class="tbadge">3.5 hrs</span><span class="tbadge">Moderate uphill</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-K1L002">$159</div>
+            <div class="tour-price-disc" id="disc-K1L002">→ $119 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why"><strong>Why this beats DIY:</strong> No public transport reaches Sliabh Liag. A taxi from Killybegs costs ~€70 return and provides no guide. At 601m these are among the highest sea cliffs in Europe — on clear days you can see Sligo and the Mayo Mountains. The guide explains the ancient pilgrimage route and mysterious stone remains at the summit. Includes scones and tea at the local Tí Linn Café, and leaves plenty of time back in Killybegs for a harbour seafood lunch.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">601m cliffs — nearly 3× higher than Cliffs of Moher</div>
+            <div class="hl-item">Views to Sligo and the Mayo Mountains on clear days</div>
+            <div class="hl-item">Ancient pilgrimage route with mysterious stone remains</div>
+            <div class="hl-item">Scones &amp; tea at local Tí Linn Café included</div>
+            <div class="hl-item">Wild Donegal coastal scenery throughout</div>
+            <div class="hl-item">Returns in time for harbour seafood lunch</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">8:45 AM or 10:00 AM departure · 3.5 hrs</div>
+            <button class="select-btn" id="btn-K1L002" onclick="toggleTour('K1L002',159,'The Wild Sliabh Liag Cliffs','Killybegs')">
+              <span class="chk-box" id="chk-K1L002"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tour-label alt">Alternative — Culture, Craft &amp; Traditional Music</div>
+      <div class="tour-option" id="to-K1L008">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">K1L-008</div>
+            <div class="tour-name">Wild Donegal &amp; Glencolmcille Folk Village</div>
+            <div class="tour-badges"><span class="tbadge">Meal incl.</span><span class="tbadge">3.75 hrs</span><span class="tbadge">Moderate</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-K1L008">$159</div>
+            <div class="tour-price-disc" id="disc-K1L008">→ $119 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why">If the clifftop walk sounds strenuous, this cultural alternative visits Glencolmcille Folk Village — an outdoor museum of thatched blackhouses replicating rural Donegal life from the 1700s–1900s. Includes traditional music, scones and tea, a thatched pub and fisherman's cottage. Meal included. Panoramic Donegal scenery throughout.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Glencolmcille thatched folk village (18th–20th century)</div>
+            <div class="hl-item">Traditional Irish music performance</div>
+            <div class="hl-item">Scones, tea &amp; home remedy talk (meal included)</div>
+            <div class="hl-item">Scenic Donegal coastal panoramic drive</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">8:30 AM departure · 3.75 hrs</div>
+            <button class="select-btn" id="btn-K1L008" onclick="toggleTour('K1L008',159,'Wild Donegal &amp; Glencolmcille','Killybegs')">
+              <span class="chk-box" id="chk-K1L008"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PORT 6: BELFAST ══════════════ -->
+<div class="port-card" id="belfast">
+  <div class="port-header">
+    <svg viewBox="0 0 900 165" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-bfs-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1C4A5C"/><stop offset="100%" stop-color="#2A6882"/></linearGradient>
+      </defs>
+      <rect width="900" height="165" fill="url(#g-bfs-sky)"/>
+      <!-- Ocean -->
+      <path d="M0 90 Q225 80 450 90 Q675 100 900 85 V165 H0Z" fill="#0E2A3A" opacity="0.6"/>
+      <path d="M0 85 Q200 78 450 85 Q700 92 900 80" stroke="rgba(100,180,220,0.22)" stroke-width="2" fill="none"/>
+      <!-- Basalt columns -->
+      <rect x="0"   y="68" width="29" height="97" rx="4" fill="#2A3C28"/>
+      <rect x="31"  y="58" width="29" height="107" rx="4" fill="#324A30"/>
+      <rect x="62"  y="72" width="29" height="93" rx="4" fill="#2A3C28"/>
+      <rect x="93"  y="60" width="29" height="105" rx="4" fill="#3A5035"/>
+      <rect x="124" y="68" width="29" height="97" rx="4" fill="#2A3C28"/>
+      <rect x="155" y="56" width="29" height="109" rx="4" fill="#324A30"/>
+      <rect x="186" y="70" width="29" height="95" rx="4" fill="#2A3C28"/>
+      <rect x="217" y="62" width="29" height="103" rx="4" fill="#3A5035"/>
+      <rect x="248" y="68" width="29" height="97" rx="4" fill="#2A3C28"/>
+      <rect x="279" y="57" width="29" height="108" rx="4" fill="#324A30"/>
+      <rect x="310" y="64" width="29" height="101" rx="4" fill="#2A3C28"/>
+      <rect x="341" y="59" width="29" height="106" rx="4" fill="#3A5035"/>
+      <rect x="372" y="67" width="29" height="98" rx="4" fill="#2A3C28"/>
+      <rect x="403" y="55" width="29" height="110" rx="4" fill="#324A30"/>
+      <rect x="434" y="66" width="29" height="99" rx="4" fill="#2A3C28"/>
+      <rect x="465" y="61" width="29" height="104" rx="4" fill="#3A5035"/>
+      <rect x="496" y="69" width="29" height="96" rx="4" fill="#2A3C28"/>
+      <rect x="527" y="57" width="29" height="108" rx="4" fill="#324A30"/>
+      <rect x="558" y="65" width="29" height="100" rx="4" fill="#2A3C28"/>
+      <rect x="589" y="60" width="29" height="105" rx="4" fill="#3A5035"/>
+      <rect x="620" y="68" width="29" height="97" rx="4" fill="#2A3C28"/>
+      <rect x="651" y="56" width="29" height="109" rx="4" fill="#324A30"/>
+      <rect x="682" y="63" width="29" height="102" rx="4" fill="#2A3C28"/>
+      <rect x="713" y="60" width="29" height="105" rx="4" fill="#3A5035"/>
+      <rect x="744" y="67" width="29" height="98" rx="4" fill="#2A3C28"/>
+      <rect x="775" y="57" width="29" height="108" rx="4" fill="#324A30"/>
+      <rect x="806" y="65" width="29" height="100" rx="4" fill="#2A3C28"/>
+      <rect x="837" y="61" width="29" height="104" rx="4" fill="#3A5035"/>
+      <rect x="868" y="68" width="32" height="97" rx="4" fill="#2A3C28"/>
+      <!-- Horizon glow -->
+      <ellipse cx="450" cy="85" rx="320" ry="18" fill="rgba(80,170,210,0.12)"/>
+    </svg>
+    <div class="port-header-content">
+      <div><div class="port-country">Northern Ireland</div><div class="port-name">Belfast</div></div>
+      <div class="port-date-badge"><div class="pdate">Sun, 23 May</div><div class="ptime">7:00 AM – 7:00 PM &nbsp;(12 hrs)</div></div>
+    </div>
+  </div>
+  <div class="port-body">
+    <span class="rec-badge hybrid">⟐ Hybrid — Tour Giant's Causeway AM · DIY St George's Market PM</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('belfast','diy',this)">🗺 DIY Guide</button>
+      <button class="tab-btn" onclick="switchTab('belfast','tour',this)">🎫 Cruise Tours</button>
+    </div>
+    <div class="tab-content active" id="belfast-diy">
+      <p class="diy-intro">Belfast gets a full 12 hours and is excellent for independent exploration. With a morning tour returning by ~2 PM, the afternoon is perfectly timed for <strong>St George's Market (open Sundays 10am–3pm)</strong> — Belfast's legendary Victorian covered market with local food producers, bakers, and artisan stalls. One of the best food markets in all of Ireland.</p>
+      <ul class="diy-steps">
+        <li class="diy-step"><span class="step-num">1</span><span class="step-text"><strong>St George's Market (Sunday!):</strong> Belfast's finest market — try Belfast baps, soda farls, artisan cheeses, smoked fish, and hot food stalls run by locals. A magnificent 1890s iron and glass building. Open 10am–3pm Sunday.</span></li>
+        <li class="diy-step"><span class="step-num">2</span><span class="step-text"><strong>Cathedral Quarter:</strong> Walk the cobbled lanes around St Anne's Cathedral. Fine Victorian architecture, murals, and independent shops. St Anne's itself is free and houses the remarkable Titanic memorial.</span></li>
+        <li class="diy-step"><span class="step-num">3</span><span class="step-text"><strong>Titanic Quarter (free areas):</strong> Walk the slipways, see the famous Harland &amp; Wolff cranes, and the SS Nomadic (White Star Line tender). Free without entering the main exhibition.</span></li>
+        <li class="diy-step"><span class="step-num">4</span><span class="step-text"><strong>Black taxi tour (self-arranged):</strong> ~£15 per person for a Peace Walls and murals tour in an independently-operated black taxi. More honest and flexible than a coach tour of the same area.</span></li>
+      </ul>
+      <div class="food-box">
+        <div class="food-title">🍽 Only-Found-Here Bites (Belfast)</div>
+        <div class="food-tags">
+          <span class="food-tag">🥪 Belfast bap (crusty roll with Ulster fry fillings)</span>
+          <span class="food-tag">🥔 Colcannon (potato &amp; kale — a market staple)</span>
+          <span class="food-tag">🥞 Boxty (Irish potato pancake)</span>
+          <span class="food-tag">🍞 Soda farl (Ulster's unique bread tradition)</span>
+          <span class="food-tag">🍎 Armagh apple produce</span>
+        </div>
+        <p class="food-tip">St George's Market on a Sunday is the single best food experience in Belfast — arrive by 10:30 AM for the best selection before the afternoon tour crowd thins it.</p>
+      </div>
+    </div>
+    <div class="tab-content" id="belfast-tour">
+      <p class="tour-intro">The Giant's Causeway — 40,000 interlocking black basalt columns formed 60 million years ago — is a genuine world wonder and UNESCO Heritage Site. It's 60 miles from Belfast city with no practical public transport. A full-morning tour is the only way to see it.</p>
+      <div class="tour-label primary">⭐ Our Top Pick</div>
+      <div class="tour-option primary-style" id="to-BFS008">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">BFS-008</div>
+            <div class="tour-name">Spectacular Giant's Causeway</div>
+            <div class="tour-badges"><span class="tbadge gold">Oceania Select</span><span class="tbadge">6 hrs</span><span class="tbadge">Moderate walking</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-BFS008">$279</div>
+            <div class="tour-price-disc" id="disc-BFS008">→ $209 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why"><strong>Why this beats DIY:</strong> The Causeway Coast road passes Dunluce Castle (a MacDonnell clan seat on its own sea cliff), dark sea caves, and the eerie Dark Hedges avenue. A guide makes the 2-hour drive genuinely engaging rather than just transport. At the Causeway, understanding the geology and the Finn McCool legend transforms the columns from impressive to awe-inspiring. Tour returns ~2 PM — leaving the entire afternoon for St George's Market and the Cathedral Quarter.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Giant's Causeway — 40,000 basalt columns (UNESCO)</div>
+            <div class="hl-item">Dunluce Castle ruins on a sea cliff en route</div>
+            <div class="hl-item">Scenic Causeway Coastal Route drive</div>
+            <div class="hl-item">Visitor centre geology exhibits included</div>
+            <div class="hl-item">Returns ~2 PM — afternoon free for market &amp; city</div>
+            <div class="hl-item">Finn McCool mythology brought to life</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">8:00 AM departure · 6 hrs · returns ~2:00 PM</div>
+            <button class="select-btn" id="btn-BFS008" onclick="toggleTour('BFS008',279,"Spectacular Giant's Causeway",'Belfast')">
+              <span class="chk-box" id="chk-BFS008"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tour-label alt">Alternative — City Culture, Murals &amp; Dance</div>
+      <div class="tour-option" id="to-BFS028">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">BFS-028</div>
+            <div class="tour-name">Hidden Gems Through Tradition &amp; Dance</div>
+            <div class="tour-badges"><span class="tbadge gold">Oceania Select</span><span class="tbadge">Meal incl.</span><span class="tbadge">6 hrs</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-BFS028">$309</div>
+            <div class="tour-price-disc" id="disc-BFS028">→ $232 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why">If you prefer Belfast's own story over the Causeway Coast, this tour digs deep into the city — Peace Walls, Titanic memorial gardens (the only one in the world), Stormont Parliament — and concludes with a traditional Irish dance performance and an included meal. An exceptional cultural depth for Belfast itself.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Titanic memorial gardens — the world's only such memorial</div>
+            <div class="hl-item">Peace Walls &amp; Troubles murals with expert context</div>
+            <div class="hl-item">Stormont Parliament building</div>
+            <div class="hl-item">Traditional Irish céilidh dance performance + meal</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">9:00 AM departure · 6 hrs</div>
+            <button class="select-btn" id="btn-BFS028" onclick="toggleTour('BFS028',309,'Hidden Gems Through Tradition &amp; Dance','Belfast')">
+              <span class="chk-box" id="chk-BFS028"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PORT 7: DUBLIN ══════════════ -->
+<div class="port-card" id="dublin">
+  <div class="port-header">
+    <svg viewBox="0 0 900 165" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-dub-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2A5E3A"/><stop offset="100%" stop-color="#3A7A4C"/></linearGradient>
+      </defs>
+      <rect width="900" height="165" fill="url(#g-dub-sky)"/>
+      <!-- Georgian terrace row -->
+      <rect x="0"   y="60" width="72" height="105" fill="#1A3C2A"/>
+      <rect x="74"  y="54" width="72" height="111" fill="#224432"/>
+      <rect x="148" y="62" width="72" height="103" fill="#1A3C2A"/>
+      <rect x="222" y="56" width="72" height="109" fill="#224432"/>
+      <rect x="296" y="60" width="72" height="105" fill="#1A3C2A"/>
+      <rect x="370" y="54" width="72" height="111" fill="#224432"/>
+      <rect x="444" y="61" width="72" height="104" fill="#1A3C2A"/>
+      <rect x="518" y="56" width="72" height="109" fill="#224432"/>
+      <rect x="592" y="60" width="72" height="105" fill="#1A3C2A"/>
+      <rect x="666" y="54" width="72" height="111" fill="#224432"/>
+      <rect x="740" y="61" width="72" height="104" fill="#1A3C2A"/>
+      <rect x="814" y="56" width="86" height="109" fill="#224432"/>
+      <!-- Windows (white) -->
+      <g fill="rgba(255,255,255,0.18)">
+        <rect x="10"  y="70" width="22" height="28" rx="1"/><rect x="40"  y="70" width="22" height="28" rx="1"/>
+        <rect x="10"  y="106" width="22" height="28" rx="1"/><rect x="40"  y="106" width="22" height="28" rx="1"/>
+        <rect x="84"  y="64" width="22" height="28" rx="1"/><rect x="114" y="64" width="22" height="28" rx="1"/>
+        <rect x="84"  y="100" width="22" height="28" rx="1"/><rect x="114" y="100" width="22" height="28" rx="1"/>
+        <rect x="158" y="72" width="22" height="28" rx="1"/><rect x="188" y="72" width="22" height="28" rx="1"/>
+        <rect x="232" y="66" width="22" height="28" rx="1"/><rect x="262" y="66" width="22" height="28" rx="1"/>
+        <rect x="306" y="70" width="22" height="28" rx="1"/><rect x="336" y="70" width="22" height="28" rx="1"/>
+        <rect x="380" y="64" width="22" height="28" rx="1"/><rect x="410" y="64" width="22" height="28" rx="1"/>
+      </g>
+      <!-- Coloured Georgian doors -->
+      <rect x="24"  y="136" width="30" height="29" rx="3" fill="#C84030"/>
+      <rect x="98"  y="133" width="30" height="32" rx="3" fill="#2A70C0"/>
+      <rect x="172" y="136" width="30" height="29" rx="3" fill="#C8A030"/>
+      <rect x="246" y="134" width="30" height="31" rx="3" fill="#2E8F50"/>
+      <rect x="320" y="136" width="30" height="29" rx="3" fill="#8A1838"/>
+      <rect x="394" y="133" width="30" height="32" rx="3" fill="#2A70C0"/>
+      <rect x="468" y="136" width="30" height="29" rx="3" fill="#C84030"/>
+      <rect x="542" y="134" width="30" height="31" rx="3" fill="#C8A030"/>
+      <rect x="616" y="136" width="30" height="29" rx="3" fill="#2E8F50"/>
+      <rect x="690" y="133" width="30" height="32" rx="3" fill="#8A1838"/>
+      <rect x="764" y="136" width="30" height="29" rx="3" fill="#C84030"/>
+      <!-- Fanlights -->
+      <path d="M24 136 Q39 122 54 136" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+      <path d="M98 133 Q113 119 128 133" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+      <path d="M172 136 Q187 122 202 136" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+      <path d="M246 134 Q261 120 276 134" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+      <!-- Street -->
+      <rect x="0" y="160" width="900" height="5" fill="#111A11" opacity="0.8"/>
+      <path d="M0 0 Q450 20 900 0 V45 H0Z" fill="rgba(80,180,100,0.06)"/>
+    </svg>
+    <div class="port-header-content">
+      <div><div class="port-country">Ireland</div><div class="port-name">Dublin</div></div>
+      <div class="port-date-badge"><div class="pdate">Mon, 24 May</div><div class="ptime">7:00 AM – 7:00 PM &nbsp;(12 hrs)</div></div>
+    </div>
+  </div>
+  <div class="port-body">
+    <span class="rec-badge diy-rec">✓ Excellent DIY city — DART train makes it effortless</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('dublin','diy',this)">🗺 DIY Guide</button>
+      <button class="tab-btn" onclick="switchTab('dublin','tour',this)">🎫 Cruise Tours</button>
+    </div>
+    <div class="tab-content active" id="dublin-diy">
+      <p class="diy-intro">Dublin is the most DIY-friendly port on the entire cruise. The DART commuter rail runs directly from Dún Laoghaire pier to the city centre in 15 minutes (€3–4 each way, every 15 min). The city is compact, flat, and entirely walkable. With 12 hours here, you can see almost everything independently — and save your money for excellent food.</p>
+      <ul class="diy-steps">
+        <li class="diy-step"><span class="step-num">1</span><span class="step-text"><strong>DART to city centre:</strong> Dún Laoghaire DART station is a 5-min walk from the pier. 15 min to Pearse or Tara Street stations — right in central Dublin. Simple, cheap, runs all day.</span></li>
+        <li class="diy-step"><span class="step-num">2</span><span class="step-text"><strong>Trinity College &amp; Book of Kells:</strong> Free to walk the campus; Book of Kells exhibit (~€16) includes the magnificent Long Room library — 200,000 ancient leather-bound books in a cathedral-like barrel-vaulted hall.</span></li>
+        <li class="diy-step"><span class="step-num">3</span><span class="step-text"><strong>National Gallery of Ireland (FREE):</strong> Caravaggio, Vermeer, and a superb collection of Irish art including Jack Yeats. One of Europe's finest free galleries. One hour minimum.</span></li>
+        <li class="diy-step"><span class="step-num">4</span><span class="step-text"><strong>Merrion Square:</strong> Walk around the elegantly restored Georgian square. Oscar Wilde's colourfully irreverent statue is in the park, opposite his childhood home at No. 1.</span></li>
+        <li class="diy-step"><span class="step-num">5</span><span class="step-text"><strong>St Patrick's Cathedral (€9):</strong> The largest church in Ireland, 800 years old. Jonathan Swift served as Dean here. The medieval nave is remarkable.</span></li>
+        <li class="diy-step"><span class="step-num">6</span><span class="step-text"><strong>Powerscourt Townhouse Centre:</strong> A Georgian courtyard on South William Street, filled with artisan cafés, cheese shops, and design studios. Excellent for a coffee break.</span></li>
+      </ul>
+      <div class="food-box">
+        <div class="food-title">🍽 Only-Found-Here Bites (Dublin)</div>
+        <div class="food-tags">
+          <span class="food-tag">🍳 Full Irish breakfast (with white pudding)</span>
+          <span class="food-tag">🍞 Brown soda bread (every bakery)</span>
+          <span class="food-tag">🐟 Howth smoked salmon open sandwich</span>
+          <span class="food-tag">🥣 Dublin coddle (sausage &amp; potato stew)</span>
+          <span class="food-tag">🫙 Bewley's barmbrack &amp; coffee</span>
+        </div>
+        <p class="food-tip"><em>Bewley's Café on Grafton Street</em> (1927, with Harry Clarke stained glass) for breakfast or coffee. <em>Fallon &amp; Byrne on Exchequer Street</em> for an excellent lunch from their food hall. For the authentic local experience: <em>the Iveagh Market area</em> in the Liberties.</p>
+      </div>
+    </div>
+    <div class="tab-content" id="dublin-tour">
+      <p class="tour-intro">Dublin is genuinely excellent for DIY. If you do book a tour, choose one that takes you to sites the city simply cannot offer — Irish countryside scenery or a uniquely hands-on culinary experience.</p>
+      <div class="tour-label primary">⭐ Our Top Pick (food-lovers)</div>
+      <div class="tour-option primary-style" id="to-DLG001">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">DLG-001</div>
+            <div class="tour-name">Baking Demo at Ballyknocken</div>
+            <div class="tour-badges"><span class="tbadge gold">Oceania Select</span><span class="tbadge">Meal incl.</span><span class="tbadge">3.25 hrs</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-DLG001">$269</div>
+            <div class="tour-price-disc" id="disc-DLG001">→ $202 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why"><strong>A perfect match for your interests:</strong> TV chef Catherine Fulvio teaches traditional Irish soda bread and scone-baking at her award-winning County Wicklow cookery school. You take part, eat the results warm from the oven with homemade jam, and take the recipe home. The school is in gorgeous "Garden of Ireland" countryside. Back by ~12:30 PM — the entire afternoon remains for Dublin DIY.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Irish baking with celebrated TV chef Catherine Fulvio</div>
+            <div class="hl-item">Traditional soda bread &amp; scones from scratch</div>
+            <div class="hl-item">Homemade jam &amp; coffee served (meal included)</div>
+            <div class="hl-item">Take-home recipe for authentic Irish breads</div>
+            <div class="hl-item">Ballyknocken Herb Garden tour</div>
+            <div class="hl-item">County Wicklow scenery ("Garden of Ireland")</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">9:15 AM departure · 3.25 hrs · back ~12:30 PM, afternoon free</div>
+            <button class="select-btn" id="btn-DLG001" onclick="toggleTour('DLG001',269,'Baking Demo at Ballyknocken','Dublin')">
+              <span class="chk-box" id="chk-DLG001"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tour-label alt">Alternative — Irish Countryside &amp; Gardens (full day)</div>
+      <div class="tour-option" id="to-DLG006">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">DLG-006</div>
+            <div class="tour-name">Glendalough &amp; Powerscourt Gardens</div>
+            <div class="tour-badges"><span class="tbadge gold">Oceania Select</span><span class="tbadge">Meal incl.</span><span class="tbadge">7 hrs</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-DLG006">$309</div>
+            <div class="tour-price-disc" id="disc-DLG006">→ $232 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why">If scenic beauty is the priority over city exploration, this covers two of Ireland's finest set pieces: Glendalough (a 6th-century monastic valley between two mountain lakes with a 1,000-year-old Round Tower) and Powerscourt (50 acres of internationally acclaimed terraced gardens ranked in the world's top 10). Lunch included. Requires a hire car to visit independently.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Glendalough — 6th-century monastic settlement in a glacial valley</div>
+            <div class="hl-item">100-foot Round Tower standing 1,000+ years</div>
+            <div class="hl-item">Powerscourt — 50-acre estate gardens (world top 10 ranked)</div>
+            <div class="hl-item">Sugarloaf Mountain backdrop</div>
+            <div class="hl-item">Lunch in local hotel included</div>
+            <div class="hl-item">County Wicklow scenic drive throughout</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">9:45 AM departure · 7 hrs · full day</div>
+            <button class="select-btn" id="btn-DLG006" onclick="toggleTour('DLG006',309,'Glendalough &amp; Powerscourt Gardens','Dublin')">
+              <span class="chk-box" id="chk-DLG006"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PORT 8: CORK ══════════════ -->
+<div class="port-card" id="cork">
+  <div class="port-header">
+    <svg viewBox="0 0 900 165" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-cork-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C87040"/><stop offset="100%" stop-color="#E09260"/></linearGradient>
+      </defs>
+      <rect width="900" height="165" fill="url(#g-cork-sky)"/>
+      <!-- Rolling hills -->
+      <path d="M0 165 L0 92 Q140 72 280 82 Q420 92 560 76 Q700 60 900 72 L900 165Z" fill="#2A4020" opacity="0.82"/>
+      <!-- Cork Harbour water -->
+      <path d="M0 165 L0 138 Q225 126 450 138 Q675 150 900 136 L900 165Z" fill="#3A6878" opacity="0.75"/>
+      <!-- St Colman's Cathedral spires (Cobh) -->
+      <path d="M415 82 L415 22 L419 22 L419 10 L423 10 L423 22 L427 22 L427 82" fill="#1A2818"/>
+      <path d="M437 82 L437 32 L441 32 L441 16 L445 13 L449 16 L449 32 L453 32 L453 82" fill="#1A2818"/>
+      <path d="M460 82 L460 38 L464 38 L464 24 L468 24 L468 38 L472 38 L472 82" fill="#1A2818"/>
+      <!-- Cathedral body -->
+      <rect x="410" y="82" width="68" height="46" fill="#1A2818"/>
+      <!-- Rose window circle -->
+      <circle cx="444" cy="95" r="9" fill="none" stroke="rgba(200,150,80,0.48)" stroke-width="2"/>
+      <!-- Colourful Cobh terraced houses on hillside -->
+      <rect x="520" y="100" width="28" height="52" fill="#C84030" opacity="0.62"/>
+      <rect x="554" y="94" width="28" height="58" fill="#3060C0" opacity="0.62"/>
+      <rect x="588" y="102" width="28" height="50" fill="#C8A030" opacity="0.62"/>
+      <rect x="622" y="96" width="28" height="56" fill="#30A050" opacity="0.62"/>
+      <rect x="656" y="100" width="28" height="52" fill="#901840" opacity="0.62"/>
+      <rect x="690" y="94" width="28" height="58" fill="#3060C0" opacity="0.62"/>
+      <!-- Victorian town buildings -->
+      <rect x="200" y="102" width="38" height="50" fill="#2A3820" opacity="0.8"/>
+      <rect x="244" y="96" width="34" height="56" fill="#3A4828" opacity="0.8"/>
+      <rect x="284" y="104" width="38" height="48" fill="#2A3820" opacity="0.8"/>
+      <!-- Harbour shimmer -->
+      <path d="M0 142 Q225 134 450 142 Q675 150 900 140" stroke="rgba(255,220,150,0.22)" stroke-width="2" fill="none"/>
+    </svg>
+    <div class="port-header-content">
+      <div><div class="port-country">County Cork, Ireland</div><div class="port-name">Cork (Cobh)</div></div>
+      <div class="port-date-badge"><div class="pdate">Tue, 25 May</div><div class="ptime">9:00 AM – 5:00 PM &nbsp;(8 hrs)</div></div>
+    </div>
+  </div>
+  <div class="port-body">
+    <span class="rec-badge hybrid">⟐ Hybrid — DIY Cobh town · Tour to Kinsale for food</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('cork','diy',this)">🗺 DIY Guide</button>
+      <button class="tab-btn" onclick="switchTab('cork','tour',this)">🎫 Cruise Tours</button>
+    </div>
+    <div class="tab-content active" id="cork-diy">
+      <p class="diy-intro">The ship piers right in Cobh (pronounced "Cove") — a beautifully preserved Victorian harbour town where Titanic's last passengers boarded in 1912. St Colman's Cathedral dominates the hillside with one of the most photogenic Gothic Revival façades in Ireland. Cobh is entirely walkable from the pier.</p>
+      <ul class="diy-steps">
+        <li class="diy-step"><span class="step-num">1</span><span class="step-text"><strong>St Colman's Cathedral (free):</strong> Walk up from the pier (10 min, steep) to this extraordinary neo-Gothic Victorian cathedral. The 47-bell carillon is the largest in Ireland — there may be a bell-ringing session. Views over the harbour from the terrace are superb.</span></li>
+        <li class="diy-step"><span class="step-num">2</span><span class="step-text"><strong>Cobh Heritage Centre (€9):</strong> Tells the story of 2.5 million Irish emigrants who left from this harbour between 1848–1950, the Titanic's last port of call, and the Lusitania tragedy. Genuinely moving.</span></li>
+        <li class="diy-step"><span class="step-num">3</span><span class="step-text"><strong>Self-guided Titanic Trail (free):</strong> A walking route map (available at the Heritage Centre) links all Titanic-related buildings in Cobh — the White Star offices still stand exactly as they were in 1912.</span></li>
+        <li class="diy-step"><span class="step-num">4</span><span class="step-text"><strong>Cobh waterfront walk:</strong> The colourful Victorian terraced houses rising above the harbour are uniquely photogenic. Walk east along the waterfront to the Cathedral and back — the whole town is really one great picture.</span></li>
+      </ul>
+      <div class="food-box">
+        <div class="food-title">🍽 Only-Found-Here Bites (Cork specialties)</div>
+        <div class="food-tags">
+          <span class="food-tag">🐷 Drisheen (Cork blood pudding, unique to this region)</span>
+          <span class="food-tag">🥩 Spiced beef (Cork Christmas classic, year-round)</span>
+          <span class="food-tag">🧀 Gubbeen farmhouse cheese</span>
+          <span class="food-tag">🐟 Fresh mackerel from the fishmongers</span>
+          <span class="food-tag">🥧 Butter cake from Cobh bakeries</span>
+        </div>
+        <p class="food-tip"><em>Kinsale</em> (see tours) is dubbed Ireland's <strong>Gourmet Capital</strong> and is worth the tour purely for the food. In Cobh: try <em>The Cobh Café</em> on West Beach for authentic local lunches.</p>
+      </div>
+    </div>
+    <div class="tab-content" id="cork-tour">
+      <p class="tour-intro">Kinsale — a Georgian harbour town 25 km from Cobh — is Ireland's self-proclaimed "Gourmet Capital." It's a beautifully composed town of coloured houses, a Norman castle, and independently-owned restaurants of remarkable quality. No public transport links Cobh to Kinsale.</p>
+      <div class="tour-label primary">⭐ Our Top Pick</div>
+      <div class="tour-option primary-style" id="to-CBH005">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">CBH-005</div>
+            <div class="tour-name">Cork's Countryside &amp; Kinsale</div>
+            <div class="tour-badges"><span class="tbadge">4 hrs</span><span class="tbadge">Easy walking</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-CBH005">$149</div>
+            <div class="tour-price-disc" id="disc-CBH005">→ $112 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why"><strong>Why this beats DIY:</strong> Kinsale is 25 km from Cobh with no direct bus — a taxi costs ~€70 return and leaves you without transport in town. The scenic West Cork coastal drive passes beautiful viewpoints and river bridges. In Kinsale you get substantial free time to choose your own restaurant or café for lunch, browse the independent food shops, and explore the Georgian townscape. Returns in time for a Cobh Cathedral visit.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Kinsale — Ireland's Gourmet Capital &amp; prettiest harbour town</div>
+            <div class="hl-item">Georgian architecture, Norman castle, coloured townscape</div>
+            <div class="hl-item">Free time to choose your own restaurant for lunch</div>
+            <div class="hl-item">Scenic West Cork coastal drive throughout</div>
+            <div class="hl-item">Majestic Bandon River photo stop</div>
+            <div class="hl-item">Returns in time for Cobh Cathedral visit</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">9:45 AM or 10:45 AM departure · 4 hrs</div>
+            <button class="select-btn" id="btn-CBH005" onclick="toggleTour('CBH005',149,"Cork's Countryside &amp; Kinsale",'Cork')">
+              <span class="chk-box" id="chk-CBH005"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tour-label alt">Alternative — Cobh Heritage on Foot</div>
+      <div class="tour-option" id="to-CBH007">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">CBH-007</div>
+            <div class="tour-name">Titanic Walking &amp; Heritage Trail</div>
+            <div class="tour-badges"><span class="tbadge">Refreshment incl.</span><span class="tbadge">2.5 hrs</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-CBH007">$139</div>
+            <div class="tour-price-disc" id="disc-CBH007">→ $104 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why">Walk the actual streets where Titanic's last-boarding passengers checked in — the White Star offices are preserved exactly as they were in 1912. A guide brings the human stories to life in a way that plaques cannot. Hot beverage included at a traditional Cobh pub. Short enough to leave the afternoon for Cobh Cathedral and self-guided exploration.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">White Star &amp; Cunard Line offices (architecturally preserved)</div>
+            <div class="hl-item">Walk the exact route Titanic's final passengers walked</div>
+            <div class="hl-item">Cobh Cathedral viewpoint from the harbour</div>
+            <div class="hl-item">Hot beverage included at traditional pub</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">10:00 AM departure · 2.5 hrs</div>
+            <button class="select-btn" id="btn-CBH007" onclick="toggleTour('CBH007',139,'Titanic Walking &amp; Heritage Trail','Cork')">
+              <span class="chk-box" id="chk-CBH007"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PORT 9: DARTMOUTH ══════════════ -->
+<div class="port-card" id="dartmouth">
+  <div class="port-header">
+    <svg viewBox="0 0 900 165" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-dart-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7AAA78"/><stop offset="100%" stop-color="#5A8858"/></linearGradient>
+        <linearGradient id="g-dart-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3A6882"/><stop offset="100%" stop-color="#2A5064"/></linearGradient>
+      </defs>
+      <rect width="900" height="165" fill="url(#g-dart-sky)"/>
+      <!-- Dense wooded Devon hills -->
+      <path d="M0 165 L0 72 Q40 52 72 62 Q104 42 140 58 Q172 35 208 50 Q244 28 280 44 Q316 20 352 38 Q388 16 424 35 Q460 12 496 32 Q532 8 568 26 Q604 12 640 28 Q676 8 712 24 Q748 10 784 26 Q820 15 856 30 Q878 20 900 34 L900 165Z" fill="#2A5022"/>
+      <!-- River Dart winding S-bend -->
+      <path d="M0 165 L0 132 Q120 122 250 132 Q380 142 500 128 Q620 114 740 130 Q820 140 900 132 L900 165Z" fill="url(#g-dart-water)" opacity="0.88"/>
+      <path d="M60 136 Q250 126 440 132 Q630 138 820 130" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" fill="none"/>
+      <!-- Steam viaduct bridge -->
+      <rect x="85" y="86" width="130" height="9" fill="#3A3028" opacity="0.75"/>
+      <rect x="80"  y="80" width="9" height="24" fill="#3A3028" opacity="0.75"/>
+      <rect x="136" y="80" width="9" height="24" fill="#3A3028" opacity="0.75"/>
+      <rect x="192" y="80" width="9" height="24" fill="#3A3028" opacity="0.75"/>
+      <!-- Steam train -->
+      <rect x="100" y="74" width="48" height="12" rx="2" fill="#8B1A1A" opacity="0.85"/>
+      <rect x="148" y="77" width="14" height="9" rx="1" fill="#4A2A1A" opacity="0.85"/>
+      <rect x="100" y="84" width="12" height="5" rx="1" fill="#2A1A0A" opacity="0.7"/>
+      <!-- Steam puff -->
+      <circle cx="106" cy="66" r="7" fill="rgba(255,255,255,0.28)"/>
+      <circle cx="115" cy="61" r="5" fill="rgba(255,255,255,0.20)"/>
+      <circle cx="122" cy="57" r="3.5" fill="rgba(255,255,255,0.14)"/>
+      <!-- Dartmouth medieval town -->
+      <rect x="370" y="108" width="26" height="44" fill="#3A3828" opacity="0.75"/>
+      <rect x="402" y="102" width="26" height="50" fill="#4A4838" opacity="0.75"/>
+      <rect x="434" y="110" width="26" height="42" fill="#3A3828" opacity="0.75"/>
+      <!-- Bayards Cove tower -->
+      <rect x="332" y="102" width="32" height="50" fill="#2A2818" opacity="0.85"/>
+      <rect x="328" y="100" width="40" height="8" fill="#2A2818" opacity="0.85"/>
+      <rect x="332" y="92" width="6" height="8" fill="#2A2818" opacity="0.85"/>
+      <rect x="343" y="92" width="6" height="8" fill="#2A2818" opacity="0.85"/>
+      <rect x="354" y="92" width="6" height="8" fill="#2A2818" opacity="0.85"/>
+      <rect x="365" y="92" width="6" height="8" fill="#2A2818" opacity="0.85"/>
+    </svg>
+    <div class="port-header-content">
+      <div><div class="port-country">Devon, England</div><div class="port-name">Dartmouth</div></div>
+      <div class="port-date-badge"><div class="pdate">Wed, 26 May</div><div class="ptime">11:00 AM – 8:00 PM &nbsp;(9 hrs)</div></div>
+    </div>
+  </div>
+  <div class="port-body">
+    <span class="rec-badge hybrid">⟐ Hybrid — Glorious DIY medieval town · One perfect tour</span>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('dartmouth','diy',this)">🗺 DIY Guide</button>
+      <button class="tab-btn" onclick="switchTab('dartmouth','tour',this)">🎫 Cruise Tours</button>
+    </div>
+    <div class="tab-content active" id="dartmouth-diy">
+      <p class="diy-intro">Dartmouth is one of England's most beautiful small towns — a medieval port frozen in architectural amber, with the River Dart curling through it. Narrow cobbled lanes, painted Tudor buildings, and a 14th-century castle at the harbour mouth. The ship arrives at 11 AM and departs at 8 PM — 9 glorious hours. Take a tour in the afternoon and spend the rest simply being in the town.</p>
+      <ul class="diy-steps">
+        <li class="diy-step"><span class="step-num">1</span><span class="step-text"><strong>Dartmouth town walk:</strong> Foss Street and Duke Street into the medieval town. Painted timber-framed buildings date to the 1600s. St Saviour's Church (1372) has a beautiful carved stone rood screen.</span></li>
+        <li class="diy-step"><span class="step-num">2</span><span class="step-text"><strong>Bayards Cove Fort (free):</strong> A tiny 16th-century gun fort at the water's edge, completely preserved. Film-set beautiful — it appeared in the TV series <em>The Onedin Line</em>. One of England's most atmospheric small fortifications.</span></li>
+        <li class="diy-step"><span class="step-num">3</span><span class="step-text"><strong>Dartmouth Castle (£6):</strong> Walk 20 minutes along the riverbank path to this 14th-century castle at the harbour mouth. Extraordinary river and sea views — one of the finest coastal positions in Devon.</span></li>
+        <li class="diy-step"><span class="step-num">4</span><span class="step-text"><strong>Kingswear by ferry:</strong> Take the passenger ferry (~£2) across the river mouth for the best view of Dartmouth's Georgian waterfront — and a completely different perspective on the town's setting.</span></li>
+        <li class="diy-step"><span class="step-num">5</span><span class="step-text"><strong>Royal Avenue Gardens (free):</strong> Formal gardens overlooking the river — the kind of perfectly maintained English coastal garden where sitting on a bench for 20 minutes is entirely justified.</span></li>
+      </ul>
+      <div class="food-box">
+        <div class="food-title">🍽 Only-Found-Here Bites (Devon specialties)</div>
+        <div class="food-tags">
+          <span class="food-tag">🍰 Devon cream tea (clotted cream first, then jam — Devon's way)</span>
+          <span class="food-tag">🦀 Dartmouth crab sandwich</span>
+          <span class="food-tag">🐟 River Dart fresh crab &amp; lobster</span>
+          <span class="food-tag">🍨 Clotted cream ice cream</span>
+          <span class="food-tag">🥧 Devon pasty</span>
+        </div>
+        <p class="food-tip">Devon cream teas are serious business: cream goes <em>first</em>, then jam (the opposite of Cornwall). The <em>Dartmouth Tea Company</em> or <em>Alf Resco</em> on the waterfront are the places for this essential experience. Fresh crab from the Dart estuary is exceptional.</p>
+      </div>
+    </div>
+    <div class="tab-content" id="dartmouth-tour">
+      <p class="tour-intro">The River Dart cruise combined with a Victorian steam railway is quintessentially British and exists nowhere else in this form — gliding through one of Devon's most beautiful valleys, then rattling along a coastal steam line past ancient woodland. Agatha Christie's Greenway estate is visible from the water.</p>
+      <div class="tour-label primary">⭐ Our Top Pick</div>
+      <div class="tour-option primary-style" id="to-DTH001">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">DTH-001</div>
+            <div class="tour-name">River Cruise &amp; Steam Train</div>
+            <div class="tour-badges"><span class="tbadge">3.5 hrs</span><span class="tbadge">Easy walking</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-DTH001">$199</div>
+            <div class="tour-price-disc" id="disc-DTH001">→ $149 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why"><strong>Why this beats DIY:</strong> The Dartmouth Steam Railway departs from Paignton — 30 minutes by car from Dartmouth, requiring coordinating your own transport there and back. The tour sequences the river ferry north, coach to Paignton, steam train south to Kingswear, and ferry back across the Dart — perfectly. The river cruise passes Agatha Christie's Greenway Estate from the water, the Britannia Royal Naval College, and the stunning wooded estuary villages. Returns ~3:30 PM — hours of town time remain.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">River Dart ferry cruise — bucolic Devon countryside views</div>
+            <div class="hl-item">Agatha Christie's Greenway Estate visible from the water</div>
+            <div class="hl-item">Britannia Royal Naval College riverbank views</div>
+            <div class="hl-item">Victorian steam train Paignton→Kingswear through ancient woodland</div>
+            <div class="hl-item">Ferry return across the River Dart mouth</div>
+            <div class="hl-item">Returns ~3:30 PM — full afternoon/evening in Dartmouth</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">12:00 PM departure · 3.5 hrs · returns ~3:30 PM</div>
+            <button class="select-btn" id="btn-DTH001" onclick="toggleTour('DTH001',199,'River Cruise &amp; Steam Train','Dartmouth')">
+              <span class="chk-box" id="chk-DTH001"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="tour-label alt">Alternative — WWII History + Devon Cream Tea</div>
+      <div class="tour-option" id="to-DTH005">
+        <div class="tour-top">
+          <div class="tour-code-name">
+            <div class="tour-code">DTH-005</div>
+            <div class="tour-name">Slapton Sands &amp; Devon Cream Tea</div>
+            <div class="tour-badges"><span class="tbadge">Meal incl.</span><span class="tbadge">3.5 hrs</span><span class="tbadge">Easy</span></div>
+          </div>
+          <div class="tour-price-block">
+            <div class="tour-price-label">per person</div>
+            <div class="tour-price-big" id="price-DTH005">$159</div>
+            <div class="tour-price-disc" id="disc-DTH005">→ $119 with 25% off</div>
+          </div>
+        </div>
+        <div class="tour-body">
+          <p class="tour-why">Slapton Sands — where 700+ Allied soldiers died in a secret 1944 D-Day rehearsal, torpedoed by German E-boats, the tragedy suppressed for 40 years — is deeply moving. The beaches mirror Normandy exactly, which was why it was chosen. A Devon cream tea in Blackawton village ends the tour on a warm, delicious note: the most Devon experience imaginable.</p>
+          <div class="highlights-grid">
+            <div class="hl-item">Slapton Sands — secret 1944 D-Day tragedy (700+ killed)</div>
+            <div class="hl-item">Sherman tank memorial raised from the sea floor</div>
+            <div class="hl-item">Spectacular Devon coastal drive</div>
+            <div class="hl-item">Traditional Devon cream tea in Blackawton (included)</div>
+          </div>
+          <div class="tour-footer">
+            <div class="tour-time-info">1:00 PM departure · 3.5 hrs</div>
+            <button class="select-btn" id="btn-DTH005" onclick="toggleTour('DTH005',159,'Slapton Sands &amp; Devon Cream Tea','Dartmouth')">
+              <span class="chk-box" id="chk-DTH005"></span>Add to Plan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /ports-section -->
+
+<!-- ══════════════ STICKY BAR ══════════════ -->
+<div class="sticky-bar" id="sticky-bar">
+  <div class="tours-list-row" id="sel-list-row"></div>
+  <div class="list-toggle" onclick="toggleList()" id="list-toggle-btn">
+    <span id="toggle-label-txt">▲ Show selected tours</span>
+  </div>
+  <div class="bar-main">
+    <div class="bar-count-box">
+      <span class="count-num" id="tour-count">0</span>
+      <span class="count-lbl">tours selected</span>
+    </div>
+    <div class="bar-discount-col">
+      <div class="disc-msg" id="disc-msg">Select 5 tours to unlock 25% package discount</div>
+      <div class="bar-prog-track"><div class="bar-prog-fill" id="bar-prog"></div></div>
+    </div>
+    <div class="bar-price-col">
+      <div class="orig-price-line" id="orig-price-line">&nbsp;</div>
+      <div class="final-price-line" id="final-price-line">$0</div>
+      <div class="price-note-line" id="price-note-line">à la carte prices</div>
+      <div class="credit-line" id="credit-line" style="display:none">✦ Apply $600 credit → net <strong id="net-price">$0</strong></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+const tours = {};   // { code: { price, name, port } }
+let listOpen = false;
+
+// ── TOGGLE TOUR SELECTION ──
+function toggleTour(code, price, name, port) {
+  if (tours[code]) {
+    delete tours[code];
+  } else {
+    tours[code] = { price, name, port };
+  }
+  refreshBtn(code);
+  refreshBar();
+}
+
+function refreshBtn(code) {
+  const btn  = document.getElementById('btn-'  + code);
+  const card = document.getElementById('to-'   + code);
+  const chk  = document.getElementById('chk-'  + code);
+  if (!btn) return;
+  const sel = !!tours[code];
+  btn.classList.toggle('selected', sel);
+  btn.innerHTML = sel
+    ? '<span class="chk-box" style="background:rgba(255,255,255,0.22)">✓</span>Selected'
+    : '<span class="chk-box" id="chk-' + code + '"></span>Add to Plan';
+  if (card) card.classList.toggle('selected', sel);
+}
+
+// ── REFRESH BAR ──
+function refreshBar() {
+  const codes = Object.keys(tours);
+  const count = codes.length;
+  const gross = codes.reduce((s, c) => s + tours[c].price, 0);
+  const hasDis = count >= 5;
+  const net   = hasDis ? Math.round(gross * 0.75) : gross;
+  const saved = gross - net;
+
+  document.getElementById('tour-count').textContent = count;
+
+  // Progress (cap at 5)
+  const pct = Math.min(count / 5, 1) * 100;
+  document.getElementById('bar-prog').style.width = pct + '%';
+  document.getElementById('main-progress').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = Math.min(count,5) + ' of 5 tours for discount';
+  document.getElementById('prog-pct').textContent   = Math.round(pct) + '%';
+
+  // Discount message
+  const dmsg = document.getElementById('disc-msg');
+  if      (!count)   { dmsg.textContent = 'Select 5 tours to unlock 25% package discount'; dmsg.className = 'disc-msg'; }
+  else if (hasDis)   { dmsg.textContent = '🎉 25% discount unlocked — saving $' + saved + '!'; dmsg.className = 'disc-msg unlocked'; }
+  else               { dmsg.textContent = (5 - count) + ' more tour' + (5-count!==1?'s':'') + ' needed for 25% discount'; dmsg.className = 'disc-msg'; }
+
+  // Prices
+  const origEl  = document.getElementById('orig-price-line');
+  const finEl   = document.getElementById('final-price-line');
+  const noteEl  = document.getElementById('price-note-line');
+  const credEl  = document.getElementById('credit-line');
+  const netEl   = document.getElementById('net-price');
+
+  finEl.textContent = '$' + net.toLocaleString();
+
+  if (hasDis && saved > 0) {
+    origEl.textContent = '$' + gross.toLocaleString();
+    noteEl.textContent = '25% package discount applied';
+  } else {
+    origEl.textContent = '\u00a0';
+    noteEl.textContent = count === 0 ? 'à la carte prices' : 'à la carte (' + (5-count) + ' more = 25% off)';
+  }
+
+  if (net > 0) {
+    const afterCredit = Math.max(0, net - 600);
+    netEl.textContent = '$' + afterCredit.toLocaleString();
+    credEl.style.display = 'block';
+  } else {
+    credEl.style.display = 'none';
+  }
+
+  // Show/hide disc labels on tour cards
+  const show = hasDis;
+  document.querySelectorAll('.tour-price-disc').forEach(el => {
+    el.style.display = show ? 'block' : 'none';
+  });
+
+  refreshList();
+}
+
+// ── SELECTED TOURS LIST ──
+function refreshList() {
+  const codes = Object.keys(tours);
+  const toggle = document.getElementById('toggle-label-txt');
+  const row    = document.getElementById('sel-list-row');
+
+  if (!codes.length) {
+    row.className  = 'tours-list-row';
+    toggle.textContent = '▲ Show selected tours';
+    return;
+  }
+
+  toggle.textContent = (listOpen ? '▼ Hide' : '▲ Show') + ' selected tours (' + codes.length + ')';
+
+  if (listOpen) {
+    row.className = 'tours-list-row open';
+    row.innerHTML = codes.map(c =>
+      '<div class="sel-tag">' +
+        '<span class="port-label">' + tours[c].port + ':</span> ' +
+        tours[c].name +
+        ' <span style="color:rgba(255,255,255,0.45);font-size:11px">$' + tours[c].price + '</span>' +
+        '<span class="remove-x" onclick="toggleTour(\'' + c + '\',' + tours[c].price + ',\'' +
+          tours[c].name.replace(/'/g,"\\'").replace(/&amp;/g,'&') + '\',\'' + tours[c].port + '\')">×</span>' +
+      '</div>'
+    ).join('');
+  } else {
+    row.className = 'tours-list-row';
+  }
+}
+
+function toggleList() {
+  listOpen = !listOpen;
+  refreshList();
+}
+
+// ── TAB SWITCHING ──
+function switchTab(portId, tab, btn) {
+  const diy  = document.getElementById(portId + '-diy');
+  const tour = document.getElementById(portId + '-tour');
+  if (diy)  diy.classList.remove('active');
+  if (tour) tour.classList.remove('active');
+  btn.closest('.tab-nav').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById(portId + '-' + tab);
+  if (target) target.classList.add('active');
+  btn.classList.add('active');
+}
+
+// Init
+refreshBar();
+</script>
+</body>
+</html>
