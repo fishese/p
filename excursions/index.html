@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,18 +78,27 @@
                     title: "Newhaven Tram to Royal Mile",
                     image: "edinburgh-diy.jpg",
                     whyDiy: "Edinburgh's Old Town is one of Europe's most walkable historic capitals. The tram from Newhaven pier drops you right in the center, giving you 12 hours of ultimate freedom.",
-                    highlights: "Walk the Royal Mile, visit the National Museum of Scotland, and grab an authentic local pastry.",
-                    routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Newhaven+Tram+Stop,+Edinburgh,+UK&waypoints=Princes+Street,+Edinburgh,+UK%7CEdinburgh+Castle,+Edinburgh,+UK%7CSt+Giles+Cathedral,+Edinburgh,+UK&destination=National+Museum+of+Scotland,+Edinburgh,+UK&travelmode=transit",
+                    highlights: "Walk the Royal Mile, explore historic closes, and take in the panoramic views from Calton Hill.",
+                    routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Newhaven+Tram+Stop,+Edinburgh,+UK&waypoints=Princes+Street,+Edinburgh,+UK%7CEdinburgh+Castle,+Edinburgh,+UK%7CSt+Giles+Cathedral,+Edinburgh,+UK%7CPalace+of+Holyroodhouse,+Edinburgh,+UK&destination=Calton+Hill,+Edinburgh,+UK&travelmode=walking",
                     steps: [
-                        { title: "Newhaven Tram to City", desc: "Walk 5 minutes south from the Newhaven tender pier to the tram stop. Take the tram to Princes Street (~20 mins, tap-to-pay). <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion. The tour bus picks you up at the pier and drops you directly on the Royal Mile.", status: "dropped" },
-                        { title: "Royal Mile Walk", desc: "Start at Castlehill at the top and walk downhill along the cobblestones. Explore the narrow alleys (closes) like Lady Stair's Close. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! The excursion gives you free time right here.", status: "doable" },
-                        { title: "St Giles Cathedral", desc: "Walk 5 minutes down the Royal Mile to the Cathedral. The Thistle Chapel inside is highly ornate. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable during your excursion lunch break.", status: "doable" },
-                        { title: "National Museum of Scotland", desc: "Walk 3 minutes south from St Giles via George IV Bridge. Covers everything from Viking jewellery to Dolly the Sheep. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion; you won't have the 2 hours needed to do it justice.", status: "dropped" },
-                        { title: "Grassmarket Area", desc: "Head down the steep Victoria Street curve below the castle for independent shops. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion; stay closer to the Royal Mile meet-up point.", status: "dropped" }
+                        { title: "Newhaven Tram to City", desc: "Walk 5 minutes south from the Newhaven tender pier to the tram stop. Take the tram to Princes Street (~20 mins, tap-to-pay). <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion. The tour bus picks you up at the pier.", status: "dropped" },
+                        { title: "Edinburgh Castle", desc: "If exploring DIY, you must pre-book tickets! <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The One O'Clock Gun, the Stone of Destiny, the giant Mons Meg siege cannon, and the hushed chamber holding the Honours of Scotland (Crown Jewels) — three objects of extraordinary beauty. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! The excursion goes here.", status: "doable" },
+                        { title: "Royal Mile Walk & St Giles Cathedral", desc: "Walk downhill from the castle. Explore the Historic Closes (narrow, atmospheric alleyways). <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> Step inside St Giles (free) and look up at the spectacular medieval vaulted ceiling and the ornate Thistle Chapel. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable during your excursion lunch break.", status: "doable" },
+                        { title: "Palace of Holyroodhouse", desc: "Located at the very bottom of the Royal Mile. This is the King's official Scottish residence. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> Mary Queen of Scots' apartments, the dramatic ruins of Holyrood Abbey, and the tiny room where her secretary Rizzio was famously murdered. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion; you won't have time.", status: "dropped" },
+                        { title: "Calton Hill", desc: "A 10-minute walk east from Princes Street. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The absolute best panoramic views of the city skyline, castle, and Arthur's Seat. Also home to the National Monument ('Scotland's folly'). <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion.", status: "dropped" }
                     ],
                     food: {
-                        items: ["Haggis, neeps & tatties", "Scotch pie", "Cullen skink", "Edinburgh tablet (fudge)"],
-                        tip: "Try 'The Grain Store' near the Grassmarket for excellent Scottish produce, or 'Deacon Brodie's Tavern' on the Royal Mile for traditional Scottish food at honest prices."
+                        items: ["Haggis (the real thing: oatmeal, offal, spices)", "Cranachan (whisky cream dessert)", "Irn-Bru (local soft drink — mandatory experience)"],
+                        restaurants: [
+                            { name: "Makars Gourmet Mash Bar", desc: "The Mound. Traditional Scottish comfort food done perfectly. Their Haggis, neeps & tatties are legendary. (Replaces Mum's, which is now closed)." },
+                            { name: "Fishers in the City", desc: "58 Thistle Street (New Town). Scottish seafood in a converted warehouse. Hand-dived scallops and hot shellfish platters." },
+                            { name: "The Witchery by the Castle", desc: "Steps from Edinburgh Castle. Gothic candlelit splendour. Excellent Scottish lobster and venison, or just go for drinks for the atmosphere." }
+                        ],
+                        tip: "Many traditional pubs on the Royal Mile serve great food, but branching out just one or two streets into New Town or the Grassmarket yields much better value."
+                    },
+                    shopping: {
+                        buy: ["A bottle from an independent whisky bottler (Cadenhead's on Canongate is excellent — not supermarket blends).", "Scottish shortbread from a proper bakery (avoid airport packaging)."],
+                        avoid: ["Mass-produced tartan ties", "Plastic thistle keyrings", "Anything that says 'Made in China' in the Royal Mile souvenir shops."]
                     }
                 }
             },
@@ -119,17 +129,26 @@
                     title: "Granite City Wander",
                     image: "aberdeen-diy.jpg",
                     whyDiy: "While Aberdeen is walkable, the true natural majesty lies outside the city limits. Staying in port means missing the dramatic cliffside landscapes you are looking for.",
-                    highlights: "Walk to the maritime museum or grab a coffee near the harbor.",
-                    routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Aberdeen+Maritime+Museum,+Aberdeen,+UK&waypoints=Marischal+College,+Aberdeen,+UK%7CDavid+Welch+Winter+Gardens,+Aberdeen,+UK&destination=Footdee,+Aberdeen,+UK&travelmode=transit",
+                    highlights: "Walk to the maritime museum or grab a coffee near the harbor. The city's granite architecture is truly unique in the morning light.",
+                    routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Aberdeen+Maritime+Museum,+Aberdeen,+UK&waypoints=Marischal+College,+Aberdeen,+UK%7CUnion+Terrace+Gardens,+Aberdeen,+UK&destination=King's+College,+Old+Aberdeen,+UK&travelmode=transit",
                     steps: [
-                        { title: "Aberdeen Harbour & Maritime Museum", desc: "Located right on the traditional city docks on Shiprow. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! After your morning tour drops you at the ship, take a 10-min taxi from the new South Harbour to the museum to start your afternoon.", status: "doable" },
-                        { title: "Marischal College", desc: "Walk 7 minutes north from the museum via Broad Street. The world's second-largest granite building gleams in the sunlight.", status: "doable" },
-                        { title: "David Welch Winter Gardens", desc: "Massive interconnected greenhouses. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if you took the morning excursion, as it requires a 10-minute bus ride (No. 17 or 18) from the college and eats up too much time.", status: "dropped" },
-                        { title: "Footdee (Fittie)", desc: "A 19th-century fishermen's village at the harbour mouth. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip. It is a 30-minute walk from the city center, which is too tight for your 4 PM All Aboard.", status: "dropped" }
+                        { title: "Aberdeen Harbour & Maritime Museum", desc: "Located right on the traditional city docks on Shiprow. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The massive, intricately detailed models of North Sea oil rigs inside the museum (free entry). <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! Take a 10-min taxi from South Harbour after your tour.", status: "doable" },
+                        { title: "Marischal College", desc: "Walk 7 minutes north from the museum via Broad Street. One of the world's largest granite buildings. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The extraordinary, gleaming silver-grey stone facade, which catches the North Sea light uniquely. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable!", status: "doable" },
+                        { title: "Union Terrace Gardens", desc: "A beautifully sunken Victorian park right in the city center. A great place to eat a local pastry. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable!", status: "doable" },
+                        { title: "Old Aberdeen & King's College", desc: "Take a 20-minute local bus north from the city center to the cobblestoned, medieval university district. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip. If you did a morning excursion, traveling out to Old Aberdeen will cut too close to the 4 PM All Aboard.", status: "dropped" }
                     ],
                     food: {
-                        items: ["Aberdeen Buttery (rowie)", "Arbroath smokie", "Scotch broth", "Aberdeenshire cheese"],
-                        tip: "Don't leave without trying an Aberdeen Rowie (Buttery) — a uniquely salty, flaky pastry roll found in every local bakery."
+                        items: ["Aberdeen Rowies/Butteries (flaky, salty breakfast roll — very local, very good)", "Arbroath Smokie (cold-smoked haddock)", "Aberdeenshire Angus Beef"],
+                        restaurants: [
+                            { name: "The Grill", desc: "Aberdeen city's oldest pub (1872). Famous for serving incredible whiskies and classic Aberdeen Angus meat dishes." },
+                            { name: "The Bay Fish & Chips", desc: "(If in Stonehaven on excursion). Frequently voted Britain's best fish & chip shop. Order the haddock — it's local and perfect." },
+                            { name: "The Tolbooth Restaurant", desc: "(If in Stonehaven on excursion). Converted historic jail serving fine local seafood, langoustines, and Arbroath smokie paté." }
+                        ],
+                        tip: "May weather here is crisp and often bright, but can be drizzly. A hot rowie from a bakery with a cup of coffee is the perfect local warm-up."
+                    },
+                    shopping: {
+                        buy: ["Locally sourced whisky from a specialist bottler.", "Oor Wullie or The Broons books (Scotland's most beloved, classic comic strips).", "Quality Aberdeen Angus beef products (if you have ship fridge space)."],
+                        avoid: ["Generic tartan souvenirs.", "Loch Ness Monster plush toys (you aren't near Loch Ness)."]
                     }
                 }
             },
@@ -164,13 +183,21 @@
                     routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Kirkwall+Travel+Centre,+Kirkwall,+UK&waypoints=St+Magnus+Cathedral,+Kirkwall,+UK%7CEarl's+Palace,+Kirkwall,+UK&destination=Tankerness+House+Museum,+Kirkwall,+UK&travelmode=walking",
                     steps: [
                         { title: "Port Shuttle to Town", desc: "Cruise ships usually dock at Hatston Pier. Take the free 10-minute port shuttle bus, which drops you right at the Kirkwall Visitor Centre.", status: "doable" },
-                        { title: "St Magnus Cathedral", desc: "Walk 3 minutes straight down Broad Street from the shuttle drop-off. Founded in 1137, this red-and-yellow sandstone cathedral is glorious.", status: "doable" },
-                        { title: "Bishop's & Earl's Palace ruins", desc: "Located literally right across the street from the cathedral. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! You easily have time for this.", status: "doable" },
+                        { title: "St Magnus Cathedral", desc: "Walk 3 minutes straight down Broad Street from the shuttle drop-off. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The distinct red-and-yellow sandstone masonry (quarried locally) and the medieval grave markers inside.", status: "doable" },
+                        { title: "Bishop's & Earl's Palace ruins", desc: "Located literally right across the street from the cathedral. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The grand Renaissance architecture of the Earl's Palace, built by an infamously tyrannical ruler. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable!", status: "doable" },
                         { title: "Kirkwall's flagstone lanes", desc: "Wander the pedestrian street (Albert St) starting right behind the cathedral to find Orkney Cheddar and local chocolate.", status: "doable" }
                     ],
                     food: {
-                        items: ["Orkney Cheddar", "Hot-smoked salmon", "Highland Park truffles", "Bere bannocks"],
-                        tip: "Judith Glue on Broad Street has a café serving excellent soups and local produce, and a shop full of distinctive Orkney crafts and knitwear."
+                        items: ["Orkney Cheddar (sharp, distinct local cheese)", "Hot-smoked salmon", "Bere bannocks (ancient barley flatbread)"],
+                        restaurants: [
+                            { name: "Judith Glue Cafe", desc: "Broad Street. Serving excellent local soups, Orkney oatcakes, and hyper-local produce." },
+                            { name: "The Storehouse", desc: "Wynding. Located in a beautifully restored 1880s herring store, offering fantastic dishes focused on local Orkney meats and seafood." }
+                        ],
+                        tip: "Orkney has a thriving artisan food scene. Try to find anything made with 'Bere' (pronounced 'bear'), which is an ancient grain grown almost exclusively on these islands."
+                    },
+                    shopping: {
+                        buy: ["Sheila Fleet or Ortak silver and enamel jewelry (highly famous, inspired by Norse designs).", "Highland Park or Scapa whisky.", "Local island knitwear."],
+                        avoid: ["Generic 'Scottish' souvenirs not actually made on the Orkney Islands."]
                     }
                 }
             },
@@ -205,12 +232,20 @@
                     routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Stornoway+Port,+UK&waypoints=Lews+Castle,+Stornoway,+UK%7CStornoway+Town+Centre,+UK&destination=Harris+Tweed+Hebrides,+Stornoway,+UK&travelmode=walking",
                     steps: [
                         { title: "Pier to Town", desc: "Take the quick 5-minute port shuttle bus from the deep-water berth directly to the Stornoway bus station. Walk 2 minutes to the pedestrianized Cromwell Street.", status: "doable" },
-                        { title: "Lews Castle Grounds", desc: "A 10-minute walk across the harbour bridge. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if on the excursion. You won't have time before the 1:00 PM All Aboard.", status: "dropped" },
-                        { title: "Stornoway town centre", desc: "Walk Cromwell and Point streets. Find a local bakery (like Stag Bakeries) for a Stornoway Black Pudding roll. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! You have ~90 minutes after the tour.", status: "doable" }
+                        { title: "Lews Castle Grounds", desc: "A 10-minute walk across the harbour bridge. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The beautifully restored Victorian glasshouses and the woodland trails offering views back over the harbor. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if on the excursion. You won't have time before the 1:00 PM All Aboard.", status: "dropped" },
+                        { title: "Stornoway town centre", desc: "Walk Cromwell and Point streets. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> Listen closely as locals chat; Scottish Gaelic is the primary language for many residents here. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! You have ~90 minutes after the tour.", status: "doable" }
                     ],
                     food: {
-                        items: ["Stornoway Black Pudding", "Lewis hot-smoked salmon", "Hebridean langoustines"],
+                        items: ["Stornoway Black Pudding (Protected Designation of Origin)", "Lewis hot-smoked salmon", "Hebridean langoustines"],
+                        restaurants: [
+                            { name: "The Boatshed Restaurant", desc: "Located right inside Lews Castle. Offers an excellent menu featuring fresh Hebridean seafood and Stornoway Black Pudding." },
+                            { name: "Stag Bakeries / MacNeill's", desc: "Grab a fresh roll filled with famous Stornoway Black Pudding from a local town baker for a quick, authentic bite on the go." }
+                        ],
                         tip: "Stornoway Black Pudding has Protected Designation of Origin status — it can only be made in Lewis by producers holding generations-old recipes."
+                    },
+                    shopping: {
+                        buy: ["Authentic Harris Tweed cloth, bags, or jackets (ensure it has the official Orb trademark).", "Local gin (like Isle of Harris Gin, famous for its sugar kelp botanicals)."],
+                        avoid: ["Any 'tweed' product that lacks the official Harris Tweed Authority Orb stamp — it's not the real deal."]
                     }
                 }
             },
@@ -244,13 +279,21 @@
                     highlights: "Local seafood shacks near the working harbor.",
                     routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Killybegs+Harbour,+Ireland&waypoints=Mellys+Cafe,+Killybegs,+Ireland&destination=Kilcar,+County+Donegal,+Ireland&travelmode=transit",
                     steps: [
-                        { title: "Killybegs Harbour", desc: "Your ship docks right in town! Simply walk off the ship onto the working fish quays. The sheer volume of deep-sea trawlers here is extraordinary.", status: "doable" },
-                        { title: "Seafood lunch", desc: "Walk 3 minutes to Main Street. The Sail Inn or Melly's serve fish chowder made with that morning's catch. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! A perfect post-excursion reward.", status: "doable" },
-                        { title: "Kilcar village", desc: "The centre of Donegal tweed weaving, a 10-min taxi drive west. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion; not enough time before the 3 PM All Aboard.", status: "dropped" }
+                        { title: "Killybegs Harbour", desc: "Your ship docks right in town! Simply walk off the ship onto the working fish quays. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The sheer volume and massive scale of the deep-sea pelagic trawlers docked here. It is the largest fishing port in Ireland.", status: "doable" },
+                        { title: "Seafood lunch", desc: "Walk 3 minutes to Main Street. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! A perfect post-excursion reward.", status: "doable" },
+                        { title: "Kilcar village", desc: "The centre of Donegal tweed weaving, a 10-min taxi drive west. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> Traditional hand-weavers working the looms at Studio Donegal. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion; not enough time before the 3 PM All Aboard.", status: "dropped" }
                     ],
                     food: {
-                        items: ["Donegal fish chowder", "Fresh haddock & chips", "Killybegs langoustines", "Brown soda bread"],
+                        items: ["Donegal fish chowder (thick, creamy, packed with local catch)", "Fresh haddock & chips", "Brown soda bread"],
+                        restaurants: [
+                            { name: "Killybegs Seafood Shack", desc: "Located right on the pier. World-famous for having the absolute freshest fish and chips and seafood chowder straight off the boats." },
+                            { name: "Melly's Cafe", desc: "Main Street. Famous for serving some of the best, most unpretentious fish and chips in the country." }
+                        ],
                         tip: "The fish chowder at Killybegs — made with that morning's catch — is one of the most honest and delicious things you'll eat on the entire cruise."
+                    },
+                    shopping: {
+                        buy: ["Donegal Tweed flat caps or scarves.", "Hand-knit Aran sweaters from local craft shops in town."],
+                        avoid: ["Imported knitwear (always check the label to ensure it was spun and knit in Ireland)."]
                     }
                 }
             },
@@ -285,13 +328,22 @@
                     routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Belfast+City+Hall,+Belfast,+UK&waypoints=St+George's+Market,+Belfast,+UK%7CCathedral+Quarter,+Belfast,+UK&destination=Titanic+Quarter,+Belfast,+UK&travelmode=walking",
                     steps: [
                         { title: "Transit to City Center", desc: "Take a 10-minute taxi straight to St George's Market (if doing DIY) or from the port to the market (if rushing back from a tour). <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Do not walk from the port, it is an industrial zone.", status: "dropped" },
-                        { title: "St George's Market", desc: "<strong class=\"text-rose-600\">Closes at 3 PM!</strong> Belfast's finest market. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Barely Doable! If you cab straight from the tour drop-off, you get ~45 mins before vendors pack up.", status: "doable" },
-                        { title: "Cathedral Quarter", desc: "Walk 15 minutes north from the market to the cobbled lanes around St Anne's Cathedral. Fine Victorian architecture and independent pubs. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable for a late afternoon pint.", status: "doable" },
-                        { title: "Titanic Quarter & Whiskey Split", desc: "Cross the river via the Lagan Weir footbridge. <br/><strong class='text-indigo-700 text-[11px] uppercase tracking-wide'>🥃 Whiskey Split:</strong> Walk here together. You explore the free Titanic Slipways while they walk 5 mins to their pre-booked <strong>Titanic Distillers</strong> tour. Meet back at the distillery entrance in 1 hour! <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if you took the 6-hour excursion; it's too much walking for the remaining time.", status: "dropped" }
+                        { title: "St George's Market", desc: "<strong class=\"text-rose-600\">Closes at 3 PM!</strong> Belfast's finest market. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> Local musicians playing live, artisanal crafts, and the bustling food stalls. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Barely Doable! If you cab straight from the tour drop-off, you get ~45 mins before vendors pack up.", status: "doable" },
+                        { title: "Cathedral Quarter", desc: "Walk 15 minutes north from the market to the cobbled lanes around St Anne's Cathedral. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The vivid street art and murals hidden in the alleyways, alongside fine Victorian architecture. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable for a late afternoon pint.", status: "doable" },
+                        { title: "Titanic Quarter & Whiskey Split", desc: "Cross the river via the Lagan Weir footbridge. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The actual historic slipways where the RMS Titanic was built and launched. <br/><strong class='text-indigo-700 text-[11px] uppercase tracking-wide'>🥃 Whiskey Split:</strong> Walk here together. You explore the free Titanic Slipways while they walk 5 mins to their pre-booked <strong>Titanic Distillers</strong> tour. Meet back at the distillery entrance in 1 hour! <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if you took the 6-hour excursion; it's too much walking for the remaining time.", status: "dropped" }
                     ],
                     food: {
-                        items: ["Belfast bap", "Colcannon", "Boxty (potato pancake)", "Soda farl"],
-                        tip: "St George's Market on a Sunday is the single best food experience in Belfast — arrive by 10:30 AM (if DIY) for the best selection."
+                        items: ["Belfast Bap (a massive, crusty bread roll filled with bacon, sausage, and egg)", "Colcannon (mashed potatoes with cabbage)", "Boxty (potato pancake)"],
+                        restaurants: [
+                            { name: "St George's Market Vendors", desc: "The absolute best place for weekend street food. Arrive by 10:30 AM for the best selection of Belfast Baps." },
+                            { name: "The Cloth Ear", desc: "Cathedral Quarter. Mourne Seafood is typically closed on Sundays, so head to this excellent Victorian-style pub for a fantastic, hearty Sunday roast or Irish stew." },
+                            { name: "Crown Liquor Saloon", desc: "Great Victoria Street. A masterpiece of Victorian decorative arts. Come for the pint, stay for the stunning carved wood and stained glass." }
+                        ],
+                        tip: "St George's Market on a Sunday is the single best food experience in Belfast — but remember it strictly closes at 3:00 PM!"
+                    },
+                    shopping: {
+                        buy: ["Local artwork and crafts directly from the makers at St George's Market.", "Fine Irish Linen (Northern Ireland has a proud linen-making history)."],
+                        avoid: ["Overpriced, generic Titanic kitsch from standard tourist shops."]
                     }
                 }
             },
@@ -326,13 +378,22 @@
                     routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Pearse+Station,+Dublin,+Ireland&waypoints=Trinity+College+Dublin,+Ireland%7CNational+Gallery+of+Ireland,+Dublin,+Ireland%7CMerrion+Square,+Dublin,+Ireland&destination=Powerscourt+Townhouse+Centre,+Dublin,+Ireland&travelmode=walking",
                     steps: [
                         { title: "DART to city centre", desc: "Walk 5 mins from the Dun Laoghaire pier to the station. Take the northbound train (25 min) to Pearse Station. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion. You will not have time to go into Dublin.", status: "dropped" },
-                        { title: "Trinity College & Whiskey Split", desc: "Walk 10 mins from Pearse Station. <strong class=\"text-rose-600\">RENOVATION WARNING:</strong> The historic Long Room library is currently emptied of books for a multi-year restoration. You will instead visit the modern 'Book of Kells Experience'. <br/><strong class='text-indigo-700 text-[11px] uppercase tracking-wide'>🥃 Whiskey Split:</strong> Part ways at the front gates! You explore the campus and grab pastries at Bread 41, while they walk 15 mins to their pre-booked <strong>Jameson Bow St.</strong> or <strong>Teeling</strong> tour. Meet up 2 hours later at St. Stephen's Green for lunch!", status: "dropped" },
-                        { title: "Merrion Square", desc: "Walk 10 minutes south from Trinity College to the elegantly restored Georgian square. Oscar Wilde's statue is in the park. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion.", status: "dropped" },
-                        { title: "Dun Laoghaire Pier & Town", desc: "If you take the 7-hour Glendalough tour, you won't have time for Dublin city. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! Spend your remaining hour walking the beautiful Dun Laoghaire East Pier right where your ship is docked, and grab a pint.", status: "doable" }
+                        { title: "Trinity College & Whiskey Split", desc: "Walk 10 mins from Pearse Station. <strong class=\"text-rose-600\">RENOVATION WARNING:</strong> The historic Long Room library is currently emptied of books for a multi-year restoration. You will instead visit the modern 'Book of Kells Experience'. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The mesmerizing, intricate decoration of the 9th-century illuminated manuscript. <br/><strong class='text-indigo-700 text-[11px] uppercase tracking-wide'>🥃 Whiskey Split:</strong> Part ways at the front gates! You explore the campus and grab pastries at Bread 41, while they walk 15 mins to their pre-booked <strong>Jameson Bow St.</strong> or <strong>Teeling</strong> tour. Meet up 2 hours later at St. Stephen's Green for lunch!", status: "dropped" },
+                        { title: "Grafton Street & Merrion Square", desc: "Walk south from Trinity College to the elegantly restored Georgian squares. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The brightly painted Georgian doors and the lounging Oscar Wilde statue in the park. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion.", status: "dropped" },
+                        { title: "Dun Laoghaire Pier & Town", desc: "If you take the 7-hour Glendalough tour, you won't have time for Dublin city. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The beautiful Victorian bandstand along the East Pier. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! Spend your remaining hour walking the beautiful Dun Laoghaire East Pier right where your ship is docked, and grab a pint.", status: "doable" }
                     ],
                     food: {
-                        items: ["Full Irish breakfast", "Brown soda bread", "Howth smoked salmon", "Dublin coddle"],
-                        tip: "Bewley's Café on Grafton Street (1927, with Harry Clarke stained glass) for breakfast or coffee. Fallon & Byrne on Exchequer Street for an excellent lunch."
+                        items: ["Full Irish breakfast", "Brown soda bread", "Howth smoked salmon", "Dublin coddle (stew of sausage, bacon, and potatoes)"],
+                        restaurants: [
+                            { name: "Brother Hubbard", desc: "Capel Street. Extremely popular for its excellent Middle Eastern-influenced brunch and coffee." },
+                            { name: "Elephant & Castle", desc: "Temple Bar. Touristy area, but undeniably famous for their legendary chicken wings." },
+                            { name: "The Winding Stair", desc: "Next to the Ha'penny Bridge. An iconic bookstore on the ground floor with a fantastic, locally-sourced Irish restaurant upstairs." }
+                        ],
+                        tip: "Bewley's Café on Grafton Street (1927, with Harry Clarke stained glass) is a Dublin institution perfect for breakfast or coffee."
+                    },
+                    shopping: {
+                        buy: ["Authentic Claddagh rings (representing love, loyalty, and friendship).", "Avoca handweavers throws or blankets.", "Jameson or Teeling whiskey direct from the distilleries."],
+                        avoid: ["Plastic leprechaun hats and generic 'shamrock' gear in the tourist shops around Temple Bar."]
                     }
                 }
             },
@@ -367,13 +428,21 @@
                     routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Cobh+Railway+Station,+Ireland&waypoints=Kent+Station,+Cork,+Ireland%7CEnglish+Market,+Cork,+Ireland&destination=Victorian+Quarter,+Cork,+Ireland&travelmode=transit",
                     steps: [
                         { title: "Train to Cork City", desc: "Walk off the ship directly into the adjacent Cobh Railway Station. Take the 25-minute commuter train to Cork Kent Station. <br/><strong class=\"text-amber-700 text-[11px] uppercase tracking-wide\">⚠️ Rail Warning:</strong> Major track works run through 2027. Check the Irish Rail app a few days prior to ensure there are no \"Bus Substitutions\" running instead of trains. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the Kinsale excursion. You won't have time for Cork City.", status: "dropped" },
-                        { title: "The English Market", desc: "Take a flat, 15-minute walk from Kent Station across the bridges to this spectacular, vaulted municipal food market. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion.", status: "dropped" },
+                        { title: "The English Market", desc: "Take a flat, 15-minute walk from Kent Station across the bridges to this spectacular municipal food market. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The vaulted 18th-century ceilings and the stalls selling spiced beef (a Cork specialty). <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion.", status: "dropped" },
                         { title: "Victorian Quarter", desc: "Cross the river to explore MacCurtain Street, known for its independent shops. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion.", status: "dropped" },
-                        { title: "Explore Cobh Town (Alternative)", desc: "If you take the Kinsale tour, you will not have time to go into Cork City. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! Spend your afternoon walking the steep, colorful streets of Cobh, visiting St. Colman's Cathedral, and walking the Titanic Trail right by the ship.", status: "doable" }
+                        { title: "Explore Cobh Town (Alternative)", desc: "If you take the Kinsale tour, you will not have time to go into Cork City. Spend your afternoon walking the steep, colorful streets of Cobh. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The imposing St. Colman's Cathedral and the original White Star Line ticket office on the Titanic Trail. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable!", status: "doable" }
                     ],
                     food: {
-                        items: ["Drisheen (blood pudding)", "Spiced beef", "Gubbeen farmhouse cheese", "Butter cake"],
-                        tip: "Farmgate Café (Inside The English Market): Located on the mezzanine level, sourcing ingredients directly from the artisan stalls buzzing below."
+                        items: ["Drisheen (local blood pudding)", "Spiced beef (traditionally a Christmas dish, but eaten year-round here)", "Gubbeen farmhouse cheese"],
+                        restaurants: [
+                            { name: "Farmgate Café", desc: "Located on the mezzanine level inside The English Market in Cork. It sources its ingredients directly from the artisan stalls buzzing below." },
+                            { name: "The Quays Bar and Restaurant", desc: "If staying in Cobh. Located right on the waterfront offering great views of the harbor and hearty, reliable pub food." }
+                        ],
+                        tip: "Cork is widely considered the culinary capital of Ireland. Don't be afraid to ask the vendors in the English Market for small samples of their local cheeses!"
+                    },
+                    shopping: {
+                        buy: ["Artisan cheeses and handmade chocolates directly from the English Market.", "Waterford or local Irish crystal."],
+                        avoid: ["Standard airport-style 'Irish' souvenirs. Go for the locally produced food and crafts instead."]
                     }
                 }
             },
@@ -407,14 +476,22 @@
                     highlights: "Walk to Dartmouth Castle at the mouth of the river, then reward yourselves with a proper Devonshire Cream Tea.",
                     routeUrl: "https://www.google.com/maps/dir/?api=1&origin=Foss+Street,+Dartmouth,+UK&waypoints=Bayard's+Cove+Fort,+Dartmouth,+UK%7CDartmouth+Castle,+Dartmouth,+UK&destination=Royal+Avenue+Gardens,+Dartmouth,+UK&travelmode=walking",
                     steps: [
-                        { title: "Dartmouth town walk", desc: "You will step off the ship's tender directly in the town center! Walk Foss Street and Duke Street. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable before or after your noon tour.", status: "doable" },
-                        { title: "Bayards Cove Fort", desc: "Walk 10 minutes south along the river to a tiny 16th-century gun fort at the water's edge. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable!", status: "doable" },
-                        { title: "Dartmouth Castle", desc: "Walk another 15 minutes along the riverbank path to this 14th-century castle. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! You have time for this ~1 hour round trip walk.", status: "doable" },
+                        { title: "Dartmouth town walk", desc: "You will step off the ship's tender directly in the town center! Walk Foss Street and Duke Street. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The incredibly preserved medieval and Tudor half-timbered buildings leaning over the narrow streets. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable before or after your noon tour.", status: "doable" },
+                        { title: "Bayards Cove Fort", desc: "Walk 10 minutes south along the river. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> This tiny 16th-century gun fort at the water's edge, famous for its cobbled quayside (and used as a filming location). <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable!", status: "doable" },
+                        { title: "Dartmouth Castle", desc: "Walk another 15 minutes along the riverbank path. <br/><strong class='text-slate-900 font-semibold'>👀 Look for:</strong> The heavy iron chain mechanism that was once stretched across the river mouth to stop enemy ships. <br/><strong class='text-emerald-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Doable! You have time for this ~1 hour round trip walk.", status: "doable" },
                         { title: "Kingswear by ferry", desc: "Take the passenger ferry across the river mouth. <br/><strong class='text-rose-600 text-[11px] uppercase tracking-wide'>Tour Logistics:</strong> Skip if taking the excursion, as your excursion already involves river ferries.", status: "dropped" }
                     ],
                     food: {
-                        items: ["Devon cream tea", "Dartmouth crab sandwich", "River Dart lobster", "Clotted cream ice cream"],
-                        tip: "Devon cream teas are serious business: cream goes FIRST, then jam (the opposite of Cornwall). The Dartmouth Tea Company is perfect for this."
+                        items: ["Devon cream tea", "Dartmouth crab sandwich", "River Dart lobster", "Clotted cream fudge"],
+                        restaurants: [
+                            { name: "Bayards Cove Inn", desc: "Historic 14th-century inn perfect for experiencing a proper, traditional Devonshire cream tea." },
+                            { name: "Rockfish", desc: "Located on the South Embankment. Highly acclaimed, sustainable local seafood with great river views." }
+                        ],
+                        tip: "Devon cream teas are serious business: the clotted cream goes on the scone FIRST, then the strawberry jam (the exact opposite of the Cornwall method!)."
+                    },
+                    shopping: {
+                        buy: ["Locally made Devon fudge.", "Original maritime artwork and ceramics from the high-end boutique galleries on Foss Street."],
+                        avoid: ["Generic seaside rock candy or cheap plastic beach trinkets."]
                     }
                 }
             }
@@ -641,15 +718,56 @@
                                        `).join('')}
                                     </ul>
                                 </div>
-                                <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 shadow-sm">
-                                    <h3 class="font-bold text-amber-900 mb-4 flex items-center gap-2">
-                                        <i data-lucide="utensils" class="w-5 h-5 text-amber-600"></i> Only-Found-Here Specialties
-                                    </h3>
-                                    <div class="flex flex-wrap gap-2 mb-4">
-                                        ${portData.diy.food.items.map(item => `<span class="bg-white border border-amber-300 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm">${item}</span>`).join('')}
+                                
+                                <!-- Dining & Food Section -->
+                                <div>
+                                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-5 shadow-sm">
+                                        <h3 class="font-bold text-amber-900 mb-4 flex items-center gap-2">
+                                            <i data-lucide="utensils" class="w-5 h-5 text-amber-600"></i> Only-Found-Here Specialties
+                                        </h3>
+                                        <div class="flex flex-wrap gap-2 mb-4">
+                                            ${portData.diy.food.items.map(item => `<span class="bg-white border border-amber-300 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm">${item}</span>`).join('')}
+                                        </div>
+                                        <p class="text-sm text-amber-900 italic leading-relaxed bg-amber-100/50 p-3 rounded-lg mb-5">${portData.diy.food.tip}</p>
+                                        
+                                        <div class="border-t border-amber-200/60 pt-4">
+                                            <h4 class="font-bold text-amber-900 mb-3 flex items-center gap-2 text-sm uppercase tracking-wide">
+                                                <i data-lucide="store" class="w-4 h-4 text-amber-600"></i> Dining Recommendations
+                                            </h4>
+                                            <ul class="space-y-3">
+                                                ${portData.diy.food.restaurants.map(r => `
+                                                    <li class="text-sm leading-relaxed">
+                                                        <strong class="text-amber-900">${r.name}:</strong> <span class="text-amber-800/90">${r.desc}</span>
+                                                    </li>
+                                                `).join('')}
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <p class="text-sm text-amber-900 italic leading-relaxed bg-amber-100/50 p-3 rounded-lg">${portData.diy.food.tip}</p>
                                 </div>
+                                
+                                <!-- Shopping Section -->
+                                <div>
+                                    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-5 shadow-sm">
+                                        <h3 class="font-bold text-emerald-900 mb-4 flex items-center gap-2">
+                                            <i data-lucide="shopping-bag" class="w-5 h-5 text-emerald-600"></i> Souvenir Guide
+                                        </h3>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                            <div>
+                                                <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wide mb-3 flex items-center gap-1.5"><i data-lucide="check" class="w-4 h-4"></i> What to Buy</h4>
+                                                <ul class="space-y-2">
+                                                    ${portData.diy.shopping.buy.map(item => `<li class="text-sm text-emerald-900 flex items-start gap-2 leading-relaxed"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span><span>${item}</span></li>`).join('')}
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-xs font-bold text-rose-800 uppercase tracking-wide mb-3 flex items-center gap-1.5"><i data-lucide="x" class="w-4 h-4"></i> What to Avoid</h4>
+                                                <ul class="space-y-2">
+                                                    ${portData.diy.shopping.avoid.map(item => `<li class="text-sm text-rose-900 flex items-start gap-2 leading-relaxed"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"></span><span>${item}</span></li>`).join('')}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -717,8 +835,8 @@
                                 <div id="card-${port.id}" class="port-card rounded-2xl border transition-all duration-300 overflow-hidden shadow-sm ${isExcursion ? 'border-teal-400 bg-teal-50/20' : 'border-indigo-300 bg-indigo-50/20'}">
                                     
                                     <!-- Port Header & Toggles -->
-                                    <div class="p-4 md:p-5 border-b border-slate-200/50 flex flex-col gap-3 bg-white/90">
-                                        <div class="flex flex-col md:flex-row md:items-start justify-between gap-3">
+                                    <div class="p-4 md:p-5 border-b border-slate-200/50 flex flex-col gap-4 bg-white/90">
+                                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
                                             <div class="flex-1">
                                                 <h3 class="text-lg md:text-xl font-bold text-slate-800 leading-tight">${port.name}</h3>
                                                 <div class="flex flex-wrap items-center gap-2 mt-2 mb-3">
@@ -849,7 +967,11 @@
                                        <ul class="list-decimal pl-5 text-sm space-y-2">
                                          ${port.diy.steps.map(step => `<li><strong>${step.title}:</strong> ${step.desc}</li>`).join('')}
                                        </ul>
-                                       <p class="text-sm mt-2"><strong>Food:</strong> ${port.diy.food.tip}</p>
+                                       <h4 class="font-bold text-lg mt-4 mb-2">Dining & Food:</h4>
+                                       <ul class="list-disc pl-5 text-sm space-y-1">
+                                            ${port.diy.food.restaurants.map(r => `<li><strong>${r.name}:</strong> ${r.desc}</li>`).join('')}
+                                       </ul>
+                                       <p class="text-sm mt-2 font-italic">${port.diy.food.tip}</p>
                                     </div>
                                 </div>
                                 `;
