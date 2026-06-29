@@ -61,6 +61,7 @@
                 currency: "💷 GBP (£)",
                 isTender: true,
                 mapContext: ", Edinburgh, Scotland, UK",
+                briefIntro: "Scotland's hilly, historic capital beautifully combines a medieval Old Town with an elegant Georgian New Town. It is famous for its imposing hilltop castle, winding cobblestone alleys, and the bustling Royal Mile.",
                 excursion: {
                     code: "NWH-016",
                     title: "The House & The Castle",
@@ -102,6 +103,7 @@
                 currency: "💷 GBP (£)",
                 isTender: false,
                 mapContext: ", Aberdeen, Scotland, UK",
+                briefIntro: "Known as the \"Granite City\" for its sparkling stone buildings, Aberdeen is a sturdy, historic working port on the North Sea. However, the true natural majesty of sheer cliffs and medieval castles lies just outside the city limits.",
                 excursion: {
                     code: "ABE-002",
                     title: "The Castle and the Coast",
@@ -142,6 +144,7 @@
                 currency: "💷 GBP (£)",
                 isTender: false,
                 mapContext: ", Kirkwall, Orkney, Scotland, UK",
+                briefIntro: "The diminutive capital of the Orkney Islands features a strong Norse heritage and a picturesque harbor. It serves as the gateway to some of Europe's most remarkably preserved Neolithic sites.",
                 excursion: {
                     code: "KOI-001",
                     title: "Ancient Treasures of Orkney",
@@ -182,6 +185,7 @@
                 currency: "💷 GBP (£)",
                 isTender: false,
                 mapContext: ", Stornoway, Isle of Lewis, Scotland, UK",
+                briefIntro: "The largest town in the remote Outer Hebrides, Stornoway is a hub of Gaelic culture and the home of the famous Harris Tweed. It offers access to stark, wind-swept moorlands and mystical standing stones.",
                 excursion: {
                     code: "SYY-002",
                     title: "Scenic Lewis",
@@ -221,6 +225,7 @@
                 currency: "💶 EUR (€)",
                 isTender: false,
                 mapContext: ", Killybegs, County Donegal, Ireland",
+                briefIntro: "Ireland's largest fishing port is an incredibly quaint, working harbor town tucked into County Donegal. It serves as the ideal launching point to view the dramatic, pristine Sliabh Liag sea cliffs.",
                 excursion: {
                     code: "K1L-002",
                     title: "The Wild Sliabh Liag Cliffs",
@@ -260,6 +265,7 @@
                 currency: "💷 GBP (£)",
                 isTender: false,
                 mapContext: ", Belfast, Northern Ireland, UK",
+                briefIntro: "Northern Ireland's capital is a revitalized city with a rich shipbuilding past, most famous as the birthplace of the RMS Titanic. It beautifully blends grand Victorian architecture with a vibrant modern pub and market culture.",
                 excursion: {
                     code: "BFS-008",
                     title: "Spectacular Giants Causeway",
@@ -300,6 +306,7 @@
                 currency: "💶 EUR (€)",
                 isTender: false,
                 mapContext: ", Dublin, Ireland",
+                briefIntro: "Ireland's friendly, literary capital is the ideal self-guided city, full of cobblestone lanes and lively pubs. You dock in the seaside suburb of Dún Laoghaire, an easy train ride from the city center.",
                 excursion: {
                     code: "DLG-006",
                     title: "Drive Through Countryside",
@@ -340,6 +347,7 @@
                 currency: "💶 EUR (€)",
                 isTender: false,
                 mapContext: ", Cork, Ireland",
+                briefIntro: "You dock in the charming, colorful hillside town of Cobh, famously the final port of call for the Titanic. A short train ride inland takes you to Cork City, celebrated as the culinary capital of Ireland.",
                 excursion: {
                     code: "CBH-005",
                     title: "Cork's Countryside & Kinsale",
@@ -380,6 +388,7 @@
                 currency: "💷 GBP (£)",
                 isTender: true,
                 mapContext: ", Dartmouth, Devon, England, UK",
+                briefIntro: "Nestled on the banks of the River Dart, this 17th-century naval town is stunningly picturesque and steeped in maritime history. Its flat embankment, medieval buildings, and nearby castles make it perfect for relaxed exploring.",
                 excursion: {
                     code: "DTH-003",
                     title: "River Cruise & Totnes",
@@ -708,19 +717,20 @@
                                 <div id="card-${port.id}" class="port-card rounded-2xl border transition-all duration-300 overflow-hidden shadow-sm ${isExcursion ? 'border-teal-400 bg-teal-50/20' : 'border-indigo-300 bg-indigo-50/20'}">
                                     
                                     <!-- Port Header & Toggles -->
-                                    <div class="p-4 md:p-5 border-b border-slate-200/50 flex flex-col gap-4 bg-white/90">
-                                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                                            <div>
+                                    <div class="p-4 md:p-5 border-b border-slate-200/50 flex flex-col gap-3 bg-white/90">
+                                        <div class="flex flex-col md:flex-row md:items-start justify-between gap-3">
+                                            <div class="flex-1">
                                                 <h3 class="text-lg md:text-xl font-bold text-slate-800 leading-tight">${port.name}</h3>
-                                                <div class="flex flex-wrap items-center gap-2 mt-2">
+                                                <div class="flex flex-wrap items-center gap-2 mt-2 mb-3">
                                                     <span class="bg-slate-100 border border-slate-200 text-slate-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap"><i data-lucide="calendar" class="w-3 h-3 inline mr-1"></i>${port.date}</span>
                                                     <span class="bg-slate-100 border border-slate-200 text-slate-700 px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap"><i data-lucide="clock" class="w-3 h-3 inline mr-1"></i>${port.arrive} - ${port.depart}</span>
                                                     <span class="bg-rose-100 border border-rose-200 text-rose-700 px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap"><i data-lucide="alert-octagon" class="w-3 h-3 inline mr-1"></i>All Aboard: ${port.allAboard}</span>
                                                     <span class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap">${port.currency}</span>
                                                     ${port.isTender ? `<span class="bg-sky-100 border border-sky-200 text-sky-700 px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap"><i data-lucide="anchor" class="w-3 h-3 inline mr-1"></i>Tender Port</span>` : ''}
                                                 </div>
+                                                <p class="text-[13px] md:text-sm text-slate-600 leading-relaxed pr-0 md:pr-6 italic">${port.briefIntro}</p>
                                             </div>
-                                            <div class="no-print flex bg-slate-100 rounded-lg p-1 shadow-inner shrink-0">
+                                            <div class="no-print flex bg-slate-100 rounded-lg p-1 shadow-inner shrink-0 w-full md:w-auto mt-2 md:mt-0 self-start md:self-auto">
                                                 <button 
                                                     onclick="toggleSelection(event, '${port.id}', 'diy')"
                                                     class="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs md:text-sm font-semibold rounded-md transition-all ${!isExcursion ? 'bg-white shadow-sm text-indigo-700' : 'text-slate-500 hover:text-slate-700'}"
