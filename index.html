@@ -6,7 +6,9 @@
     <title>My HTML Files</title>
     <style>
         body { font-family: system-ui, sans-serif; padding: 2rem; max-width: 600px; margin: auto; }
-        ul { line-height: 1.8; }
+        ul { line-height: 1.8; padding-left: 1.5rem; }
+        li.folder-heading { list-style: none; margin-left: -1.5rem; margin-top: 1.2rem; font-weight: 600; color: #444; }
+        li.folder-heading:first-child { margin-top: 0; }
         a { color: #0366d6; text-decoration: none; }
         a:hover { text-decoration: underline; }
     </style>
@@ -22,40 +24,75 @@
         // --- CONFIGURE THESE ---
         const owner = 'fishese';
         const repo = 'p';
-        const path = ''; // Leave blank for the root directory, or add a folder name like 'pages'
         // -----------------------
 
-        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+        function makeItem(file) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = file.path;
+            a.textContent = file.name.replace('.html', '');
+            li.appendChild(a);
+            return li;
+        }
 
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) throw new Error("Could not fetch repo contents.");
-                return response.json();
-            })
-            .then(data => {
-                const list = document.getElementById('file-list');
-                list.innerHTML = ''; // Clear loading text
+        async function loadFiles() {
+            const list = document.getElementById('file-list');
+            try {
+                // Look up the default branch (main/master/etc.)
+                const repoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
+                if (!repoRes.ok) throw new Error('Could not fetch repo info.');
+                const repoData = await repoRes.json();
+                const branch = repoData.default_branch;
 
-                data.forEach(file => {
-                    // Only list .html files and exclude the index itself
-                    if (file.name.endsWith('.html') && file.name !== 'index.html') {
-                        const li = document.createElement('li');
-                        const a = document.createElement('a');
-                        a.href = file.name;
-                        a.textContent = file.name.replace('.html', ''); // Removes .html from the display text
-                        li.appendChild(a);
-                        list.appendChild(li);
-                    }
+                // Get the full file tree recursively in one call
+                const treeRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`);
+                if (!treeRes.ok) throw new Error('Could not fetch repo contents.');
+                const treeData = await treeRes.json();
+
+                // Only actual files (blobs), .html, excluding the root index itself
+                const htmlFiles = treeData.tree.filter(item =>
+                    item.type === 'blob' &&
+                    item.path.endsWith('.html') &&
+                    item.path !== 'index.html'
+                );
+
+                list.innerHTML = '';
+
+                if (htmlFiles.length === 0) {
+                    list.innerHTML = '<li>No HTML files found.</li>';
+                    return;
+                }
+
+                // Group by folder ('' = root)
+                const groups = {};
+                htmlFiles.forEach(file => {
+                    const parts = file.path.split('/');
+                    const folder = parts.length > 1 ? parts.slice(0, -1).join('/') : '';
+                    const name = parts[parts.length - 1];
+                    (groups[folder] ||= []).push({ path: file.path, name });
                 });
 
-                if (list.innerHTML === '') {
-                    list.innerHTML = '<li>No HTML files found.</li>';
+                // Root-level files first, no heading
+                if (groups['']) {
+                    groups[''].forEach(f => list.appendChild(makeItem(f)));
                 }
-            })
-            .catch(error => {
-                document.getElementById('file-list').innerHTML = `<li>Error loading files. Ensure the repo is public.</li>`;
+
+                // Then each subfolder, alphabetically, with a heading
+                Object.keys(groups).filter(f => f !== '').sort().forEach(folder => {
+                    const heading = document.createElement('li');
+                    heading.className = 'folder-heading';
+                    heading.textContent = `📁 ${folder}`;
+                    list.appendChild(heading);
+                    groups[folder].forEach(f => list.appendChild(makeItem(f)));
+                });
+
+            } catch (error) {
+                list.innerHTML = `<li>Error loading files. Ensure the repo is public.</li>`;
                 console.error(error);
-            });
+            }
+        }
+
+        loadFiles();
     </script>
 </body>
 </html>
