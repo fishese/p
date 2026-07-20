@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台灣行程手冊 · 綠島潛旅 + 高雄台南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f5f1e8;
+    --card:#ffffff;
+    --ink:#143037;
+    --ink-soft:#52676d;
+    --sea:#127a78;
+    --sea-deep:#0c4750;
+    --coral:#e0603c;
+    --gold:#c98a26;
+    --line:#e4ddcd;
+    --line-soft:#eee9dd;
+    --shadow:0 1px 2px rgba(20,48,55,.05),0 8px 24px rgba(20,48,55,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:64px;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 18px}
+
+  /* ---------- HEADER ---------- */
+  header.hero{
+    background:linear-gradient(150deg,var(--sea-deep) 0%,var(--sea) 48%,var(--coral) 130%);
+    color:#fff;padding:38px 0 0;position:relative;overflow:hidden;
+  }
+  .hero .wrap{position:relative;z-index:2}
+  .eyebrow{
+    font-family:"Fraunces",serif;font-style:italic;font-size:15px;
+    letter-spacing:.02em;opacity:.85;margin-bottom:6px;
+  }
+  .hero h1{
+    font-family:"Fraunces",serif;font-weight:600;font-size:30px;line-height:1.2;
+    letter-spacing:.01em;margin-bottom:4px;
+  }
+  .hero .sub{font-size:14px;opacity:.9;letter-spacing:.04em;margin-bottom:22px}
+  .ticket{
+    display:grid;grid-template-columns:1fr 1fr;gap:1px;
+    background:rgba(255,255,255,.25);border-radius:14px 14px 0 0;overflow:hidden;margin-top:6px;
+  }
+  .ticket .leg{background:rgba(255,255,255,.12);padding:12px 14px;backdrop-filter:blur(2px)}
+  .ticket .leg .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+  .ticket .leg .rt{font-family:"Fraunces",serif;font-size:17px;font-weight:600;margin-top:2px}
+  .ticket .leg .det{font-size:12px;opacity:.85;margin-top:1px}
+  .wave{display:block;width:100%;height:26px;margin-bottom:-1px}
+
+  /* ---------- STICKY NAV ---------- */
+  nav.jump{
+    position:sticky;top:0;z-index:20;background:rgba(245,241,232,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  }
+  nav.jump .wrap{display:flex;gap:8px;overflow-x:auto;padding:10px 18px;-webkit-overflow-scrolling:touch}
+  nav.jump a{
+    flex:0 0 auto;text-decoration:none;color:var(--sea-deep);font-size:13px;font-weight:600;
+    padding:6px 13px;border:1px solid var(--line);border-radius:999px;background:var(--card);white-space:nowrap;
+  }
+  nav.jump a:active{background:var(--sea);color:#fff;border-color:var(--sea)}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:30px 0 4px}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
+  .sec-num{font-family:"Fraunces",serif;font-style:italic;font-size:15px;color:var(--coral)}
+  .sec-head h2{font-size:20px;font-weight:700;letter-spacing:.01em}
+  .sec-head .when{margin-left:auto;font-size:12.5px;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+
+  /* ---------- ALERT BOX ---------- */
+  .glance{
+    background:var(--card);border:1px solid var(--line);border-left:4px solid var(--coral);
+    border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);margin-top:18px;
+  }
+  .glance h3{font-size:13px;letter-spacing:.06em;color:var(--coral);text-transform:uppercase;margin-bottom:10px;font-weight:700}
+  .glance ul{list-style:none}
+  .glance li{font-size:14px;padding:5px 0 5px 20px;position:relative;border-top:1px solid var(--line-soft)}
+  .glance li:first-child{border-top:none}
+  .glance li::before{content:"";position:absolute;left:2px;top:13px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+  .glance b{color:var(--sea-deep)}
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{position:relative;margin-left:6px;padding-left:24px;border-left:2px solid var(--line)}
+  .stop{position:relative;padding:0 0 20px}
+  .stop::before{
+    content:"";position:absolute;left:-31px;top:5px;width:12px;height:12px;border-radius:50%;
+    background:var(--coral);border:3px solid var(--paper);
+  }
+  .stop.move::before{background:var(--card);border:2px solid var(--line);width:9px;height:9px;left:-29px;top:7px}
+  .time{font-family:"Fraunces",serif;font-weight:600;font-size:16px;color:var(--sea-deep)}
+  .stop .name{font-size:16px;font-weight:700;margin-top:1px}
+  .stop .desc{font-size:13.5px;color:var(--ink-soft);margin-top:3px}
+  .tags{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-size:11.5px;padding:2px 8px;border-radius:6px;background:var(--line-soft);color:var(--ink-soft);font-weight:600}
+  .tag.warn{background:#fbe7df;color:var(--coral)}
+  .tag.sea{background:#dcefee;color:var(--sea-deep)}
+  .move .name{font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+  .move .time{font-size:13px;color:var(--ink-soft)}
+  .route{display:inline-block;font-weight:700;color:var(--sea)}
+  .maplink{display:inline-block;font-size:11.5px;font-weight:600;color:var(--sea);text-decoration:none;
+    border:1px solid var(--line);border-radius:6px;padding:1px 8px;margin:4px 6px 0 0;white-space:nowrap}
+  .maplink:active{background:var(--sea);color:#fff;border-color:var(--sea)}
+  .stop .name .maplink{vertical-align:middle}
+  .maps-row{margin-top:5px}
+
+  /* ---------- CARDS GRID (green island spots) ---------- */
+  .spotlist{display:flex;flex-direction:column;gap:0;margin-top:6px;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+  .spot{display:flex;gap:12px;padding:13px 16px;border-top:1px solid var(--line-soft);align-items:flex-start}
+  .spot:first-child{border-top:none}
+  .spot .ride{flex:0 0 64px;text-align:center}
+  .spot .ride .min{font-family:"Fraunces",serif;font-weight:600;font-size:18px;color:var(--coral);line-height:1}
+  .spot .ride .unit{font-size:10.5px;color:var(--ink-soft);letter-spacing:.04em}
+  .spot .body .t{font-weight:700;font-size:15px}
+  .spot .body .t .star{color:var(--gold);font-size:12px;font-weight:600;margin-left:5px}
+  .spot .body .m{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+  .spot .body .h{font-size:11.5px;color:var(--sea);margin-top:3px;font-weight:600}
+
+  /* ---------- REFERENCE ---------- */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);margin-top:14px}
+  .card h3{font-size:14px;font-weight:700;color:var(--sea-deep);margin-bottom:8px}
+  .card p{font-size:13.5px;color:var(--ink);margin-bottom:4px}
+  .card .k{color:var(--ink-soft)}
+  .line-list{list-style:none}
+  .line-list li{font-size:13.5px;padding:6px 0;border-top:1px solid var(--line-soft);display:flex;gap:8px}
+  .line-list li:first-child{border-top:none}
+  .pill{flex:0 0 auto;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;color:#fff}
+  .pill.r{background:var(--coral)}
+  .pill.o{background:var(--gold)}
+  .pill.t{background:var(--sea)}
+
+  .contact a{color:var(--sea);text-decoration:none;font-weight:600}
+  footer{text-align:center;font-size:12px;color:var(--ink-soft);padding:30px 0 0}
+  .foot-rule{height:1px;background:var(--line);margin:28px 0 0}
+
+  @media (max-width:420px){
+    .hero h1{font-size:26px}
+    .ticket{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    section{animation:fade .5s ease both}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Dive · City · Coast — Taiwan</div>
+    <h1>綠島潛旅 + 高雄・台南</h1>
+    <div class="sub">2026 / 08 / 23 – 08 / 30 · 7 晚</div>
+    <div class="ticket">
+      <div class="leg">
+        <div class="lbl">去程 · 8/23 (日)</div>
+        <div class="rt">HKG 08:35 → KHH 10:10</div>
+        <div class="det">CX432 · 國泰 · 經濟艙 · 行李 1PC</div>
+      </div>
+      <div class="leg">
+        <div class="lbl">回程 · 8/30 (日)</div>
+        <div class="rt">KHH 19:10 → HKG 20:50</div>
+        <div class="det">CX459 · 國泰 · 經濟艙 · 常客 1547693631</div>
+      </div>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,20 C180,40 360,0 540,18 C720,36 900,4 1080,18 C1260,32 1380,22 1440,18 L1440,40 L0,40 Z" fill="#f5f1e8"/>
+  </svg>
+</header>
+
+<nav class="jump">
+  <div class="wrap">
+    <a href="#glance">重點提醒</a>
+    <a href="#green">綠島 8/23–27</a>
+    <a href="#d1">8/28 高雄</a>
+    <a href="#d2">8/29 台南</a>
+    <a href="#d3">8/30 離店</a>
+    <a href="#transit">交通</a>
+    <a href="#tips">提醒</a>
+    <a href="#contact">聯絡</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- GLANCE -->
+  <section id="glance">
+    <div class="glance">
+      <h3>出發前先記住這幾件事</h3>
+      <ul>
+        <li><b>8/30 退房 12:00 前</b>：先退房、把行李寄放在酒店，行程結束回來取，再搭紅線直奔機場。</li>
+        <li><b>機場時間</b>：CX459 19:10 起飛，建議 17:00 前到機場 → 約 16:00 從市區出發很充裕。</li>
+        <li><b>朝日溫泉勿在最後一潛後立即泡</b>：留足水面間隔，避免增加減壓病風險。</li>
+        <li><b>先買一卡通／悠遊卡</b>：捷運、輕軌、台鐵區間車、公車、超商都能刷。</li>
+        <li><b>天氣</b>：8 月底炎熱＋颱風／午後雷陣雨季，渡輪與潛水看天氣，帶傘、防曬、行李防水。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- GREEN ISLAND -->
+  <section id="green">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>綠島 · 潛水後空檔</h2>
+      <span class="when">8/23–8/27 · 包接送潛旅</span>
+    </div>
+    <p style="font-size:14px;color:var(--ink-soft);margin-bottom:4px">
+      住宿：南寮漁港綠島50號。環島公路一圈約 18–20 km，租電動單車即可。以下車程由南寮出發估算。
+    </p>
+
+    <div class="spotlist">
+      <div class="spot">
+        <div class="ride"><div class="min">2–5</div><div class="unit">分 · 村內</div></div>
+        <div class="body">
+          <div class="t">竹屋餐廳 <span class="star">★4.8</span></div>
+          <div class="m">島上評價最高的海鮮熱炒，份量大、適合一群人。</div>
+          <div class="h">11:00–14:00 · 17:30–20:00</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=綠島竹屋餐廳&amp;query_place_id=ChIJ7QwOhJ-NbzQR6uR9mlgRFu4" target="_blank" rel="noopener">地圖 ↗</a>
+        </div>
+      </div>
+      <div class="spot">
+        <div class="ride"><div class="min">2–5</div><div class="unit">分 · 村內</div></div>
+        <div class="body">
+          <div class="t">非炒不可海鮮食堂 <span class="star">★4.4</span></div>
+          <div class="m">生魚片、海鮮套餐新鮮，旺季建議先訂位。</div>
+          <div class="h">11:00–13:00 · 17:30–20:00</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=綠島非炒不可海鮮食堂&amp;query_place_id=ChIJgzvJnwqNbzQRSYi_73pXyiE" target="_blank" rel="noopener">地圖 ↗</a>
+        </div>
+      </div>
+      <div class="spot">
+        <div class="ride"><div class="min">2–5</div><div class="unit">分 · 村內</div></div>
+        <div class="body">
+          <div class="t">哆啦A夢黑糖海草冰 <span class="star">★4.8</span></div>
+          <div class="m">綠島限定海草冰，老闆自己種海草做料。</div>
+          <div class="h">11:00–22:30</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=綠島哆啦A夢黑糖海草冰&amp;query_place_id=ChIJ61xXmQqNbzQRtMTr0ekY3QI" target="_blank" rel="noopener">地圖 ↗</a>
+        </div>
+      </div>
+      <div class="spot">
+        <div class="ride"><div class="min">2–5</div><div class="unit">分 · 村內</div></div>
+        <div class="body">
+          <div class="t">派吃所 冰的啦 <span class="star">★4.5</span></div>
+          <div class="m">現切芒果冰，消暑一流。</div>
+          <div class="h">10:00–22:00</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=綠島派吃所冰的啦&amp;query_place_id=ChIJT_kBjQqNbzQRndvHsqVubkQ" target="_blank" rel="noopener">地圖 ↗</a>
+        </div>
+      </div>
+      <div class="spot">
+        <div class="ride"><div class="min">10</div><div class="unit">分騎乘</div></div>
+        <div class="body">
+          <div class="t">綠島燈塔 <span class="star">★4.6</span></div>
+          <div class="m">純白燈塔配天然海水池，日落點。</div>
+          <div class="h">09:00–18:00 · 週一休</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=綠島燈塔&amp;query_place_id=ChIJq6qqqgaNbzQRcSzU47wthtE" target="_blank" rel="noopener">地圖 ↗</a>
+        </div>
+      </div>
+      <div class="spot">
+        <div class="ride"><div class="min">18–20</div><div class="unit">分騎乘</div></div>
+        <div class="body">
+          <div class="t">人權文化園區（新生訓導處） <span class="star">★4.6</span></div>
+          <div class="m">白色恐怖歷史場域，定時導覽為 09:30／10:00／13:30／15:00，17:00 閉園。潛水約 16:00 後才自由的話，導覽場次都會錯過、留館時間也不夠逛，建議只在有提早結束或非潛水日時安排，其餘傍晚可改排下面幾個景點。</div>
+          <div class="h">09:00–17:00 · ⚠ 與潛水時間可能衝突</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=綠島人權文化園區&amp;query_place_id=ChIJQZicdZKNbzQR28o56Cpidng" target="_blank" rel="noopener">地圖 ↗</a>
+        </div>
+      </div>
+      <div class="spot">
+        <div class="ride"><div class="min">25</div><div class="unit">分騎乘</div></div>
+        <div class="body">
+          <div class="t">牛頭山 <span class="star">★4.7</span></div>
+          <div class="m">大草原配懸崖海景，停車走 15 分上草原，看日落與星空。</div>
+          <div class="h">24 小時 · 免費</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=綠島牛頭山&amp;query_place_id=ChIJS7bv3EaMbzQRWr5LtUKEGa0" target="_blank" rel="noopener">地圖 ↗</a>
+        </div>
+      </div>
+      <div class="spot">
+        <div class="ride"><div class="min">30–35</div><div class="unit">分騎乘</div></div>
+        <div class="body">
+          <div class="t">朝日溫泉 <span class="star">★4.2</span></div>
+          <div class="m">全島最遠（東南角，南線去）。面海海水溫泉，傍晚泡＋看星空。NT$250，帶泳衣泳帽。</div>
+          <div class="h">16:00–23:00 · 04:30–10:00 · ⚠ 留足潛水水面間隔再泡</div>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=綠島朝日溫泉&amp;query_place_id=ChIJ4UFCM_6MbzQRLuHQS7P2qSM" target="_blank" rel="noopener">地圖 ↗</a>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin-top:10px">
+      去朝日溫泉來回約 16 km，出發前先確認電動車電量／充電點；電動單車遇上坡較慢，傍晚早點出門，回程夜路記得開燈慢騎。
+    </p>
+  </section>
+
+  <!-- DAY 1 -->
+  <section id="d1">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>抵達高雄 · 市中心熱身</h2>
+      <span class="when">8/28 (五)</span>
+    </div>
+    <div class="timeline">
+      <div class="stop">
+        <div class="time">14:00</div>
+        <div class="name">綠島潛旅在高雄市區解散</div>
+      </div>
+      <div class="stop">
+        <div class="time">14:30</div>
+        <div class="name">inns hotel 寄放行李 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=inns+hotel+高雄市六合二路128號" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">六合二路128號，美麗島站旁。正式入住 16:00；可問櫃檯能否早入住。</div>
+      </div>
+      <div class="stop">
+        <div class="time">15:30</div>
+        <div class="name">光之穹頂（美麗島站） <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=光之穹頂&amp;query_place_id=ChIJKTktNo4EbjQRoRKMt38KIUY" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">酒店步行 5 分，全球最大玻璃藝術，免費。</div>
+      </div>
+    </div>
+
+    <div class="glance" style="margin-top:20px">
+      <h3>16:00 抓個岔路口 · 依潛水後的精神選一條路線</h3>
+      <ul>
+        <li><b>方案 A</b>：鹽埕老城＋大港橋日落＋牛老大涮牛肉，氣氛好但要多轉一趟車</li>
+        <li><b>方案 B</b>：直接殺去巨蛋／瑞豐，路線單純、還能先回酒店補個眠</li>
+        <li>兩條路線晚上都會在瑞豐夜市會合，選哪條都不影響隔天台南行程</li>
+      </ul>
+    </div>
+
+    <div style="font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--sea-deep);margin:22px 0 4px;padding-top:16px;border-top:2px dashed var(--line)">方案 A · 鹽埕老城＋日落</div>
+    <div class="timeline">
+      <div class="stop move">
+        <div class="time">16:00</div>
+        <div class="name"><span class="route">橘線</span> 美麗島 O5 → 鹽埕埔 O2，出站步行 8 分</div>
+      </div>
+      <div class="stop">
+        <div class="time">16:30</div>
+        <div class="name">大溝頂老街 · 小吃巡禮 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=大溝頂老街高雄" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">加蓋老市場、多半有棚頂遮蔭。輕量嚐鮮：北港蔡三代筒仔米糕＋蒸蛋湯（必比登推介）、鴨肉珍鴨肉飯、天池冬瓜茶，別吃太飽留胃給晚餐。</div>
+        <div class="tags"><span class="tag">多為室內／有頂</span></div>
+      </div>
+      <div class="stop">
+        <div class="time">18:30</div>
+        <div class="name">大港橋 · 看日落 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=大港橋&amp;query_place_id=ChIJJQ_oku8FbjQRD8vKIG-qlfc" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">駁二蓬萊倉庫旁的旋轉人行橋。</div>
+      </div>
+      <div class="stop move">
+        <div class="time">19:00</div>
+        <div class="name"><span class="route">橘線→紅線</span> 鹽埕埔 O2 → 美麗島 O5 轉紅線 → 中央公園 R9，約 20 分</div>
+      </div>
+      <div class="stop">
+        <div class="time">19:20</div>
+        <div class="name">牛老大涮牛肉二店 · 晚餐 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=牛老大涮牛肉二店高雄自強三路281號" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">前金區自強三路281號，跟總店只隔一個五福路口，中央公園站一樣走得到。二店是新開的，兩層樓、空間比總店寬敞舒適，冷氣跟坐感都更好。米其林必比登連續多年推薦，現切溫體牛涮牛肉，湯頭清爽不辣、不加味精；沾醬若不吃辣可請店家不加辣椒。自己涮肉較悠閒，抓 90 分鐘。</div>
+        <div class="tags"><span class="tag">16:00–24:00</span><span class="tag warn">週一休</span><span class="tag warn">訂位務必註明「二店」</span></div>
+      </div>
+      <div class="stop move">
+        <div class="time">20:50</div>
+        <div class="name"><span class="route">紅線</span> 中央公園 R9 → 巨蛋 R14，約 10–15 分直達（不用轉車）</div>
+      </div>
+    </div>
+
+    <div style="font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--sea-deep);margin:22px 0 4px;padding-top:16px;border-top:2px dashed var(--line)">方案 B · 巨蛋／瑞豐（單向路線）</div>
+    <div class="timeline">
+      <div class="stop">
+        <div class="time">16:00</div>
+        <div class="name">酒店休息 · 補個眠</div>
+        <div class="desc">連日潛水後的空檔，不安排行程，純休息到 17:15 左右。</div>
+      </div>
+      <div class="stop move">
+        <div class="time">17:15</div>
+        <div class="name"><span class="route">紅線</span> 美麗島 R10 → 巨蛋 R14，約 20 分直達（不用轉車）</div>
+      </div>
+      <div class="stop">
+        <div class="time">17:40</div>
+        <div class="name">北方拉麵之家 · 晚餐 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=北方拉麵之家高雄" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">巨蛋站周邊人氣麵館，招牌紅燒牛肉麵大塊入味。若想吹冷氣用餐，也可改到漢神巨蛋購物廣場 B1／4F 美食街。</div>
+        <div class="tags"><span class="tag">10:30–20:30</span><span class="tag warn">週一休</span></div>
+      </div>
+      <div class="stop move">
+        <div class="time">19:00</div>
+        <div class="name">步行到瑞豐夜市，約 5 分</div>
+      </div>
+    </div>
+
+    <div class="timeline" style="margin-top:6px">
+      <div class="stop">
+        <div class="time">19:00–20:45</div>
+        <div class="name">瑞豐夜市 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=瑞豐夜市高雄&amp;query_place_id=ChIJG12iPwcFbjQR8vPAeEnvkX8" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">高雄最大、美食最多的夜市，巨蛋站步行 5 分。兩條路線都會走到這裡：方案 A 約 21:05 到（涮牛肉吃得比較久）、方案 B 約 19:00 就到，可以多逛一會兒。逛完搭紅線直接回美麗島，不用轉車。第一天累的話也可省略，改逛酒店樓下六合。</div>
+        <div class="tags"><span class="tag sea">17:00–24:00</span><span class="tag warn">週一、三休（今晚有開）</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 2 -->
+  <section id="d2">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>台南一日遊 · 奇美 + 溫體牛 + 老城區</h2>
+      <span class="when">8/29 (六)</span>
+    </div>
+    <div class="timeline">
+      <div class="stop">
+        <div class="time">08:00</div>
+        <div class="name">酒店早餐 · 出發</div>
+        <div class="desc">比原計畫提早 30 分，為奇美的兩場預約票留緩衝時間。</div>
+      </div>
+      <div class="stop move">
+        <div class="time">08:15</div>
+        <div class="name"><span class="route">紅線</span> 美麗島 R10 → 高雄車站 R11（1 站），轉台鐵</div>
+      </div>
+      <div class="stop move">
+        <div class="time">08:35</div>
+        <div class="name"><span class="route">台鐵區間車</span> 高雄站 → 保安站，約 30 分（刷一卡通）</div>
+      </div>
+      <div class="stop">
+        <div class="time">09:20</div>
+        <div class="name">奇美博物館 · 開館入場 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=奇美博物館&amp;query_place_id=ChIJq6qqqnp0bjQRpvTHZeYTjKg" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">保安站步行 15 分，9:30 開館，抵達剛好卡開門。先逛噴泉草坪／挑一兩間常設展廳（兵器廳、動物廳人氣高），留時間給 10:30 的 VR。</div>
+        <div class="tags"><span class="tag sea">9:30–17:30</span><span class="tag warn">週三休</span></div>
+      </div>
+      <div class="stop">
+        <div class="time">10:15</div>
+        <div class="name">VR 體驗報到 · 《消失的法老》</div>
+        <div class="desc">建議提早 15 分到報到處，裝備配戴需要時間。</div>
+      </div>
+      <div class="stop">
+        <div class="time">10:30</div>
+        <div class="name">沉浸 VR 體驗《消失的法老》 <span class="tag">已購票</span></div>
+        <div class="desc">體驗時長依現場公告為準，抓 30 分結束保守估計。</div>
+      </div>
+      <div class="stop">
+        <div class="time">11:00</div>
+        <div class="name">常設展（續逛）</div>
+        <div class="desc">VR 結束後利用空檔補逛剩下的展廳，或先去紀念品店，11:50 前往特展入口排隊。</div>
+      </div>
+      <div class="stop">
+        <div class="time">12:00</div>
+        <div class="name">奇美特展《埃及之王》 <span class="tag">已購票 · 快速通關時段</span></div>
+        <div class="desc">這個時段是不用排隊的優先入場時段，時間可彈性提早；抓 75 分鐘細看。</div>
+      </div>
+      <div class="stop">
+        <div class="time">13:15</div>
+        <div class="name">尾聲 · 紀念品店</div>
+      </div>
+      <div class="stop move">
+        <div class="time">13:30</div>
+        <div class="name">步行回保安站，約 15 分</div>
+      </div>
+      <div class="stop move">
+        <div class="time">13:45</div>
+        <div class="name"><span class="route">台鐵</span> 保安站 → 台南站，約 15 分（含等車）</div>
+      </div>
+      <div class="stop move">
+        <div class="time">14:00</div>
+        <div class="name"><span class="route">計程車</span> 台南站 → 旗哥牛肉湯（北區），約 12 分</div>
+      </div>
+      <div class="stop">
+        <div class="time">14:15</div>
+        <div class="name">旗哥牛肉湯 · 溫體牛肉湯 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=旗哥牛肉湯台南&amp;query_place_id=ChIJq6qqqvd2bjQRElwKaWq_ss0" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">三代老店，現切溫體牛、肉不冷凍保鮮嫩；點牛肉湯附白飯或肉燥飯，也有牛心、牛肝、炒牛肉。晚餐時段還沒訂位，不用趕，這裡抓 1 小時慢慢吃。</div>
+        <div class="tags"><span class="tag sea">週六 7:00–翌日 00:00</span><span class="tag">現切溫體牛</span><span class="tag">附飯</span></div>
+      </div>
+      <div class="stop move">
+        <div class="time">15:15</div>
+        <div class="name"><span class="route">計程車</span> 旗哥 → 赤崁樓老城區，約 10 分</div>
+      </div>
+      <div class="stop">
+        <div class="time">15:25</div>
+        <div class="name">赤崁樓 · 神農街 · 林百貨</div>
+        <div class="desc">老城區散步：赤崁樓古蹟、神農街老屋小店，林百貨是文青老百貨也可買手信。時間跟原計畫差不多，不用趕。</div>
+        <div class="maps-row">
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=台南赤崁樓" target="_blank" rel="noopener">赤崁樓 ↗</a>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=台南神農街" target="_blank" rel="noopener">神農街 ↗</a>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=台南林百貨" target="_blank" rel="noopener">林百貨 ↗</a>
+        </div>
+      </div>
+      <div class="stop move">
+        <div class="time">17:45</div>
+        <div class="name"><span class="route">台鐵</span> 台南站 → 高雄站，區間車約 40 分（自強約 30 分）</div>
+      </div>
+      <div class="stop move">
+        <div class="time">18:45</div>
+        <div class="name">回高雄：高雄站 → 美麗島（紅線 1 站），稍作休息</div>
+      </div>
+      <div class="stop">
+        <div class="time">19:45</div>
+        <div class="name">HIRATSUKA 本格燒肉 · 晚餐 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=HIRATSUKA本格燒肉高雄&amp;query_place_id=ChIJoRV7HZUEbjQRu503w_ramBI" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">日籍老闆正統燒肉，台灣溫體牛＋USDA Prime＋和牛。酒店步行約 15 分／計程車 5 分。時間比原計畫晚 30 分，訂位時記得訂 19:45 這個時段。</div>
+        <div class="tags"><span class="tag sea">週六 17:00–21:30</span><span class="tag warn">記得訂位 19:45</span><span class="tag">限時 1.5h</span></div>
+      </div>
+      <div class="stop">
+        <div class="time">21:30</div>
+        <div class="name">六合夜市 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=六合夜市高雄&amp;query_place_id=ChIJxznXwIsEbjQR_eygv0Lo5tM" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">從燒肉走約 15–20 分（或計程車 5 分）過來，夜市就在酒店樓下，逛完直接回房。</div>
+        <div class="tags"><span class="tag">開到凌晨</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAY 3 -->
+  <section id="d3">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>離店日 · 上午景點＋午餐手信</h2>
+      <span class="when">8/30 (日)</span>
+    </div>
+    <div class="timeline">
+      <div class="stop">
+        <div class="time">09:30</div>
+        <div class="name">退房 ＋ 寄放行李</div>
+        <div class="desc">務必 12:00 前退房，行李留在酒店櫃檯，行程結束回來取。</div>
+        <div class="tags"><span class="tag warn">退房 12:00 前</span></div>
+      </div>
+      <div class="stop move">
+        <div class="time">10:00</div>
+        <div class="name"><span class="route">橘線</span> 美麗島 O5 → 衛武營 O10，約 10 分，出站即達</div>
+      </div>
+      <div class="stop">
+        <div class="time">10:15</div>
+        <div class="name">衛武營國家藝術文化中心 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=衛武營國家藝術文化中心&amp;query_place_id=ChIJ_WQhqLQEbjQRJiKjGxZYBPw" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">有機曲線巨型建築，超好拍。戶外榕樹廣場隨時開放，室內 11:00 開。約 1.5 小時。</div>
+        <div class="tags"><span class="tag sea">室內 11:00 開</span></div>
+      </div>
+      <div class="stop move">
+        <div class="time">11:45</div>
+        <div class="name"><span class="route">橘線</span> 衛武營 O10 → 美麗島 O5</div>
+      </div>
+      <div class="stop">
+        <div class="time">12:15</div>
+        <div class="name">舊振南餅店 中正總店 · 買手信 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=舊振南餅店中正總店&amp;query_place_id=ChIJ6c0YyIkEbjQRX9vZVMkaT8U" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">就在美麗島站旁約 200 m。綠豆椪、鳳梨酥、漢餅，百年老店。</div>
+        <div class="tags"><span class="tag">10:00–20:30</span></div>
+      </div>
+      <div class="stop">
+        <div class="time">12:45</div>
+        <div class="name">午餐</div>
+        <div class="desc">六合／中央公園周邊。之後回酒店取行李、稍作休息或最後採買。</div>
+      </div>
+      <div class="stop move">
+        <div class="time">16:00</div>
+        <div class="name"><span class="route">紅線</span> 美麗島 R10 → 高雄國際機場 R4，約 15 分直達</div>
+      </div>
+      <div class="stop">
+        <div class="time">16:20</div>
+        <div class="name">抵機場 · 國泰櫃檯辦理登機 <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=高雄國際機場" target="_blank" rel="noopener">地圖 ↗</a></div>
+        <div class="desc">建議起飛前 2 小時辦理。</div>
+      </div>
+      <div class="stop">
+        <div class="time">19:10</div>
+        <div class="name">CX459 起飛 → 20:50 抵香港</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSIT -->
+  <section id="transit">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2>交通參考</h2>
+    </div>
+    <div class="card">
+      <h3>一卡通 / 悠遊卡</h3>
+      <p>捷運、輕軌、台鐵區間車、公車、超商都能刷，免找零。捷運站或便利商店購買、加值。</p>
+    </div>
+    <div class="card">
+      <h3>高雄捷運</h3>
+      <p class="k">紅線（R）南北向 · 橘線（O）東西向 · 兩線交會於美麗島站（你酒店旁）· 另有環狀輕軌（C）。首班約 06:00、末班約 24:00。</p>
+      <ul class="line-list" style="margin-top:10px">
+        <li><span class="pill o">O</span><span>駁二／鹽埕：美麗島 ↔ 鹽埕埔 O2</span></li>
+        <li><span class="pill o">O</span><span>西子灣：美麗島 ↔ 西子灣 O1</span></li>
+        <li><span class="pill o">O</span><span>衛武營：美麗島 ↔ 衛武營 O10</span></li>
+        <li><span class="pill r">R</span><span>機場：美麗島 ↔ 高雄國際機場 R4，約 15 分</span></li>
+        <li><span class="pill r">R</span><span>台鐵轉乘：美麗島 ↔ 高雄車站 R11</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>台鐵往台南（Day 2）</h3>
+      <p><span class="k">高雄站 → 保安站（奇美）</span>：區間車約 30 分</p>
+      <p><span class="k">保安站 → 台南站</span>：約 15 分</p>
+      <p><span class="k">台南站 → 高雄站</span>：區間車約 40 分／自強約 30 分</p>
+      <p style="margin-top:6px;font-size:12.5px;color:var(--ink-soft)">區間車免劃位，刷一卡通即可上車；對號列車（自強／莒光）需先購票。</p>
+    </div>
+  </section>
+
+  <!-- TIPS -->
+  <section id="tips">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2>實用提醒</h2>
+    </div>
+    <div class="glance" style="border-left-color:var(--sea)">
+      <h3 style="color:var(--sea-deep)">行前 & 在地</h3>
+      <ul>
+        <li><b>證件</b>：港人需有效入台證＋護照，隨身帶好。</li>
+        <li><b>現金</b>：小吃攤、綠島租車多收現金，備足新台幣。</li>
+        <li><b>溫體牛</b>：台南牛肉湯多清晨現宰、賣完即收，名店常中午前售罄；旗哥（北區）週六開到午夜、午間照吃，較保險。</li>
+        <li><b>溫泉與潛水</b>：朝日溫泉留足水面間隔再泡，避免減壓病。</li>
+        <li><b>天氣</b>：8 月底約 28–33°C，颱風與午後雷陣雨季，渡輪/潛水看天氣，帶傘防曬。</li>
+        <li><b>離店日</b>：8/30 先退房寄行李，行程後回取，紅線直奔機場。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <h2>聯絡資料</h2>
+    </div>
+    <div class="card contact">
+      <h3>住宿</h3>
+      <p><b>inns hotel</b>　六合二路128號, 高雄市 80141　<a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=inns+hotel+高雄市六合二路128號" target="_blank" rel="noopener">地圖 ↗</a></p>
+      <p class="k">電話 <a href="tel:+886728886888">+886 7 288 6888</a>　·　<a href="mailto:inns.svc@gmail.com">inns.svc@gmail.com</a></p>
+      <p class="k">入住 8/28 16:00 後　·　退房 8/30 12:00 前（住宿直接收款）</p>
+      <p style="margin-top:8px"><b>綠島住宿</b>　台東縣綠島鄉南寮漁港綠島50號　<a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=台東縣綠島鄉南寮漁港綠島50號" target="_blank" rel="noopener">地圖 ↗</a></p>
+    </div>
+    <div class="card contact">
+      <h3>航班 & 緊急</h3>
+      <p class="k">國泰航空常客號　1547693631</p>
+      <p class="k">報警 110　·　消防/救護 119</p>
+      <p class="k">交通部觀光旅遊諮詢　<a href="tel:0800011765">0800-011-765</a></p>
+    </div>
+  </section>
+
+  <div class="foot-rule"></div>
+  <footer>
+    台灣行程手冊 · 2026/08/23–30　|　時間為建議，依當天天氣與體力彈性調整
+  </footer>
+
+</main>
+</body>
+</html>
